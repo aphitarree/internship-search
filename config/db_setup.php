@@ -6,69 +6,93 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
-// Use the config variable from .env file
 $dbServerName = $_ENV['DB_SERVER_NAME'];
 $dbName = $_ENV['DB_NAME'];
 $dbUsername = $_ENV['DB_USERNAME'];
 $dbPassword = $_ENV['DB_PASSWORD'];
 
 try {
-  // Specify data source name (DSN)
-  $dsn = "mysql:host={$dbServerName};charset=utf8mb4";
+    $dsn = "mysql:host={$dbServerName};charset=utf8mb4";
+    $conn = new PDO($dsn, $dbUsername, $dbPassword);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-  $conn = new PDO($dsn, $dbUsername, $dbPassword);
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-  $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    // สร้างฐานข้อมูลถ้ายังไม่มี
+    $conn->exec("CREATE DATABASE IF NOT EXISTS {$dbName} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    $conn->exec("USE {$dbName}");
 
-  // Create a database
-  $conn->exec("CREATE DATABASE IF NOT EXISTS {$dbName} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-
-  // Connect the database
-  $conn->exec("USE {$dbName}");
-
-  // Create internship_history table
-  $sqlInternshipHistory = "
-    CREATE TABLE IF NOT EXISTS `internship_history` (
-		`id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		`faculty` VARCHAR(255) NOT NULL COMMENT 'คณะ/โรงเรียน',
-		`program` VARCHAR(255) NOT NULL COMMENT 'หลักสูตร',
-		`major` VARCHAR(255) NOT NULL COMMENT 'สาขาวิชา',
-		`organization` VARCHAR(255) NOT NULL COMMENT 'ชื่อหน่วยงานที่รับฝึกประสบการณ์',
-		`province` VARCHAR(100) NOT NULL COMMENT 'จังหวัด',
-		`position` VARCHAR(255) NOT NULL COMMENT 'ตำแหน่งที่รับฝึกงาน',
-		`year` SMALLINT UNSIGNED NOT NULL COMMENT 'ปี พ.ศ. ที่ฝึกงาน',
-		`total_student` INT UNSIGNED NOT NULL COMMENT 'จำนวนนักศึกษา',
-		`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-	COMMENT='ตารางเก็บข้อมูลหน่วยงานที่รับฝึกงาน';
-	";
-
-  // Create access_logs table
-  $sqlAccessLogs = "
-    CREATE TABLE IF NOT EXISTS `access_logs` (
-		`id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    // ตารางคณะ/หลักสูตร/สาขา
+    $sqlFaculty = "
+    CREATE TABLE IF NOT EXISTS `faculty_program_major` (
+        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        `faculty` VARCHAR(255) NOT NULL COMMENT 'คณะ/โรงเรียน',
+        `program` VARCHAR(255) NOT NULL COMMENT 'หลักสูตร',
+        `major` VARCHAR(255) NOT NULL COMMENT 'สาขาวิชา',
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-	";
+    ";
 
-  // Create user table
-  $sqlUser = "
-    CREATE TABLE `user` (
-		`id` int(11) NOT NULL,
-		`email` varchar(100) NOT NULL,
-		`username` varchar(100) NOT NULL,
-		`password` varchar(100) NOT NULL,
-		`role` enum('admin','user') NOT NULL DEFAULT 'user'
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-	";
+    // ตารางหน่วยงานฝึกงาน
+    $sqlOrg = "
+    CREATE TABLE IF NOT EXISTS `internship_org` (
+        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        `faculty_id` INT UNSIGNED NOT NULL COMMENT 'FK to faculty_program_major',
+        `organization` VARCHAR(255) NOT NULL COMMENT 'ชื่อหน่วยงานที่รับฝึกประสบการณ์',
+        `province` VARCHAR(100) NOT NULL COMMENT 'จังหวัด',
+        `position` VARCHAR(255) NOT NULL COMMENT 'ตำแหน่งที่รับฝึกงาน',
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (`faculty_id`) REFERENCES `faculty_program_major`(`id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
 
-  // Create the tables
-  $conn->exec($sqlInternshipHistory);
-  $conn->exec($sqlAccessLogs);
-  $conn->exec($sqlUser);
+    // ตารางสถิติฝึกงานรายปี
+    $sqlStats = "
+    CREATE TABLE IF NOT EXISTS `internship_stats` (
+        `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        `internship_org_id` INT UNSIGNED NOT NULL COMMENT 'FK to internship_org',
+        `year` SMALLINT UNSIGNED NOT NULL COMMENT 'ปี พ.ศ.',
+        `total_student` INT UNSIGNED DEFAULT 0 COMMENT 'จำนวนผู้ฝึกงาน',
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (`internship_org_id`) REFERENCES `internship_org`(`id`) ON DELETE CASCADE,
+        UNIQUE KEY `unique_org_year` (`internship_org_id`, `year`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
 
-  echo "<hr><strong>Setup completed successfully!</strong>";
+    // ตารางผู้ใช้
+    $sqlUser = "
+    CREATE TABLE IF NOT EXISTS `user` (
+        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        `email` VARCHAR(100) NOT NULL UNIQUE,
+        `username` VARCHAR(100) NOT NULL UNIQUE,
+        `password` VARCHAR(255) NOT NULL,
+        `role` ENUM('admin','user') NOT NULL DEFAULT 'user',
+        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+
+    // ตารางบันทึกการเข้าใช้งาน
+    $sqlAccessLogs = "
+    CREATE TABLE IF NOT EXISTS `access_logs` (
+        `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        `user_id` INT UNSIGNED NULL COMMENT 'FK to user',
+        `ip_address` VARCHAR(45) NOT NULL COMMENT 'IP ของผู้ใช้',
+        `user_agent` VARCHAR(255) NOT NULL COMMENT 'User Agent',
+        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        INDEX `idx_user_ip_time` (`user_id`, `ip_address`, `created_at`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+
+    // สร้างตารางทั้งหมด
+    $conn->exec($sqlFaculty);
+    $conn->exec($sqlOrg);
+    $conn->exec($sqlStats);
+    $conn->exec($sqlUser);
+    $conn->exec($sqlAccessLogs);
+
+    echo "<hr><strong>Setup completed successfully!</strong>";
+
 } catch (PDOException $e) {
-  echo "<strong>Error:</strong> " . htmlspecialchars($e->getMessage());
+    echo "<strong>Error:</strong> " . htmlspecialchars($e->getMessage());
 }
+
