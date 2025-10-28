@@ -34,28 +34,17 @@ try {
     ";
 
     // ตารางหน่วยงานฝึกงาน
-    $sqlOrg = "
-    CREATE TABLE IF NOT EXISTS `internship_org` (
+    $sqlStats = "
+    CREATE TABLE IF NOT EXISTS `internship_stats` (
         `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `faculty_id` INT UNSIGNED NOT NULL COMMENT 'FK to faculty_program_major',
         `organization` VARCHAR(255) NOT NULL COMMENT 'ชื่อหน่วยงานที่รับฝึกประสบการณ์',
         `province` VARCHAR(100) NOT NULL COMMENT 'จังหวัด',
         `position` VARCHAR(255) NOT NULL COMMENT 'ตำแหน่งที่รับฝึกงาน',
-        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (`faculty_id`) REFERENCES `faculty_program_major`(`id`) ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-    ";
-
-    // ตารางสถิติฝึกงานรายปี
-    $sqlStats = "
-    CREATE TABLE IF NOT EXISTS `internship_stats` (
-        `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `internship_org_id` INT UNSIGNED NOT NULL COMMENT 'FK to internship_org',
+        `major_id` INT UNSIGNED NOT NULL COMMENT 'FK to faculty_program_major',
         `year` SMALLINT UNSIGNED NOT NULL COMMENT 'ปี พ.ศ.',
         `total_student` INT UNSIGNED DEFAULT 0 COMMENT 'จำนวนผู้ฝึกงาน',
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (`internship_org_id`) REFERENCES `internship_org`(`id`) ON DELETE CASCADE,
-        UNIQUE KEY `unique_org_year` (`internship_org_id`, `year`)
+        FOREIGN KEY (`major_id`) REFERENCES `faculty_program_major`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     ";
 
@@ -85,14 +74,11 @@ try {
 
     // สร้างตารางทั้งหมด
     $conn->exec($sqlFaculty);
-    $conn->exec($sqlOrg);
     $conn->exec($sqlStats);
     $conn->exec($sqlUser);
     $conn->exec($sqlAccessLogs);
 
     echo "<hr><strong>Setup completed successfully!</strong>";
-
 } catch (PDOException $e) {
     echo "<strong>Error:</strong> " . htmlspecialchars($e->getMessage());
 }
-
