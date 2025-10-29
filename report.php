@@ -5,6 +5,7 @@ $conn = require __DIR__ . '/config/db_config.php'; // PDO connection
 $mpdf = new \Mpdf\Mpdf([
     'mode' => 'UTF-8',
     'format' => 'A4',
+    'orientation' => 'L',
     'margin_left' => 15,
     'margin_right' => 15,
     'margin_bottom' => 16,
@@ -36,6 +37,8 @@ ob_start();
         table {
             border-collapse: collapse;
             width: 100%;
+            table-layout: fixed;
+            /* ✅ บังคับให้ใช้ความกว้างที่กำหนด */
         }
 
         th,
@@ -43,12 +46,54 @@ ob_start();
             border: 1px solid #000;
             padding: 8px;
             text-align: center;
+            word-wrap: break-word;
         }
 
         th {
             background-color: #f2f2f2;
             font-weight: bold;
         }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 150px;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 150px;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 150px;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 150px;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 100px;
+        }
+
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 200px;
+        }
+
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 100px;
+        }
+
+        th:nth-child(8),
+        td:nth-child(8) {
+            width: 100px;
+        }
+
 
         h2 {
             text-align: center;
@@ -62,20 +107,22 @@ ob_start();
     <table>
         <thead>
             <tr>
-                <th>ลำดับ</th>
                 <th>คณะ</th>
+                <th>สาขา</th>
+                <th>หลักสูตร</th>
                 <th>ชื่อบริษัท</th>
                 <th>จังหวัด</th>
                 <th>ตำแหน่ง</th>
                 <th>ปึการศึกษา</th>
-                <th>จำนวนนักศึกษา</th>
+                <th>จำนวน<br />นักศึกษา</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($result as $row) { ?>
                 <tr>
-                    <td><?= htmlspecialchars($row['id']) ?></td>
                     <td><?= htmlspecialchars($row['major_id']) ?></td>
+                    <td><?= htmlspecialchars($row['organization']) ?></td>
+                    <td><?= htmlspecialchars($row['organization']) ?></td>
                     <td><?= htmlspecialchars($row['organization']) ?></td>
                     <td><?= htmlspecialchars($row['province']) ?></td>
                     <td><?= htmlspecialchars($row['position']) ?></td>
