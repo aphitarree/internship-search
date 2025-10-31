@@ -9,7 +9,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 $options = [
-  'cost' => 13,
+    'cost' => 13,
 ];
 $hashPassword = password_hash($password, PASSWORD_BCRYPT, $options);
 
@@ -21,7 +21,7 @@ $stmt->bindParam(':password', $hashPassword);
 $stmt->execute();
 
 if ($stmt) {
-  header("Location: index.php");
+    header("Location: index.php");
 } else {
-  header("Location: index.php");
+    header("Location: index.php");
 }
