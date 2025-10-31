@@ -47,156 +47,28 @@
         </tr>
       </thead>
       <tbody class="">
-        <!-- Row 1 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">1</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 2 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">2</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 3 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">3</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 4 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 5 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 6 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 7 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 8 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 9 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
-        <!-- Row 10 -->
-        <tr class="border-t">
-          <td class="p-2 text-center">
-            <input type="checkbox" class="h-4 w-4" />
-          </td>
-          <td class="p-2 text-center">4</td>
-          <td class="p-2 text-center">บริษัท 1</td>
-          <td class="p-2 text-center">กรุงเทพมหานคร</td>
-          <td class="p-2 text-center">ตำแหน่ง</td>
-          <td class="p-2 text-center">นิเทศศาสตร์</td>
-          <td class="p-2 text-center">นิเทศศาสตรบัณฑิต</td>
-          <td class="p-2 text-center">วารสารสนเทศ</td>
-          <td class="p-2 text-center">2568</td>
-          <td class="p-2 text-center">5</td>
-        </tr>
+        <?php if (empty($results)) : ?>
+          <tr>
+            <td colspan="10" class="p-4 text-center text-gray-500">ไม่พบข้อมูล</td>
+          </tr>
+        <?php else : ?>
+          <?php foreach ($results as $index => $row) : ?>
+            <tr class="border-t">
+              <td class="p-2 text-center">
+                <input type="checkbox" class="h-4 w-4" />
+              </td>
+              <td class="p-2 text-center"><?= $offset + $index + 1 ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['company_name']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['province']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['job_title']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['faculty_name']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['program_name']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['major_name']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['academic_year']) ?></td>
+              <td class="p-2 text-center"><?= htmlspecialchars($row['internship_count']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </tbody>
     </table>
   </div>

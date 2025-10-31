@@ -3,54 +3,91 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . '/vendor/autoload.php';
+$conn = require_once __DIR__ . '/config/db_config.php';
 
-use Dotenv\Dotenv;
+// Pagination variables
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 10; // Records per page
+$offset = ($page - 1) * $limit;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// Filter parameters
+$faculty = $_GET['faculty'] ?? null;
+$program = $_GET['program'] ?? null;
+$major = $_GET['major'] ?? null;
+$province = $_GET['province'] ?? null;
+$academicYear = $_GET['academic-year'] ?? null;
 
-$rows = [
-	[
-		'id' => 1,
-		'organization' => 'บริษัท เอ บี ซี จำกัด',
-		'province' => 'กรุงเทพมหานคร',
-		'position' => 'นักศึกษาฝึกงานตำแหน่งบัญชี',
-		'faculty' => 'คณะนิเทศศาสตร์',
-		'program' => 'นิเทศศาสตรบัณฑิต',
-		'major' => 'วารสารสนเทศ',
-		'year' => 2568,
-		'total_student' => 5,
-	],
-	[
-		'id' => 2,
-		'organization' => 'บริษัท สมาร์ทเทค จำกัด',
-		'province' => 'นนทบุรี',
-		'position' => 'Web Developer Intern',
-		'faculty' => 'คณะวิทยาการคอมพิวเตอร์',
-		'program' => 'วิทยาศาสตรบัณฑิต',
-		'major' => 'เทคโนโลยีสารสนเทศ',
-		'year' => 2568,
-		'total_student' => 3,
-	],
-	[
-		'id' => 3,
-		'organization' => 'บริษัท เบสท์ ดีไซน์ จำกัด',
-		'province' => 'ปทุมธานี',
-		'position' => 'กราฟิกดีไซน์เนอร์',
-		'faculty' => 'คณะศิลปกรรมศาสตร์',
-		'program' => 'ศิลปบัณฑิต',
-		'major' => 'ออกแบบนิเทศศิลป์',
-		'year' => 2567,
-		'total_student' => 2,
-	],
-];
+// Build the WHERE clause
+$where_clauses = [];
+$params = [];
+if ($faculty) {
+    $where_clauses[] = 'fpm.faculty = :faculty';
+    $params[':faculty'] = $faculty;
+}
+if ($program) {
+    $where_clauses[] = 'fpm.program = :program';
+    $params[':program'] = $program;
+}
+if ($major) {
+    $where_clauses[] = 'fpm.major = :major';
+    $params[':major'] = $major;
+}
+if ($province) {
+    $where_clauses[] = 's.province = :province';
+    $params[':province'] = $province;
+}
+if ($academicYear) {
+    $where_clauses[] = 's.year = :academic_year';
+    $params[':academic_year'] = $academicYear;
+}
 
-// $summary = [
-//   'company_count' => count($rows),
-//   'student_count' => array_sum(array_column($rows, 'total_student')),
-//   'position_count' => count($rows)
-// ];
+$where_sql = '';
+if (!empty($where_clauses)) {
+    $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
+}
+
+// Get total number of records
+$count_sql = "SELECT COUNT(*) FROM internship_stats s
+              LEFT JOIN faculty_program_major fpm ON s.major_id = fpm.id
+              $where_sql";
+$stmt_count = $conn->prepare($count_sql);
+$stmt_count->execute($params);
+$total_records = $stmt_count->fetchColumn();
+$total_pages = ceil($total_records / $limit);
+
+// Fetch records for the current page
+$sql = "SELECT
+            s.id,
+            s.organization AS company_name,
+            s.province,
+            s.position AS job_title,
+            fpm.faculty AS faculty_name,
+            fpm.program AS program_name,
+            fpm.major AS major_name,
+            s.year AS academic_year,
+            s.total_student AS internship_count
+        FROM
+            internship_stats s
+        LEFT JOIN faculty_program_major fpm ON s.major_id = fpm.id
+        $where_sql
+        ORDER BY s.id DESC
+        LIMIT :limit OFFSET :offset";
+
+$stmt = $conn->prepare($sql);
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+foreach ($params as $key => &$val) {
+    $stmt->bindParam($key, $val);
+}
+$stmt->execute();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Build base URL for pagination
+$base_url = strtok($_SERVER["REQUEST_URI"], '?');
+$query_params = [];
+parse_str($_SERVER['QUERY_STRING'] ?? '', $query_params);
+unset($query_params['page']);
+$base_url .= '?' . http_build_query($query_params);
 ?>
 
 <!doctype html>
