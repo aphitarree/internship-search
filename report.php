@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-$conn = require __DIR__ . '/config/db_config.php'; // PDO connection
+$conn = require __DIR__ . '/config/db_config.php';
 
 $mpdf = new \Mpdf\Mpdf([
     'mode' => 'UTF-8',
     'format' => 'A4',
     'orientation' => 'L',
-    'margin_left' => 15,
-    'margin_right' => 15,
+    'margin_left' => 10,
+    'margin_right' => 10,
     'margin_bottom' => 16,
     'margin_header' => 9,
     'margin_footer' => 9,
@@ -56,7 +56,7 @@ ob_start();
 
         th:nth-child(1),
         td:nth-child(1) {
-            width: 150px;
+            width: 70px;
         }
 
         th:nth-child(2),
@@ -74,23 +74,33 @@ ob_start();
             width: 150px;
         }
 
-        th:nth-child(5),
+        th:nth-child(5) {
+            width: 150px;
+            text-align: center;
+        }
+
         td:nth-child(5) {
-            width: 100px;
+            width: 150px;
+            text-align: left;
         }
 
         th:nth-child(6),
         td:nth-child(6) {
-            width: 200px;
+            width: 100px;
         }
 
         th:nth-child(7),
         td:nth-child(7) {
-            width: 100px;
+            width: 200px;
         }
 
         th:nth-child(8),
         td:nth-child(8) {
+            width: 100px;
+        }
+
+        th:nth-child(9),
+        td:nth-child(9) {
             width: 100px;
         }
 
@@ -107,19 +117,22 @@ ob_start();
     <table>
         <thead>
             <tr>
+                <th>ลำดับ</th>
                 <th>คณะ</th>
                 <th>สาขา</th>
                 <th>หลักสูตร</th>
                 <th>ชื่อบริษัท</th>
                 <th>จังหวัด</th>
                 <th>ตำแหน่ง</th>
-                <th>ปึการศึกษา</th>
-                <th>จำนวน<br />นักศึกษา</th>
+                <th>ปีการศึกษา</th>
+                <!-- <th>จำนวน<br />นักศึกษา</th> -->
+                <th>จำนวน(คน)</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($result as $row) { ?>
                 <tr>
+                    <td><?= htmlspecialchars($row['id']) ?></td>
                     <td><?= htmlspecialchars($row['major_id']) ?></td>
                     <td><?= htmlspecialchars($row['organization']) ?></td>
                     <td><?= htmlspecialchars($row['organization']) ?></td>
