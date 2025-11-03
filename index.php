@@ -1,9 +1,15 @@
 <?php
 require_once __DIR__ . '/config/db_config.php';
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 // Pagination variables
 $page = (int)($_GET['page'] ?? 1);
-$pageSize = 20;
+$pageSize = 10;
 $offset = ($page - 1) * $pageSize;
 
 // Filter parameters
@@ -18,23 +24,24 @@ $whereClause = [];
 $params = [];
 if ($faculty) {
     $whereClause[] = 'fpm.faculty = :faculty';
-    $params[':faculty'] = $faculty;
+    $params[':faculty'] = htmlspecialchars($faculty);
 }
 if ($program) {
     $whereClause[] = 'fpm.program = :program';
-    $params[':program'] = $program;
+    $params[':program'] = htmlspecialchars($program);
 }
 if ($major) {
     $whereClause[] = 'fpm.major = :major';
-    $params[':major'] = $major;
+    $params[':major'] = htmlspecialchars($major);
 }
 if ($province) {
-    $whereClause[] = 's.province = :province';
-    $params[':province'] = $province;
+    $whereClause[] = 'stats.province = :province';
+    $params[':province'] = htmlspecialchars($province);
 }
 if ($academicYear) {
-    $whereClause[] = 's.year = :academic_year';
-    $params[':academic_year'] = $academicYear;
+    $whereClause[] = 'stats.year = :academic_year';
+    $params[':academic_year'] = htmlspecialchars($academicYear);
+    echo $academicYear;
 }
 
 $whereSql = '';
@@ -44,8 +51,8 @@ if (!empty($whereClause)) {
 
 // Get total number of records
 $countSql = "
-    SELECT COUNT(*) FROM internship_stats s
-    LEFT JOIN faculty_program_major fpm ON s.major_id = fpm.id
+    SELECT COUNT(*) FROM internship_stats AS stats
+    LEFT JOIN faculty_program_major AS fpm ON stats.major_id = fpm.id
     $whereSql
 ";
 
@@ -57,19 +64,19 @@ $totalPages = ceil($totalRecords / $pageSize);
 // Fetch records for the current page
 $sql = "
     SELECT
-        s.id,
-        s.organization AS company_name,
-        s.province,
-        s.position AS job_title,
+        stats.id,
+        stats.organization AS company_name,
+        stats.province,
+        stats.position AS job_title,
         fpm.faculty AS faculty_name,
         fpm.program AS program_name,
         fpm.major AS major_name,
-        s.year AS academic_year,
-        s.total_student AS internship_count
-    FROM internship_stats s
-    LEFT JOIN faculty_program_major fpm ON s.major_id = fpm.id
+        stats.year AS academic_year,
+        stats.total_student AS internship_count
+    FROM internship_stats stats
+    LEFT JOIN faculty_program_major fpm ON stats.major_id = fpm.id
     $whereSql
-    ORDER BY s.id DESC
+    ORDER BY stats.id DESC
     LIMIT :pageSize OFFSET :offset";
 
 $stmt = $conn->prepare($sql);
@@ -82,7 +89,7 @@ $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Build base URL for pagination
-$baseUrl = strtok($_SERVER["REQUEST_URI"], '?');
+$baseUrl = $_ENV['BASE_URL'];
 $query_params = [];
 parse_str($_SERVER['QUERY_STRING'] ?? '', $query_params);
 unset($query_params['page']);

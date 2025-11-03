@@ -1,10 +1,10 @@
 <?php
 // Get filter values from the URL, providing default empty values
-$faculty = $_GET['faculty'] ?? '';
-$major = $_GET['major'] ?? '';
-$program = $_GET['program'] ?? '';
-$province = $_GET['province'] ?? '';
-$academic_year = $_GET['academic-year'] ?? '';
+// $faculty = $_GET['faculty'] ?? '';
+// $major = $_GET['major'] ?? '';
+// $program = $_GET['program'] ?? '';
+// $province = $_GET['province'] ?? '';
+// $academic_year = $_GET['academic-year'] ?? '';
 ?>
 
 <!-- Filters -->
