@@ -112,9 +112,7 @@ $baseUrl .= '?' . http_build_query($query_params);
     <!-- Choices.js for creating searchable dropdown element -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-</head>
-
-<link rel="stylesheet" href="css/globals.css">
+    <link rel="stylesheet" href="css/globals.css">
 </head>
 
 <body class="bg-white text-gray-900">
