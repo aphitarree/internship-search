@@ -41,7 +41,6 @@ if ($province) {
 if ($academicYear) {
     $whereClause[] = 'stats.year = :academic_year';
     $params[':academic_year'] = htmlspecialchars($academicYear);
-    echo $academicYear;
 }
 
 $whereSql = '';
