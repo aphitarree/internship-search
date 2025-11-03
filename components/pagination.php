@@ -6,26 +6,53 @@ function renderPagination($currentPage, $totalPages, $baseUrl) {
     }
 ?>
     <section class="w-full flex justify-center items-center gap-4 mt-10">
-        <!-- Previous Page -->
-        <a href="<?= $baseUrl ?>&page=<?= max(1, $currentPage - 1) ?>" class="flex items-center gap-2 px-4 py-2 rounded-md <?= $currentPage <= 1 ? 'text-gray-400 bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-100' ?>">
-            <img src="./public/images/left-arrow.png" alt="left arrow" class="w-4 h-4" />
-            <span>ก่อนหน้า</span>
-        </a>
+
 
         <!-- Page Numbers -->
         <div class="flex items-center gap-2">
-            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' ?>">
-                    <?= $i ?>
-                </a>
-            <?php endfor; ?>
-        </div>
+            <!-- First Page -->
+            <a
+                href="<?= $baseUrl ?>&page=1"
+                class="px-4 py-2 rounded-md <?= 1 == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                <?= '<<' ?>
+            </a>
 
-        <!-- Next Page -->
-        <a href="<?= $baseUrl ?>&page=<?= min($totalPages, $currentPage + 1) ?>" class="flex items-center gap-2 px-4 py-2 rounded-md <?= $currentPage >= $totalPages ? 'text-gray-400 bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-100' ?>">
-            <span>ถัดไป</span>
-            <img src="./public/images/right-arrow.png" alt="right arrow" class="w-4 h-4" />
-        </a>
+            <?php if ($currentPage <= 2): ?>
+                <a href="<?= $baseUrl ?>&page=<?= 1 ?>" class="px-4 py-2 rounded-md <?= $currentPage == 1 ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                    <?= 1 ?>
+                </a>
+                <?php for ($i = 2; $i <= 5; $i++) : ?>
+                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+            <?php endif; ?>
+
+            <?php if ($currentPage >= 3 && $currentPage < $totalPages - 2): ?>
+                <?php for ($i = $currentPage - 2; $i <= $currentPage - 1; $i++) : ?>
+                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+                <?php for ($i = $currentPage; $i <= $currentPage + 2; $i++) : ?>
+                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+            <?php endif; ?>
+
+            <?php if ($currentPage >= $totalPages - 2): ?>
+                <?php for ($i = $totalPages - 4; $i <= $totalPages; $i++) : ?>
+                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+            <?php endif; ?>
+            <!-- Last Page -->
+            <a href="<?= $baseUrl ?>&page=<?= $totalPages ?>" class="px-4 py-2 rounded-md <?= $currentPage == $totalPages ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                <?= '>>' ?>
+            </a>
+        </div>
     </section>
 <?php
 }
