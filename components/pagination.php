@@ -23,8 +23,8 @@ function renderPagination($currentPage, $totalPages, $baseUrl, $totalRecords) {
             <!-- First Page -->
             <a
                 href="<?= $baseUrl ?>&page=1"
-                class="px-4 py-2 rounded-md <?= 1 == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
-                <?= '<<' ?>
+                class="px-4 py-2 rounded-md <?= 1 == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'bg-slate-200 hover:bg-slate-300' ?>">
+                <?= 'หน้าแรก' ?>
             </a>
 
             <?php if ($totalPages <= 5): ?>
@@ -69,8 +69,9 @@ function renderPagination($currentPage, $totalPages, $baseUrl, $totalRecords) {
 
             <!-- Last Page -->
             <a
-                href="<?= $baseUrl ?>&page=<?= $totalPages ?>" class="px-4 py-2 rounded-md <?= $currentPage == $totalPages ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
-                <?= '>>' ?>
+                href="<?= $baseUrl ?>&page=<?= $totalPages ?>"
+                class="px-4 py-2 rounded-md <?= $currentPage == $totalPages ? 'bg-blue-500 text-white pointer-events-none' : 'bg-slate-200 hover:bg-slate-300' ?>">
+                <?= 'หน้าสุดท้าย' ?>
             </a>
         </div>
     </section>
