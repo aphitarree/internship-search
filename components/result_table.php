@@ -42,9 +42,9 @@
         <table class="min-w-[1000px] w-full">
             <thead class="bg-gray-200">
                 <tr class="text-center text-[18px] font-semibold">
-                    <th class="w-[52px] p-2">
+                    <!-- <th class="w-[52px] p-2">
                         <input type="checkbox" class="h-4 w-4" />
-                    </th>
+                    </th> -->
                     <th class="w-[65px] p-2">NO.</th>
                     <th class="w-[350px] p-2">บริษัท</th>
                     <th class="w-[200px] p-2">จังหวัด</th>
@@ -64,9 +64,9 @@
                 <?php else : ?>
                     <?php foreach ($results as $index => $row) : ?>
                         <tr class="border-t">
-                            <td class="p-2 text-center">
+                            <!-- <td class="p-2 text-center">
                                 <input type="checkbox" class="h-4 w-4" />
-                            </td>
+                            </td> -->
                             <td class="p-2 text-center"><?= $offset + $index + 1 ?></td>
                             <td class="p-2 text-left"><?= htmlspecialchars($row['company_name']) ?></td>
                             <td class="p-2 text-left"><?= htmlspecialchars($row['province']) ?></td>

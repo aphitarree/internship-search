@@ -15,8 +15,10 @@ function renderPagination($currentPage, $totalPages, $baseUrl, $totalRecords) {
             class="text-center mt-7">รายการที่ <?= ($currentPage - 1) * 10 + 1 ?> ถึง <?= $currentPage * 10 ?> จากทั้งหมด <?= $totalRecords ?> รายการ
         </p>
     <?php endif; ?>
+
     <section class="w-full flex justify-center items-center gap-4 mt-3">
         <!-- Page Numbers -->
+
         <div class="flex items-center gap-2">
             <!-- First Page -->
             <a
@@ -25,36 +27,44 @@ function renderPagination($currentPage, $totalPages, $baseUrl, $totalRecords) {
                 <?= '<<' ?>
             </a>
 
-            <!-- If page is the first 2 pages -->
-            <?php if ($currentPage <= 2): ?>
-                <?php for ($i = 1; $i <= 5; $i++): ?>
+            <?php if ($totalPages <= 5): ?>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                     <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
                         <?= $i ?>
                     </a>
                 <?php endfor; ?>
-            <?php endif; ?>
+            <?php else: ?>
+                <!-- If page is the first 2 pages -->
+                <?php if ($currentPage <= 2): ?>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                <?php endif; ?>
 
-            <!-- If page is between the page 3 to the third-to-last page -->
-            <?php if ($currentPage >= 3 && $currentPage < $totalPages - 2): ?>
-                <?php for ($i = $currentPage - 2; $i <= $currentPage - 1; $i++): ?>
-                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
-                <?php for ($i = $currentPage; $i <= $currentPage + 2; $i++): ?>
-                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
-            <?php endif; ?>
+                <!-- If page is between the page 3 to the third-to-last page -->
+                <?php if ($currentPage >= 3 && $currentPage < $totalPages - 2): ?>
+                    <?php for ($i = $currentPage - 2; $i <= $currentPage - 1; $i++): ?>
+                        <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                    <?php for ($i = $currentPage; $i <= $currentPage + 2; $i++): ?>
+                        <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                <?php endif; ?>
 
-            <!-- If page is the last 2 pages -->
-            <?php if ($currentPage >= $totalPages - 2): ?>
-                <?php for ($i = $totalPages - 4; $i <= $totalPages; $i++): ?>
-                    <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
+                <!-- If page is the last 2 pages -->
+                <?php if ($currentPage >= $totalPages - 2): ?>
+                    <?php for ($i = $totalPages - 4; $i <= $totalPages; $i++): ?>
+                        <a href="<?= $baseUrl ?>&page=<?= $i ?>" class="px-4 py-2 rounded-md <?= $i == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                <?php endif; ?>
             <?php endif; ?>
 
             <!-- Last Page -->

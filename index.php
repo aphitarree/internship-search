@@ -161,7 +161,7 @@ $baseUrl .= '?' . http_build_query($query_params);
         <?php include_once './components/pagination.php' ?>
 
         <!-- Download report -->
-        <?php include_once './components/report.php' ?>
+        <?php include_once './components/report_button.php' ?>
     </div>
 
     <!-- Footer bar -->
