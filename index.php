@@ -157,6 +157,9 @@ $baseUrl .= '?' . http_build_query($query_params);
         <!-- Search result table -->
         <?php include_once './components/result_table.php' ?>
 
+        <!-- Excel Button-->
+        <?php include_once './components/excel_report_button.php' ?>
+
         <!-- Pagination -->
         <?php include_once './components/pagination.php' ?>
 
