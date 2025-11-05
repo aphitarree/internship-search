@@ -45,11 +45,60 @@ $sql = "
     FROM internship_stats INNER JOIN faculty_program_major ON internship_stats.major_id = faculty_program_major.id
     ORDER BY internship_stats.year DESC
 ";
+
 $stmt = $conn->query($sql);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-ob_start();
+// จาเขียนไว้เช็คให้เฉย ๆ
+/* function inspect($value) {
+    echo '<pre>';
+    print_r($value);
+    echo '</pre>';
+} */
+
+//inspect($rows[0]);
+
+// Get all company values into a new array
+$allCompany = array_column($rows, 'organization');
+
+// Count the unique company values
+$uniqueCompanyCount = count(array_unique($allCompany));
+
+// Get all province values into a new array
+$allProvince = array_column($rows, 'province');
+
+// Count the unique province values
+$uniqueProvinceCount = count(array_unique($allProvince));
+
+// Get all students values into a new array
+$Student = array_column($rows, 'total_student');
+
+// Count all students amount
+$allStudent = $totalStudents = array_sum(array_column($rows, 'total_student'));
+
+// Date of report
+// ตั้ง timezone ให้เป็นเวลาไทย
+date_default_timezone_set('Asia/Bangkok');
+
+// สร้าง array ชื่อเดือนภาษาไทย
+$thaiMonths = [
+    1 => 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
+    'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม',
+    'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+];
+
+// ดึงวันที่ปัจจุบัน
+$day = date('j'); // วันที่
+$month = $thaiMonths[(int)date('n')]; // เดือนเป็นคำไทย
+$year = date('Y') + 543; // แปลงเป็น พ.ศ.
+
+// รวมเป็นข้อความวันที่
+$thaiDate = "$day $month $year";
+
+ob_start(); 
+
 ?>
+
 <!DOCTYPE html>
 <html lang="th">
 
@@ -67,6 +116,10 @@ ob_start();
         h1 {
             text-align: center;
             margin-bottom: 10px;
+        }
+        
+        p {
+            line-height: 1.0;
         }
 
         table {
@@ -141,7 +194,13 @@ ob_start();
 </head>
 
 <body>
+    
     <h1>รายงานประวัติการฝึกงาน</h1>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>วันที่พิมพ์รายงาน</b>&nbsp;&nbsp;&nbsp;<?= $thaiDate; ?></p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>ผลลัพธ์การค้นหา</b>&nbsp;&nbsp;&nbsp;<?php echo count($rows); ?>&nbsp;&nbsp;การค้นหา</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>จำนวนบริษัท</b>&nbsp;&nbsp;&nbsp;<?= $uniqueCompanyCount; ?>&nbsp;&nbsp;บริษัท</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>จำนวนนักศึกษา</b>&nbsp;&nbsp;&nbsp;<?= $allStudent; ?>&nbsp;&nbsp;คน</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>ตัวกรอง</b>&nbsp;&nbsp;&nbsp;ทั้งหมด</p>
     <table>
         <thead>
             <tr>
