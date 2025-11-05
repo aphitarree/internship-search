@@ -123,7 +123,7 @@ $baseUrl .= '?' . http_build_query($query_params);
         <img src="public/images/background-1.jpg" alt="Banner" class="w-full h-[185px] object-cover" />
         <div class="absolute inset-0 bg-black/25"></div>
         <h1 class="absolute inset-0 flex items-center justify-center text-white text-2xl md:text-3xl font-semibold text-center">
-            คลังประวัติการฝึกงานของมหาวิทยาลัยสวนดุสิต
+            ฐานข้อมูลการฝึกงานนักศึกษามหาวิทยาลัยสวนดุสิต
         </h1>
     </section>
 
