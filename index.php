@@ -157,14 +157,17 @@ $baseUrl .= '?' . http_build_query($query_params);
         <!-- Search result table -->
         <?php include_once './components/result_table.php' ?>
 
-        <!-- Excel Button-->
-        <?php include_once './components/excel_report_button.php' ?>
 
         <!-- Pagination -->
         <?php include_once './components/pagination.php' ?>
 
-        <!-- Download report -->
-        <?php include_once './components/report_button.php' ?>
+        <div class="flex flex-col justify-center items-center gap-4 md:flex-row md:gap-6 my-6">
+            <!-- Download pdf report -->
+            <?php include_once './components/report_button.php' ?>
+
+            <!-- Excel Button-->
+            <?php include_once './components/excel_report_button.php' ?>
+        </div>
     </div>
 
     <!-- Footer bar -->
