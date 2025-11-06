@@ -12,6 +12,6 @@ $baseUrl = $_ENV['BASE_URL'];
 session_start();
 
 if (!isset($_SESSION['checklogin']) || $_SESSION['checklogin'] !== true) {
-  header("Location: {$baseUrl}/login.php");
-  exit;
+    header("Location: {$baseUrl}/dashboard/login.php");
+    exit;
 }

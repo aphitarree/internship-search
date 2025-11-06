@@ -27,9 +27,17 @@ function renderPagination($currentPage, $totalPages, $baseUrl, $totalRecords) {
                     <?= '&laquo;&laquo;' ?>
                 </a>
 
+                <!-- ปุ่มย้อนกลับ -->
+                <a
+                    href="<?= $baseUrl ?>&page=<?= $currentPage - 1 ?>"
+                    aria-label="ย้อนกลับ"
+                    class="px-4 py-2 rounded-md <?= 1 == $currentPage ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                    <?= '&laquo;' ?>
+                </a>
+
                 <?php
                 // ฟังก์ชันสร้างลิงก์หน้า พร้อม aria
-                $renderPageLink = function($i, $currentPage, $baseUrl) {
+                $renderPageLink = function ($i, $currentPage, $baseUrl) {
                     $isCurrent = $i == $currentPage;
                     $aria = $isCurrent ? 'aria-current="page"' : 'aria-label="ไปหน้า ' . $i . '"';
                     $classes = 'px-4 py-2 rounded-md ' . ($isCurrent ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100');
@@ -56,6 +64,14 @@ function renderPagination($currentPage, $totalPages, $baseUrl, $totalRecords) {
                         <?php endfor; ?>
                     <?php endif; ?>
                 <?php endif; ?>
+
+                <!-- ปุ่มถัดไป -->
+                <a
+                    href="<?= $baseUrl ?>&page=<?= $currentPage + 1 ?>"
+                    aria-label="ไปหน้าถัดไป"
+                    class="px-4 py-2 rounded-md <?= $currentPage == $totalPages ? 'bg-blue-500 text-white pointer-events-none' : 'hover:bg-gray-100' ?>">
+                    <?= '&raquo;' ?>
+                </a>
 
                 <!-- ปุ่มหน้าสุดท้าย -->
                 <a

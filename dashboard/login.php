@@ -1,19 +1,26 @@
 <?php
-
-require_once __DIR__ . '/vendor/autoload.php';
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/db_config.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
+
 
 $baseUrl = $_ENV['BASE_URL'];
 
 session_start();
 
-?>
+if (isset($_SESSION['checklogin'])) {
+    header("Location: {$baseUrl}/dashboard/index.php");
+    exit;
+}
 
+?>
 
 <!DOCTYPE html>
 <html lang="th">
@@ -34,7 +41,7 @@ session_start();
         </div>
     <?php endif; ?>
     <!-- Navbar -->
-    <?php include __DIR__ . '/components/navbar.php'; ?>
+    <!-- <?php include dirname(__DIR__) . '/components/navbar.php'; ?> -->
 
     <!-- Layout -->
     <div class="flex min-h-screen">
@@ -45,7 +52,7 @@ session_start();
         <!-- <div class="flex-1 flex relative"> -->
         <div class="mx-auto w-full grid lg:grid-cols-[8fr,9fr]">
             <!-- Background -->
-            <img src=" public/images/login_page.jpg" alt="background" class="absolute inset-0 w-full h-full object-cover" />
+            <img src="../public/images/login_page.jpg" alt="background" class="absolute inset-0 w-full h-full object-cover" />
 
             <!-- Login Box -->
             <div class="relative z-10 bg-white p-12 shadow-xl flex flex-col justify-center space-y-8">

@@ -4,7 +4,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/db_config.php';
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+
+$baseUrl = $_ENV['BASE_URL'];
 
 session_start();
 
@@ -31,6 +40,6 @@ if (isset($_COOKIE[session_name()])) {
 }
 
 session_destroy();
-header("Location: {$baseUrl}/actions/login.php");
+header("Location: {$baseUrl}/dashboard/login.php");
 
 exit;
