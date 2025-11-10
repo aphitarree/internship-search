@@ -171,6 +171,8 @@ $baseUrl .= '?' . http_build_query($query_params);
         </div>
     </div>
 
+    <!-- keep log -->
+    <?php include_once './components/log.php'; ?>
     <!-- Footer bar -->
     <?php include_once './components/footer.php'; ?>
 </body>

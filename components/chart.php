@@ -1,23 +1,61 @@
 <?php
+require_once __DIR__ . '/../config/db_config.php';
+
+// ดึงจำนวนผู้เข้าชมต่อวันย้อนหลัง 7 วัน
+$sql = "
+    SELECT DATE(created_at) AS visit_date, COUNT(*) AS total
+    FROM access_logs
+    WHERE created_at >= CURDATE() - INTERVAL 6 DAY
+    GROUP BY DATE(created_at)
+    ORDER BY DATE(created_at) ASC
+";
+$stmt = $conn->query($sql);
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// สร้าง array วันที่และค่า
+$dates = [];
+$values = [];
+
+for ($i = 6; $i >= 0; $i--) {
+    $day = date('Y-m-d', strtotime("-$i days"));
+    // แปลงเป็นภาษาไทย เช่น 6 ม.ค. 65
+    $thai_months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    $day_j = date('j', strtotime($day));
+    $month = $thai_months[date('n', strtotime($day)) - 1];
+    $year = date('y', strtotime($day)); // ปีสองหลัก
+    $dates[] = "$day_j $month $year";
+
+    // หา total จากฐานข้อมูล
+    $found = false;
+    foreach ($rows as $row) {
+        if ($row['visit_date'] == $day) {
+            $values[] = (int)$row['total'];
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) $values[] = 0;
+}
+
+// แปลงเป็น JSON ให้ JS ใช้
+$js_dates = json_encode($dates);
+$js_values = json_encode($values);
 ?>
-<!-- Bar chart -->
+
+<!-- Chart Section -->
 <section class="flex flex-col items-center gap-4 sm:gap-6 lg:gap-8 w-full">
     <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-center">
         จำนวนการเข้าชม (คน)
     </h2>
 
-
-    <!-- Chart container ที่ยืดเต็มความสูง -->
     <div class="relative w-full h-[300px] max-w-[820px]">
         <canvas id="chart" class="w-full h-full"></canvas>
     </div>
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script type="module" defer>
-        const values = [20, 10, 90, 53, 80, 20, 40];
-        const dates = ['6 ม.ค. 65', '7 ม.ค. 65', '8 ม.ค. 65', '9 ม.ค. 65', '10 ม.ค. 65', '11 ม.ค. 65', '12 ม.ค. 65'];
+        const values = <?= $js_values ?>;
+        const dates = <?= $js_dates ?>;
 
         const barChart = document.getElementById('chart').getContext('2d');
 
@@ -30,9 +68,8 @@
                     data: values,
                     backgroundColor: values.map((_, i) =>
                         i === values.length - 1 ?
-                        'rgba(251, 191, 36, 0.9)' // amber
-                        :
-                        'rgba(14, 165, 233, 0.6)' // sky
+                        'rgba(251, 191, 36, 0.9)' : // ไฮไลต์วันล่าสุด
+                        'rgba(14, 165, 233, 0.6)' // วันอื่น
                     ),
                     borderColor: 'rgba(14, 165, 233, 1)',
                     borderWidth: 0,
@@ -47,7 +84,7 @@
                         display: false
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        backgroundColor: 'rgba(0,0,0,0.8)',
                         titleFont: {
                             size: 14
                         },
@@ -73,7 +110,7 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            stepSize: 20,
+                            stepSize: 1,
                             font: {
                                 size: 13
                             }
