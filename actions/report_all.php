@@ -119,6 +119,7 @@ ob_start();
         }
         
         p {
+            font-family: "sarabun", sans-serif;
             line-height: 1.0;
         }
 

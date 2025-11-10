@@ -97,8 +97,52 @@ foreach ($params as $key => &$val) {
 $stmt->execute();
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+/* echo '<pre>';
+print_r($rows);
+echo '</pre>'; */
+
+
+// Get all company values into a new array
+$allCompany = array_column($rows, 'company_name');
+
+// Count the unique company values
+$uniqueCompanyCount = count(array_unique($allCompany));
+
+// Get all province values into a new array
+$allProvince = array_column($rows, 'province');
+
+// Count the unique province values
+$uniqueProvinceCount = count(array_unique($allProvince));
+
+// Get all students values into a new array
+$Student = array_column($rows, 'internship_count');
+
+// Count all students amount
+$allStudent = $totalStudents = array_sum(array_column($rows, 'internship_count'));
+
+// Date of report
+// ตั้ง timezone ให้เป็นเวลาไทย
+date_default_timezone_set('Asia/Bangkok');
+
+// สร้าง array ชื่อเดือนภาษาไทย
+$thaiMonths = [
+    1 => 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
+    'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม',
+    'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+];
+
+// ดึงวันที่ปัจจุบัน
+$day = date('j'); // วันที่
+$month = $thaiMonths[(int)date('n')]; // เดือนเป็นคำไทย
+$year = date('Y') + 543; // แปลงเป็น พ.ศ.
+
+// รวมเป็นข้อความวันที่
+$thaiDate = "$day $month $year";
+
 ob_start();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="th">
 
@@ -118,6 +162,11 @@ ob_start();
             margin-bottom: 10px;
         }
 
+        p {
+            font-family: "sarabun", sans-serif;
+            line-height: 1.0;
+        }
+        
         table {
             border-collapse: collapse;
             width: 100%;
@@ -190,13 +239,19 @@ ob_start();
 </head>
 
 <body>
-    <h1>รายงานประวัติการฝึกงาน</h1>.
-    <p>วันที่พิมพ์รายงาน</p>
-    <p>ผลลัพธ์การค้นหา<?php echo $result->num_rows; ?></p>
-    <p>จำนวนบริษัท</p>
-    <p>จำนวนนักศึกษา</p>
-    <p>จำนวนตำแหน่งงาน</p>
-    <p>ตัวกรอง</p>
+    
+<h1>รายงานประวัติการฝึกงาน</h1>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>วันที่พิมพ์รายงาน</b>&nbsp;&nbsp;&nbsp;<?= $thaiDate; ?></p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>ผลลัพธ์การค้นหา</b>&nbsp;&nbsp;&nbsp;<?php echo count($rows); ?>&nbsp;&nbsp;การค้นหา</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>จำนวนบริษัท</b>&nbsp;&nbsp;&nbsp;<?= $uniqueCompanyCount; ?>&nbsp;&nbsp;บริษัท</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>จำนวนนักศึกษา</b>&nbsp;&nbsp;&nbsp;<?= $allStudent; ?>&nbsp;&nbsp;คน</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>ตัวกรอง</b>&nbsp;&nbsp;&nbsp;
+        คณะ: <?= htmlspecialchars($faculty ?: 'ทั้งหมด') ?>&nbsp;
+        หลักสูตร: <?= htmlspecialchars($program ?: 'ทั้งหมด') ?>&nbsp;
+        สาขา: <?= htmlspecialchars($major ?: 'ทั้งหมด') ?>&nbsp;
+        จังหวัด: <?= htmlspecialchars($province ?: 'ทั้งหมด') ?>&nbsp;
+        ปีการศึกษา: <?= htmlspecialchars($academicYear ?: 'ทั้งหมด') ?>
+    </p>    
     <table>
         <thead>
             <tr>
