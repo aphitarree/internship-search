@@ -16,7 +16,7 @@ try {
     $conn = new PDO($dsn, $dbUsername, $dbPassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 } catch (PDOException $e) {
     die('❌ Failed to connect: ' . $e->getMessage());
 }

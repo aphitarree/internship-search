@@ -77,15 +77,14 @@ if (!empty($whereClause)) {
 $sql = "
     SELECT
         stats.id,
-        stats.organization,
+        stats.organization AS company_name,
         stats.province,
-        fpm.faculty,
-        fpm.program,
-        fpm.major,
-        stats.year,
-        stats.total_student,
-        stats.contact,
-        stats.score
+        stats.position AS job_title,
+        fpm.faculty AS faculty_name,
+        fpm.program AS program_name,
+        fpm.major AS major_name,
+        stats.year AS academic_year,
+        stats.total_student AS internship_count
     FROM internship_stats stats
     LEFT JOIN faculty_program_major fpm ON stats.major_id = fpm.id
     $whereSql
@@ -147,7 +146,7 @@ ob_start();
 
         th:nth-child(3),
         td:nth-child(3) {
-            width: 85px;
+            width: 150px;
         }
 
 
@@ -166,14 +165,14 @@ ob_start();
             width: 100px;
         }
 
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 200px;
+        }
+
         th:nth-child(9),
         td:nth-child(9) {
             width: 68px;
-        }
-
-        th:nth-child(10),
-        td:nth-child(10) {
-            width: 40px;
         }
 
         .text-left {
@@ -196,30 +195,28 @@ ob_start();
         <thead>
             <tr>
                 <th class="text-center">ลำดับ</th>
+                <th>คณะ</th>
+                <th>สาขา</th>
+                <th>หลักสูตร</th>
                 <th>ชื่อบริษัท</th>
                 <th>จังหวัด</th>
-                <th>คณะ</th>
-                <th>หลักสูตร</th>
-                <th>สาขา</th>
+                <th>ตำแหน่ง</th>
                 <th class="text-center">ปีการศึกษา</th>
                 <th class="text-center">จำนวน&nbsp;(คน)</th>
-                <th>ข้อมูลการติดต่อ</th>
-                <th>คะแนน</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($rows as $index => $row): ?>
                 <tr>
                     <td><?= htmlspecialchars($index + 1) ?></td>
-                    <td class="text-left"><?= htmlspecialchars($row['organization']) ?></td>
+                    <td class="text-left"><?= htmlspecialchars($row['faculty_name']) ?></td>
+                    <td class="text-left"><?= htmlspecialchars($row['program_name']) ?></td>
+                    <td class="text-left"><?= htmlspecialchars($row['major_name']) ?></td>
+                    <td class="text-left"><?= htmlspecialchars($row['company_name']) ?></td>
                     <td class="text-left"><?= htmlspecialchars($row['province']) ?></td>
-                    <td class="text-left"><?= htmlspecialchars($row['faculty']) ?></td>
-                    <td class="text-left"><?= htmlspecialchars($row['program']) ?></td>
-                    <td class="text-left"><?= htmlspecialchars($row['major']) ?></td>
-                    <td><?= htmlspecialchars($row['year']) ?></td>
-                    <td class="text-center"><?= htmlspecialchars($row['total_student']) ?></td>
-                    <td class="text-center"><?= htmlspecialchars($row['contact']) ?></td>
-                    <td class="text-center"><?= htmlspecialchars($row['score']) ?></td>
+                    <td class="text-left"><?= htmlspecialchars($row['job_title']) ?></td>
+                    <td><?= htmlspecialchars($row['academic_year']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['internship_count']) ?></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

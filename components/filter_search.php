@@ -1,13 +1,5 @@
-<?php
-$faculty = $_GET['faculty'] ?? '';
-$program = $_GET['program'] ?? '';
-$major = $_GET['major'] ?? '';
-$province = $_GET['province'] ?? '';
-$academicYear = $_GET['academic-year'] ?? '';
-?>
-
 <section class="mx-auto max-w-[1625px] px-4 mt-10">
-    <form id="filter-form" action="index.php" method="GET">
+    <form action="index.php" method="GET">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
                 <label for="faculty" class="block mb-2 font-medium">คณะ</label>
@@ -57,18 +49,18 @@ $academicYear = $_GET['academic-year'] ?? '';
                 ค้นหา
             </button>
             <!-- clear filter button -->
-            <button
-                id="clear-search-query"
-                class="inline-flex items-center justify-center h-11 px-5 rounded-md bg-gray-200 hover:bg-gray-300"
-                type="button">
+            <button class="inline-flex items-center justify-center h-11 px-5 rounded-md bg-gray-200 hover:bg-gray-300" type="button" onclick="window.location.href = window.location.pathname;">
                 ล้างการค้นหา
             </button>
         </div>
+
     </form>
 </section>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+
         // Pass selected values from PHP to JavaScript
         const selectedFaculty = "<?php echo $faculty; ?>";
         const selectedMajor = "<?php echo $major; ?>";
@@ -133,12 +125,6 @@ $academicYear = $_GET['academic-year'] ?? '';
             }
         };
 
-        const sortChoice = (a, b) => {
-            if (a.value === '' && b.value !== '') return -1;
-            if (a.value !== '' && b.value === '') return 1;
-            return a.label.localeCompare(b.label, 'th');
-        }
-
         const facultySelect = document.getElementById("faculty");
         const majorSelect = document.getElementById("major");
         const programSelect = document.getElementById("program");
@@ -146,25 +132,20 @@ $academicYear = $_GET['academic-year'] ?? '';
         const facultyChoices = new Choices(facultySelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ...",
-            // shouldSort: false,
-            sorter: sortChoice,
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ..."
         });
         const majorChoices = new Choices(majorSelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขา...",
-            // shouldSort: false,
-            sorter: sortChoice,
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขา..."
         });
         const programChoices = new Choices(programSelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาหลักสูตร...",
-            // shouldSort: false,
-            sorter: sortChoice,
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาหลักสูตร..."
         });
 
+        // ===== Precomputed lists (from facultyMajorsPrograms only)
         const allFaculties = Object.keys(facultyMajorsPrograms);
         const allMajors = Object.values(facultyMajorsPrograms)
             .flatMap(majorsObj => Object.keys(majorsObj));
@@ -173,7 +154,16 @@ $academicYear = $_GET['academic-year'] ?? '';
             .flatMap(majorsObj => Object.values(majorsObj))
         )];
 
-        // Create function for populate the dropdown
+        // Optional: major -> faculty mapping (derived only from facultyMajorsPrograms)
+        const majorToFaculty = (() => {
+            const map = {};
+            for (const [faculty, majors] of Object.entries(facultyMajorsPrograms)) {
+                for (const major of Object.keys(majors)) map[major] = faculty;
+            }
+            return map;
+        })();
+
+        // ===== Populate helpers
         const populateFaculties = (list) => {
             facultyChoices.clearStore();
             facultyChoices.setChoices(
@@ -183,9 +173,9 @@ $academicYear = $_GET['academic-year'] ?? '';
                     selected: true,
                     disabled: false
                 }]
-                .concat(list.map(faculty => ({
-                    value: faculty,
-                    label: faculty
+                .concat(list.map(f => ({
+                    value: f,
+                    label: f
                 }))),
                 "value", "label", true
             );
@@ -199,9 +189,9 @@ $academicYear = $_GET['academic-year'] ?? '';
                     selected: true,
                     disabled: false
                 }]
-                .concat(list.map(major => ({
-                    value: major,
-                    label: major
+                .concat(list.map(m => ({
+                    value: m,
+                    label: m
                 }))),
                 "value", "label", true
             );
@@ -215,15 +205,15 @@ $academicYear = $_GET['academic-year'] ?? '';
                     selected: true,
                     disabled: false
                 }]
-                .concat(list.map(program => ({
-                    value: program,
-                    label: program
+                .concat(list.map(p => ({
+                    value: p,
+                    label: p
                 }))),
                 "value", "label", true
             );
         };
 
-        // Populate value to the dropdown
+        // Init dropdowns
         populateFaculties(allFaculties);
         populateMajors(allMajors);
         populatePrograms(allPrograms);
@@ -239,7 +229,8 @@ $academicYear = $_GET['academic-year'] ?? '';
             programChoices.setChoiceByValue(selectedProgram);
         }
 
-        // If select faculty, filter majors and programs
+        // ===== Events
+        // Faculty -> filter majors/programs
         facultySelect.addEventListener("change", () => {
             const faculty = facultySelect.value;
             const selectedProgram = programSelect.value || "";
@@ -316,7 +307,7 @@ $academicYear = $_GET['academic-year'] ?? '';
             facultyChoices.setChoiceByValue("");
         });
 
-        // If select major, auto select faculty and program
+        // Major -> auto-select faculty & program
         majorSelect.addEventListener("change", () => {
             const major = majorSelect.value;
             if (!major) return;
@@ -342,7 +333,7 @@ $academicYear = $_GET['academic-year'] ?? '';
             }
         });
 
-        // If select program, filter faculties and majors
+        // Program -> filter faculties & majors
         programSelect.addEventListener("change", () => {
             const prog = programSelect.value;
 
@@ -418,9 +409,7 @@ $academicYear = $_GET['academic-year'] ?? '';
         const provinceChoices = new Choices(provinceSelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาจังหวัด...",
-            // shouldSort: false,
-            sorter: sortChoice,
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาจังหวัด..."
         });
 
         const populateProvinces = (list) => {
@@ -459,8 +448,7 @@ $academicYear = $_GET['academic-year'] ?? '';
         const academicYearChoices = new Choices(academicYearSelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาปีการศึกษา...",
-            sorter: sortChoice,
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาปีการศึกษา..."
         });
 
         const populateAcademicYears = (list) => {
@@ -486,32 +474,5 @@ $academicYear = $_GET['academic-year'] ?? '';
             academicYearChoices.setChoiceByValue(selectedAcademicYear);
         }
 
-        // Clear search button
-        const clearSearchButton = document.getElementById('clear-search-query');
-        if (clearSearchButton) {
-            clearSearchButton.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                // Clear form data
-                const filterForm = document.getElementById('filter-form');
-                if (filterForm) {
-                    filterForm.reset();
-                }
-
-                populateFaculties(allFaculties);
-                populateMajors(allMajors);
-                populatePrograms(allPrograms);
-                populateProvinces(provinces);
-                populateAcademicYears(academicYears);
-
-                // Clear URL search queries
-                window.history.replaceState({}, '', window.location.pathname);
-
-                // Reload DataTables
-                if (window.table) {
-                    window.table.ajax.reload();
-                }
-            });
-        }
     });
 </script>

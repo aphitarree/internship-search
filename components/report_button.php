@@ -24,7 +24,7 @@ if (
 
 <!-- Download report buttons -->
 <?php if (!$isSearchIsEmpty): ?>
-    <form action="<?php echo $baseUrl; ?>/actions/pdf_report_filter.php" method="POST">
+    <form action="<?php echo $baseUrl; ?>/actions/report_filter.php" method="POST">
         <input type="hidden" name="faculty" value="<?= htmlspecialchars($faculty) ?>">
         <input type="hidden" name="program" value="<?= htmlspecialchars($program) ?>">
         <input type="hidden" name="major" value="<?= htmlspecialchars($major) ?>">
@@ -38,6 +38,6 @@ if (
     </form>
 <?php else: ?>
     <button class="flex h-11 rounded-md bg-sky-500 text-white hover:bg-sky-600 px-4 text-center justify-center items-center">
-        <a href="<?php echo $baseUrl; ?>/actions/pdf_report_all.php">ดาวน์โหลดทั้งหมด (.pdf)</a>
+        <a href="<?php echo $baseUrl; ?>/actions/report_all.php">ดาวน์โหลดทั้งหมด (.pdf)</a>
     </button>
 <?php endif; ?>
