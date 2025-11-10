@@ -2,6 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../config/db_config.php';
 
@@ -11,28 +12,17 @@ $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__)));
 $dotenv->load();
 
 $baseUrl = $_ENV['BASE_URL'] ?? '';
-
-// ดึงข้อมูลฝึกงานทั้งหมด (เอา id มาด้วยสำหรับใช้ตอนแก้ไข)
-$stmt = $conn->prepare("
-    SELECT
-        internship_stats.id,
-        faculty_program_major.faculty,
-        faculty_program_major.program,
-        faculty_program_major.major,
-        internship_stats.organization,
-        internship_stats.province,
-        internship_stats.contact,
-        internship_stats.score,
-        internship_stats.year,
-        internship_stats.total_student
-    FROM internship_stats
-    INNER JOIN faculty_program_major
-        ON internship_stats.major_id = faculty_program_major.id
-    LIMIT 10;
-");
-$stmt->execute();
-$internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+<!-- DataTables CSS -->
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
+<!-- Choices.js CSS สำหรับ dropdown สวย ๆ + searchable -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
 <section>
     <!-- ตารางข้อมูลฝึกงาน -->
@@ -67,7 +57,9 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="p-4">
             <div class="overflow-x-auto no-scrollbar">
-                <table class="min-w-full text-sm text-left text-gray-700">
+                <table
+                    id="internshipTable"
+                    class="min-w-full text-sm text-left text-gray-700">
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
                             <th class="px-3 py-2 font-semibold">NO.</th>
@@ -83,50 +75,8 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th class="px-3 py-2 font-semibold text-center">จัดการ</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <?php foreach ($internRecords as $index => $internRecord): ?>
-                            <tr class="hover:bg-gray-50" data-row-id="<?= (int)$internRecord['id']; ?>">
-                                <td class="px-3 py-2 align-center"><?= $index + 1; ?></td>
-                                <td class="px-3 py-2 align-center cell-organization"><?= htmlspecialchars($internRecord['organization']); ?></td>
-                                <td class="px-3 py-2 align-center cell-province"><?= htmlspecialchars($internRecord['province']); ?></td>
-                                <td class="px-3 py-2 align-center cell-faculty"><?= htmlspecialchars($internRecord['faculty']); ?></td>
-                                <td class="px-3 py-2 align-center cell-program"><?= htmlspecialchars($internRecord['program']); ?></td>
-                                <td class="px-3 py-2 align-center cell-major"><?= htmlspecialchars($internRecord['major']); ?></td>
-                                <td class="px-3 py-2 align-center cell-year"><?= htmlspecialchars($internRecord['year']); ?></td>
-                                <td class="px-3 py-2 align-center cell-total-student"><?= htmlspecialchars($internRecord['total_student']); ?></td>
-                                <td class="px-3 py-2 align-center cell-contact">
-                                    <?= htmlspecialchars($internRecord['contact']); ?>
-                                </td>
-                                <td class="px-3 py-2 align-center cell-score"><?= htmlspecialchars($internRecord['score']); ?></td>
-                                <td class="px-3 py-2 align-center text-center">
-                                    <!-- ปุ่ม Edit: ใส่ data-* ตาม field จริง -->
-                                    <button
-                                        type="button"
-                                        class="whitespace-nowrap btn-edit inline-flex items-center px-3 py-2 text-xs font-bold rounded-md bg-blue-600 hover:bg-blue-700 text-white transition"
-                                        data-id="<?= (int)$internRecord['id']; ?>"
-                                        data-organization="<?= htmlspecialchars($internRecord['organization']); ?>"
-                                        data-province="<?= htmlspecialchars($internRecord['province']); ?>"
-                                        data-faculty="<?= htmlspecialchars($internRecord['faculty']); ?>"
-                                        data-program="<?= htmlspecialchars($internRecord['program']); ?>"
-                                        data-major="<?= htmlspecialchars($internRecord['major']); ?>"
-                                        data-year="<?= htmlspecialchars($internRecord['year']); ?>"
-                                        data-total_student="<?= (int)$internRecord['total_student']; ?>"
-                                        data-contact="<?= htmlspecialchars($internRecord['contact']); ?>"
-                                        data-score="<?= htmlspecialchars($internRecord['score']); ?>">
-                                        แก้ไข
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-
-                        <?php if (empty($internRecords)): ?>
-                            <tr>
-                                <td colspan="11" class="px-3 py-6 text-center text-gray-500">
-                                    ยังไม่มีข้อมูลฝึกงาน
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
+                    <!-- server-side จะเติม tbody เอง -->
+                    <tbody class="divide-y divide-gray-100"></tbody>
                 </table>
             </div>
         </div>
@@ -138,7 +88,10 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
     id="addInternshipModal"
     class="fixed inset-0 z-50 hidden bg-black/50 items-center justify-center px-2">
     <div class="bg-white rounded-xl shadow-lg w-full max-w-3xl">
-        <form method="post" action="./actions/add_internship.php" class="flex flex-col max-h-[90vh] bg-white shadow-md rounded px-8 pt-6 pb-8">
+        <form
+            method="post"
+            action="./actions/add_internship.php"
+            class="flex flex-col max-h-[90vh] bg-white shadow-md rounded px-8 pt-6 pb-8">
             <div class="flex items-center justify-between pb-4 border-b border-gray-200">
                 <h5 class="text-lg font-semibold">เพิ่มข้อมูลฝึกงาน</h5>
                 <button
@@ -162,49 +115,59 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">จังหวัด</label>
-                        <input
-                            type="text"
+                        <select
                             name="province"
+                            id="add-province"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกจังหวัด-</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">คณะ</label>
-                        <input
-                            type="text"
+                        <select
                             name="faculty"
+                            id="add-faculty"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกคณะ-</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">หลักสูตร</label>
-                        <input
-                            type="text"
+                        <select
                             name="program"
+                            id="add-program"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกหลักสูตร-</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">สาขา</label>
-                        <input
-                            type="text"
+                        <select
                             name="major"
+                            id="add-major"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกสาขา-</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
-                        <input
-                            type="number"
+                        <select
                             name="year"
+                            id="add-year"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกปีการศึกษา-</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">จำนวนที่รับ</label>
@@ -255,7 +218,8 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
     class="fixed inset-0 z-50 hidden bg-black/50 items-center justify-center px-2">
     <div class="bg-white rounded-xl shadow-lg w-full max-w-3xl">
         <form
-            method="post" action="./actions/edit_internship.php"
+            method="post"
+            action="./actions/edit_internship.php"
             class="flex flex-col max-h-[90vh] bg-white shadow-md rounded px-8 pt-6 pb-8"
             id="editForm">
             <div class="flex items-center justify-between pb-4 border-b border-gray-200">
@@ -283,54 +247,59 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">จังหวัด</label>
-                        <input
-                            type="text"
+                        <select
                             name="province"
                             id="edit-province"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกจังหวัด-</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">คณะ</label>
-                        <input
-                            type="text"
+                        <select
                             name="faculty"
                             id="edit-faculty"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกคณะ-</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">หลักสูตร</label>
-                        <input
-                            type="text"
+                        <select
                             name="program"
                             id="edit-program"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกหลักสูตร-</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">สาขา</label>
-                        <input
-                            type="text"
+                        <select
                             name="major"
                             id="edit-major"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกสาขา-</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
-                        <input
-                            type="number"
+                        <select
                             name="year"
                             id="edit-year"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                            <option value="">-เลือกปีการศึกษา-</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">จำนวนที่รับ</label>
@@ -379,180 +348,548 @@ $internRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const addModal = document.getElementById('addInternshipModal');
-        const editModal = document.getElementById('editInternshipModal');
-        const openAddBtn = document.getElementById('openAddInternshipModal');
-        const editForm = document.getElementById('editForm');
+<!-- jQuery + DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
-        // เปิด Add Modal
-        if (openAddBtn && addModal) {
-            openAddBtn.addEventListener('click', () => {
-                addModal.classList.remove('hidden');
-                addModal.classList.add('flex');
-            });
+<!-- Choices.js JS -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+<script>
+    // helper escape HTML เวลาเอาข้อความไปใส่ใน data-* / innerHTML
+    function escapeHtml(text) {
+        return $('<div>').text(text == null ? '' : text).html();
+    }
+
+    // ข้อมูล mapping คณะ → สาขา → หลักสูตร
+    const facultyMajorsPrograms = {
+        "คณะครุศาสตร์": {
+            "การศึกษาปฐมวัย": "หลักสูตรศึกษาศาสตรบัณฑิต",
+            "การประถมศึกษา": "หลักสูตรศึกษาศาสตรบัณฑิต",
+        },
+        "คณะวิทยาศาสตร์และเทคโนโลยี": {
+            "เทคโนโลยีสารสนเทศ": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "สิ่งแวดล้อมเมืองและอุตสาหกรรม": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "วิทยาศาสตร์เครื่องสำอาง": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "อาชีวอนามัยและความปลอดภัย": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "เทคโนโลยีเคมี": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "วิทยาการคอมพิวเตอร์": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "คณิตศาสตร์": "หลักสูตรศึกษาศาสตรบัณฑิต",
+            "ฟิสิกส์": "หลักสูตรศึกษาศาสตรบัณฑิต",
+            "ความมั่นคงปลอดภัยไซเบอร์": "หลักสูตรวิทยาศาสตรบัณฑิต",
+        },
+        "คณะวิทยาการจัดการ": {
+            "การบัญชี": "หลักสูตรบัญชีบัณฑิต",
+            "การเงิน": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "การตลาด": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "การจัดการ": "หลักสูตรการจัดการบัณฑิต",
+            "การบริการลูกค้า": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "การจัดการธุรกิจค้าปลีก": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "การจัดการทรัพยากรมนุษย์": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "คอมพิวเตอร์ธุรกิจ": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "ธุรกิจระหว่างประเทศ": "หลักสูตรบริหารธุรกิจบัณฑิต",
+            "นิเทศศาสตร์": "หลักสูตรนิเทศศาสตรบัณฑิต",
+            "เลขานุการทางการแพทย์": "หลักสูตรบริหารธุรกิจบัณฑิต",
+        },
+        "คณะมนุษยศาสตร์และสังคมศาสตร์": {
+            "ภาษาอังกฤษธุรกิจ": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "จิตวิทยาอุตสาหกรรมและองค์การ": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ภาษาไทย": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ภาษาอังกฤษ": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ภาษาจีน": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ศิลปศึกษา": "หลักสูตรศึกษาศาสตรบัณฑิต",
+            "บรรณารักษศาสตร์และสารสนเทศศาสตร์": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "นิติศาสตร์": "หลักสูตรนิติศาสตรบัณฑิต",
+        },
+        "คณะพยาบาลศาสตร์": {
+            "พยาบาลศาสตร์": "หลักสูตรพยาบาลศาสตรบัณฑิต"
+        },
+        "โรงเรียนการท่องเที่ยวและการบริการ": {
+            "การท่องเที่ยว": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ธุรกิจการโรงแรม": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ธุรกิจการบิน": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "ออกแบบนิทรรศการและการแสดง": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "การจัดการงานบริการ (นานาชาติ)": "หลักสูตรศิลปศาสตรบัณฑิต",
+        },
+        "โรงเรียนการเรือน": {
+            "เทคโนโลยีการแปรรูปอาหาร": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "เทคโนโลยีการประกอบอาหารและบริการ": "หลักสูตรวิทยาศาสตรบัณฑิต",
+            "คหกรรมศาสตร์": "หลักสูตรศิลปศาสตรบัณฑิต",
+            "โภชนการและการประกอบอาหาร": "หลักสูตรวิทยาศาสตรบัณฑิต",
+        }
+    };
+
+    const provinces = [
+        "กรุงเทพมหานคร", "กระบี่", "กาญจนบุรี", "กาฬสินธุ์", "กำแพงเพชร",
+        "ขอนแก่น", "จันทบุรี", "ฉะเชิงเทรา", "ชลบุรี", "ชัยนาท", "ชัยภูมิ",
+        "ชุมพร", "เชียงราย", "เชียงใหม่", "ตรัง", "ตราด", "ตาก", "นครนายก",
+        "นครปฐม", "นครพนม", "นครราชสีมา", "นครศรีธรรมราช", "นครสวรรค์",
+        "นนทบุรี", "นราธิวาส", "น่าน", "บึงกาฬ", "บุรีรัมย์", "ปทุมธานี",
+        "ประจวบคีรีขันธ์", "ปราจีนบุรี", "ปัตตานี", "พระนครศรีอยุธยา",
+        "พะเยา", "พังงา", "พัทลุง", "พิจิตร", "พิษณุโลก", "เพชรบุรี",
+        "เพชรบูรณ์", "แพร่", "ภูเก็ต", "มหาสารคาม", "มุกดาหาร", "แม่ฮ่องสอน",
+        "ยโสธร", "ยะลา", "ร้อยเอ็ด", "ระนอง", "ระยอง", "ราชบุรี", "ลพบุรี",
+        "ลำปาง", "ลำพูน", "เลย", "ศรีสะเกษ", "สกลนคร", "สงขลา", "สตูล",
+        "สมุทรปราการ", "สมุทรสงคราม", "สมุทรสาคร", "สระแก้ว", "สระบุรี",
+        "สิงห์บุรี", "สุโขทัย", "สุพรรณบุรี", "สุราษฎร์ธานี", "สุรินทร์",
+        "หนองคาย", "หนองบัวลำภู", "อ่างทอง", "อำนาจเจริญ", "อุดรธานี",
+        "อุตรดิตถ์", "อุทัยธานี", "อุบลราชธานี"
+    ];
+
+    const academicYears = [
+        "2568",
+        "2567",
+        "2566",
+        "2565",
+        "2564",
+        "2563"
+    ];
+
+    const sortChoice = (a, b) => {
+        if (a.value === '' && b.value !== '') return -1;
+        if (a.value !== '' && b.value === '') return 1;
+        return a.label.localeCompare(b.label, 'th');
+    };
+
+    function setupDropdownGroup(prefix) {
+        const facultySelect = document.getElementById(prefix + '-faculty');
+        const majorSelect = document.getElementById(prefix + '-major');
+        const programSelect = document.getElementById(prefix + '-program');
+        const provinceSelect = document.getElementById(prefix + '-province');
+        const yearSelect = document.getElementById(prefix + '-year');
+
+        if (!facultySelect || !majorSelect || !programSelect || !provinceSelect || !yearSelect) {
+            console.warn('dropdown elements not found for prefix:', prefix);
+            return null;
         }
 
-        // ปิด Add Modal
-        document.querySelectorAll('[data-close-modal="add"]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (!addModal) return;
-                addModal.classList.add('hidden');
-                addModal.classList.remove('flex');
-            });
+        const allFaculties = Object.keys(facultyMajorsPrograms);
+        const allMajors = Object.values(facultyMajorsPrograms)
+            .flatMap(majorsObj => Object.keys(majorsObj));
+        const allPrograms = [...new Set(
+            Object.values(facultyMajorsPrograms)
+            .flatMap(majorsObj => Object.values(majorsObj))
+        )];
+
+        const facultyChoices = new Choices(facultySelect, {
+            searchEnabled: true,
+            itemSelectText: "",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ...",
+            sorter: sortChoice,
+        });
+        const majorChoices = new Choices(majorSelect, {
+            searchEnabled: true,
+            itemSelectText: "",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขา...",
+            sorter: sortChoice,
+        });
+        const programChoices = new Choices(programSelect, {
+            searchEnabled: true,
+            itemSelectText: "",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาหลักสูตร...",
+            sorter: sortChoice,
+        });
+        const provinceChoices = new Choices(provinceSelect, {
+            searchEnabled: true,
+            itemSelectText: "",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาจังหวัด...",
+            sorter: sortChoice,
+        });
+        const yearChoices = new Choices(yearSelect, {
+            searchEnabled: true,
+            itemSelectText: "",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาปีการศึกษา...",
+            sorter: sortChoice,
         });
 
-        // ปิด Edit Modal
-        document.querySelectorAll('[data-close-modal="edit"]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (!editModal) return;
-                editModal.classList.add('hidden');
-                editModal.classList.remove('flex');
-            });
+        const populateFaculties = (list) => {
+            facultyChoices.clearStore();
+            facultyChoices.setChoices(
+                [{
+                    value: "",
+                    label: "-เลือกคณะ-",
+                    selected: true,
+                    disabled: false
+                }].concat(
+                    list.map(faculty => ({
+                        value: faculty,
+                        label: faculty
+                    }))
+                ),
+                "value", "label", true
+            );
+        };
+
+        const populateMajors = (list) => {
+            majorChoices.clearStore();
+            majorChoices.setChoices(
+                [{
+                    value: "",
+                    label: "-เลือกสาขา-",
+                    selected: true,
+                    disabled: false
+                }].concat(
+                    list.map(major => ({
+                        value: major,
+                        label: major
+                    }))
+                ),
+                "value", "label", true
+            );
+        };
+
+        const populatePrograms = (list) => {
+            programChoices.clearStore();
+            programChoices.setChoices(
+                [{
+                    value: "",
+                    label: "-เลือกหลักสูตร-",
+                    selected: true,
+                    disabled: false
+                }].concat(
+                    list.map(program => ({
+                        value: program,
+                        label: program
+                    }))
+                ),
+                "value", "label", true
+            );
+        };
+
+        const populateProvinces = (list) => {
+            provinceChoices.clearStore();
+            provinceChoices.setChoices(
+                [{
+                    value: "",
+                    label: "-เลือกจังหวัด-",
+                    selected: true,
+                    disabled: false
+                }].concat(
+                    list.map(province => ({
+                        value: province,
+                        label: province,
+                    }))
+                ),
+                "value", "label", true
+            );
+        };
+
+        const populateYears = (list) => {
+            yearChoices.clearStore();
+            yearChoices.setChoices(
+                [{
+                    value: "",
+                    label: "-เลือกปีการศึกษา-",
+                    selected: true,
+                    disabled: false
+                }].concat(
+                    list.map(year => ({
+                        value: year,
+                        label: year
+                    }))
+                ),
+                "value", "label", true
+            );
+        };
+
+        // initial populate
+        populateFaculties(allFaculties);
+        populateMajors(allMajors);
+        populatePrograms(allPrograms);
+        populateProvinces(provinces);
+        populateYears(academicYears);
+
+        // เมื่อเปลี่ยน "คณะ"
+        facultySelect.addEventListener('change', () => {
+            const faculty = facultySelect.value;
+
+            if (!faculty || !facultyMajorsPrograms[faculty]) {
+                populateMajors(allMajors);
+                populatePrograms(allPrograms);
+                majorChoices.setChoiceByValue('');
+                programChoices.setChoiceByValue('');
+                return;
+            }
+
+            const majorsOfFaculty = Object.keys(facultyMajorsPrograms[faculty]);
+            const programsOfFaculty = [...new Set(
+                Object.values(facultyMajorsPrograms[faculty])
+            )];
+
+            populateMajors(majorsOfFaculty);
+            populatePrograms(programsOfFaculty);
+            majorChoices.setChoiceByValue('');
+            programChoices.setChoiceByValue('');
         });
 
-        // ปุ่ม Edit ทั้งหมด → เติมค่า + เปิด edit modal
-        const editButtons = document.querySelectorAll('.btn-edit');
-        editButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (!editModal) return;
+        // เมื่อเปลี่ยน "สาขา"
+        majorSelect.addEventListener('change', () => {
+            const major = majorSelect.value;
+            if (!major) return;
 
-                const id = btn.getAttribute('data-id') || '';
-                const organization = btn.getAttribute('data-organization') || '';
-                const province = btn.getAttribute('data-province') || '';
-                const faculty = btn.getAttribute('data-faculty') || '';
-                const program = btn.getAttribute('data-program') || '';
-                const major = btn.getAttribute('data-major') || '';
-                const year = btn.getAttribute('data-year') || '';
-                const totalStudent = btn.getAttribute('data-total_student') || '';
-                const contact = btn.getAttribute('data-contact') || '';
-                const score = btn.getAttribute('data-score') || '';
+            let foundFaculty = null;
+            let foundProgram = null;
 
-                document.getElementById('edit-id').value = id;
-                document.getElementById('edit-organization').value = organization;
-                document.getElementById('edit-province').value = province;
-                document.getElementById('edit-faculty').value = faculty;
-                document.getElementById('edit-program').value = program;
-                document.getElementById('edit-major').value = major;
-                document.getElementById('edit-year').value = year;
-                document.getElementById('edit-total_student').value = totalStudent;
-                document.getElementById('edit-contact').value = contact;
-                document.getElementById('edit-score').value = score;
+            for (const [fac, majorsObj] of Object.entries(facultyMajorsPrograms)) {
+                if (major in majorsObj) {
+                    foundFaculty = fac;
+                    foundProgram = majorsObj[major];
+                    break;
+                }
+            }
 
-                editModal.classList.remove('hidden');
-                editModal.classList.add('flex');
-            });
+            if (foundFaculty) {
+                facultyChoices.setChoiceByValue(foundFaculty);
+
+                const majorsOfFaculty = Object.keys(facultyMajorsPrograms[foundFaculty]);
+                const programsOfFaculty = [...new Set(
+                    Object.values(facultyMajorsPrograms[foundFaculty])
+                )];
+
+                populateMajors(majorsOfFaculty);
+                populatePrograms(programsOfFaculty);
+
+                majorChoices.setChoiceByValue(major);
+                if (foundProgram) {
+                    programChoices.setChoiceByValue(foundProgram);
+                }
+            }
         });
 
-        // ส่งฟอร์ม edit แบบ AJAX (ไม่ refresh หน้า)
-        if (editForm) {
-            editForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
+        function resetValues() {
+            facultyChoices.setChoiceByValue('');
+            majorChoices.setChoiceByValue('');
+            programChoices.setChoiceByValue('');
+            provinceChoices.setChoiceByValue('');
+            yearChoices.setChoiceByValue('');
+        }
 
-                const formData = new FormData(editForm);
+        return {
+            facultyChoices,
+            majorChoices,
+            programChoices,
+            provinceChoices,
+            yearChoices,
+            resetValues
+        };
+    }
+
+    $(function() {
+        const $addModal = $('#addInternshipModal');
+        const $editModal = $('#editInternshipModal');
+        const $editForm = $('#editForm');
+
+        const addDropdowns = setupDropdownGroup('add');
+        const editDropdowns = setupDropdownGroup('edit');
+
+        const dt = $('#internshipTable').DataTable({
+            processing: true,
+            serverSide: true,
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50],
+            ajax: {
+                url: './actions/fetch_internships.php',
+                type: 'POST'
+            },
+            columns: [{
+                data: null,
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            }, {
+                data: 'organization'
+            }, {
+                data: 'province'
+            }, {
+                data: 'faculty'
+            }, {
+                data: 'program'
+            }, {
+                data: 'major'
+            }, {
+                data: 'year'
+            }, {
+                data: 'total_student'
+            }, {
+                data: 'contact'
+            }, {
+                data: 'score'
+            }, {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    return `
+                            <button
+                                type="button"
+                                class="whitespace-nowrap btn-edit inline-flex items-center px-3 py-2 text-xs font-bold rounded-md bg-blue-600 hover:bg-blue-700 text-white transition"
+                                data-id="${row.id}"
+                                data-organization="${escapeHtml(row.organization)}"
+                                data-province="${escapeHtml(row.province)}"
+                                data-faculty="${escapeHtml(row.faculty)}"
+                                data-program="${escapeHtml(row.program)}"
+                                data-major="${escapeHtml(row.major)}"
+                                data-year="${escapeHtml(row.year)}"
+                                data-total_student="${escapeHtml(row.total_student)}"
+                                data-contact="${escapeHtml(row.contact)}"
+                                data-score="${escapeHtml(row.score ?? '')}"
+                            >
+                                แก้ไข
+                            </button>
+                        `;
+                }
+            }],
+            createdRow: function(row, data) {
+                const $row = $(row);
+                $row.attr('data-row-id', data.id);
+
+                const cells = $row.find('td');
+                $(cells[1]).addClass('cell-organization');
+                $(cells[2]).addClass('cell-province');
+                $(cells[3]).addClass('cell-faculty');
+                $(cells[4]).addClass('cell-program');
+                $(cells[5]).addClass('cell-major');
+                $(cells[6]).addClass('cell-year');
+                $(cells[7]).addClass('cell-total-student');
+                $(cells[8]).addClass('cell-contact');
+                $(cells[9]).addClass('cell-score');
+            },
+            language: {
+                search: 'ค้นหา:',
+                lengthMenu: 'แสดง _MENU_ แถวต่อหน้า',
+                info: 'แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ แถว',
+                infoEmpty: 'ไม่มีข้อมูล',
+                infoFiltered: '(กรองจากทั้งหมด _MAX_ แถว)',
+                zeroRecords: 'ไม่พบข้อมูลที่ค้นหา',
+                paginate: {
+                    first: 'หน้าแรก',
+                    last: 'หน้าสุดท้าย',
+                    next: 'ถัดไป',
+                    previous: 'ก่อนหน้า'
+                }
+            }
+        });
+
+        // Add Modal
+        $('#openAddInternshipModal').on('click', function() {
+            if (addDropdowns && typeof addDropdowns.resetValues === 'function') {
+                addDropdowns.resetValues();
+            }
+            $('#addInternshipModal form')[0].reset();
+            $addModal.removeClass('hidden').addClass('flex');
+        });
+
+        $('[data-close-modal="add"]').on('click', function() {
+            $addModal.addClass('hidden').removeClass('flex');
+        });
+
+        $addModal.on('click', function(e) {
+            if (e.target === this) {
+                $addModal.addClass('hidden').removeClass('flex');
+            }
+        });
+
+        // Edit Modal
+        $(document).on('click', '.btn-edit', function() {
+            const $btn = $(this);
+
+            $('#edit-id').val($btn.data('id'));
+            $('#edit-organization').val($btn.data('organization'));
+            $('#edit-total_student').val($btn.data('total_student'));
+            $('#edit-contact').val($btn.data('contact'));
+            $('#edit-score').val($btn.data('score'));
+
+            const faculty = $btn.data('faculty') || '';
+            const major = $btn.data('major') || '';
+            const program = $btn.data('program') || '';
+            const province = $btn.data('province') || '';
+            const year = $btn.data('year') != null ? String($btn.data('year')) : '';
+
+            if (editDropdowns) {
+                if (province) {
+                    editDropdowns.provinceChoices.setChoiceByValue(province);
+                } else {
+                    editDropdowns.provinceChoices.setChoiceByValue('');
+                }
+
+                if (year) {
+                    editDropdowns.yearChoices.setChoiceByValue(year);
+                } else {
+                    editDropdowns.yearChoices.setChoiceByValue('');
+                }
+
+                if (faculty) {
+                    editDropdowns.facultyChoices.setChoiceByValue(faculty);
+
+                    setTimeout(() => {
+                        if (major) {
+                            editDropdowns.majorChoices.setChoiceByValue(major);
+                        }
+                        if (program) {
+                            editDropdowns.programChoices.setChoiceByValue(program);
+                        }
+                    }, 0);
+                } else {
+                    editDropdowns.facultyChoices.setChoiceByValue('');
+                    editDropdowns.majorChoices.setChoiceByValue('');
+                    editDropdowns.programChoices.setChoiceByValue('');
+                }
+            }
+
+            $editModal.removeClass('hidden').addClass('flex');
+        });
+
+        $('[data-close-modal="edit"]').on('click', function() {
+            $editModal.addClass('hidden').removeClass('flex');
+        });
+
+        $editModal.on('click', function(e) {
+            if (e.target === this) {
+                $editModal.addClass('hidden').removeClass('flex');
+            }
+        });
+
+        // Submit Edit (AJAX)
+        $editForm.on('submit', async function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            try {
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const raw = await res.text();
+                let result;
 
                 try {
-                    const res = await fetch(editForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
-
-                    const raw = await res.text();
-                    let result;
-
-                    try {
-                        result = JSON.parse(raw);
-                    } catch (parseErr) {
-                        console.warn('Response ไม่ใช่ JSON ล้วน จะใช้ค่าจากฟอร์มแทน', raw);
-                        // ถ้า parse ไม่ได้ แต่ request สำเร็จ ให้ถือว่า success
-                        result = {
-                            success: true,
-                            data: null
-                        };
-                    }
-
-                    if (result.success === false) {
-                        alert(result.message || 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล');
-                        return;
-                    }
-
-                    // ดึงข้อมูลจาก result.data ถ้ามี ไม่งั้น fallback ใช้ค่าจากฟอร์ม
-                    const d = result.data || {
-                        id: document.getElementById('edit-id').value,
-                        organization: document.getElementById('edit-organization').value,
-                        province: document.getElementById('edit-province').value,
-                        faculty: document.getElementById('edit-faculty').value,
-                        program: document.getElementById('edit-program').value,
-                        major: document.getElementById('edit-major').value,
-                        year: document.getElementById('edit-year').value,
-                        total_student: document.getElementById('edit-total_student').value,
-                        contact: document.getElementById('edit-contact').value,
-                        score: document.getElementById('edit-score').value,
+                    result = JSON.parse(raw);
+                } catch (parseErr) {
+                    console.warn('Response ไม่ใช่ JSON ล้วน', raw);
+                    result = {
+                        success: false,
+                        message: 'Invalid JSON response'
                     };
-
-                    const row = document.querySelector(`tr[data-row-id="${d.id}"]`);
-
-                    if (row) {
-                        const orgCell = row.querySelector('.cell-organization');
-                        const provCell = row.querySelector('.cell-province');
-                        const facCell = row.querySelector('.cell-faculty');
-                        const progCell = row.querySelector('.cell-program');
-                        const majorCell = row.querySelector('.cell-major');
-                        const yearCell = row.querySelector('.cell-year');
-                        const totalCell = row.querySelector('.cell-total-student');
-                        const contactCell = row.querySelector('.cell-contact');
-                        const scoreCell = row.querySelector('.cell-score');
-
-                        if (orgCell) orgCell.textContent = d.organization;
-                        if (provCell) provCell.textContent = d.province;
-                        if (facCell) facCell.textContent = d.faculty;
-                        if (progCell) progCell.textContent = d.program;
-                        if (majorCell) majorCell.textContent = d.major;
-                        if (yearCell) yearCell.textContent = d.year;
-                        if (totalCell) totalCell.textContent = d.total_student;
-                        if (contactCell) contactCell.textContent = d.contact;
-                        if (scoreCell) scoreCell.textContent = d.score ?? '';
-
-                        // อัปเดต data-* บนปุ่ม edit ให้เป็นค่าล่าสุด
-                        const editBtn = row.querySelector('.btn-edit');
-                        if (editBtn) {
-                            editBtn.setAttribute('data-organization', d.organization);
-                            editBtn.setAttribute('data-province', d.province);
-                            editBtn.setAttribute('data-faculty', d.faculty);
-                            editBtn.setAttribute('data-program', d.program);
-                            editBtn.setAttribute('data-major', d.major);
-                            editBtn.setAttribute('data-year', d.year);
-                            editBtn.setAttribute('data-total_student', d.total_student);
-                            editBtn.setAttribute('data-contact', d.contact);
-                            editBtn.setAttribute('data-score', d.score ?? '');
-                        }
-                    }
-
-                    // ปิด modal
-                    if (editModal) {
-                        editModal.classList.add('hidden');
-                        editModal.classList.remove('flex');
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
                 }
-            });
-        }
 
-        // ปิด modal เมื่อคลิกพื้นหลัง (overlay)
-        [addModal, editModal].forEach(modal => {
-            if (!modal) return;
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
+                if (result.success === false) {
+                    alert(result.message || 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล');
+                    return;
                 }
-            });
+
+                dt.ajax.reload(null, false);
+
+                $editModal.addClass('hidden').removeClass('flex');
+            } catch (err) {
+                console.error(err);
+                alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
+            }
         });
     });
 </script>
