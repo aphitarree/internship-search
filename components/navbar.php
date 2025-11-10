@@ -1,152 +1,16 @@
-<!DOCTYPE html>
-<html lang="th">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>สำนักส่งเสริมวิชาการและงานทะเบียน</title>
-</head>
-
-<body class="bg-gray-50">
-
-    <header class="w-full bg-white border-b shadow-sm relative z-50">
-        <nav class="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
-            <!-- Logo -->
-            <a href="http://localhost/internship-search-system/" class="flex items-center space-x-3">
-                <img src="public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
-                <span class="text-2xl font-semibold whitespace-nowrap text-gray-900">
-                    สำนักส่งเสริมวิชาการและงานทะเบียน
-                </span>
-            </a>
-
-            <!-- Hamburger -->
-            <button id="menu-toggle" class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-
-            <!-- Menu -->
-            <div id="navbar" class="hidden w-full md:flex md:w-auto flex-col md:flex-row md:space-x-8">
-                <ul class="flex flex-col md:flex-row font-medium p-4 md:p-0 mt-4 md:mt-0 bg-gray-50 md:bg-white border border-gray-100 md:border-0 rounded-lg md:space-x-8">
-                    <!-- Dropdown: เกี่ยวกับสำนัก -->
-                    <li class="relative">
-                        <button data-dropdown="dropdown-about" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
-                            เกี่ยวกับสำนัก
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <ul id="dropdown-about" class="dropdown hidden absolute left-0 mt-2 bg-white border rounded-lg shadow-md w-56 z-20">
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=30" class="block px-4 py-2 hover:bg-gray-100">ปรัชญา วิสัยทัศน์ พันธกิจ</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=42" class="block px-4 py-2 hover:bg-gray-100">บุคลากร</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=2630#" class="block px-4 py-2 hover:bg-gray-100">เบอร์โทรศัพท์ หน่วยงาน</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=6282" class="block px-4 py-2 hover:bg-gray-100">สายตรงผู้อำนวยการ</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Dropdown: คณะ/โรงเรียน -->
-                    <li class="relative">
-                        <button data-dropdown="dropdown-faculty" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
-                            คณะ/โรงเรียน
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <ul id="dropdown-faculty" class="dropdown hidden absolute left-0 mt-2 bg-white border rounded-lg shadow-md w-56 z-20">
-                            <li><a href="https://education.dusit.ac.th/" class="block px-4 py-2 hover:bg-gray-100">คณะครุศาสตร์</a></li>
-                            <li><a href="https://scitech.dusit.ac.th/" class="block px-4 py-2 hover:bg-gray-100">คณะวิทยาศาสตร์และเทคโนโลยี</a></li>
-                            <li><a href="https://m-sci.dusit.ac.th/home/" class="block px-4 py-2 hover:bg-gray-100">คณะวิทยาการจัดการ</a></li>
-                            <li><a href="http://human.dusit.ac.th/main/" class="block px-4 py-2 hover:bg-gray-100">คณะมนุษย์ศาสตร์และสังคมศาสตร์</a></li>
-                            <li><a href="http://nurse.dusit.ac.th/" class="block px-4 py-2 hover:bg-gray-100">คณะพยาบาลศาสตร์</a></li>
-                            <li><a href="http://food.dusit.ac.th/main/" class="block px-4 py-2 hover:bg-gray-100">โรงเรียนการเรือน</a></li>
-                            <li><a href="http://thmdusit.dusit.ac.th/" class="block px-4 py-2 hover:bg-gray-100">โรงเรียนการท่องเที่ยวและการบริการ</a></li>
-                            <li><a href="http://slp.dusit.ac.th/" class="block px-4 py-2 hover:bg-gray-100">โรงเรียนกฎหมายและการเมือง</a></li>
-                            <li><a href="http://www.graduate.dusit.ac.th/" class="block px-4 py-2 hover:bg-gray-100">บัณฑิตวิทยาลัย</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Dropdown: อาจารย์/บุคลากร -->
-                    <li class="relative">
-                        <button data-dropdown="dropdown-staff" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
-                            อาจารย์/บุคลากร
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <ul id="dropdown-staff" class="dropdown hidden absolute left-0 mt-2 bg-white border rounded-lg shadow-md w-56 z-20">
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=1737" class="block px-4 py-2 hover:bg-gray-100">สาระน่ารู้</a></li>
-                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">ประเมิน</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=389" class="block px-4 py-2 hover:bg-gray-100">แบบฟอร์มสำหรับอาจารย์/เจ้าหน้าที่</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Dropdown: นักศึกษา -->
-                    <li class="relative">
-                        <button data-dropdown="dropdown-student" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
-                            นักศึกษา
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <ul id="dropdown-student" class="dropdown hidden absolute left-0 mt-2 bg-white border rounded-lg shadow-md w-56 z-20">
-                            <li><a href="https://regis.dusit.ac.th/main/?p=10234" class="block px-4 py-2 hover:bg-gray-100">บริการ</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=1646" class="block px-4 py-2 hover:bg-gray-100">สาระน่ารู้</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=15464" class="block px-4 py-2 hover:bg-gray-100">โครงสร้างหลักสูตร</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=442" class="block px-4 py-2 hover:bg-gray-100">แบบฟอร์มสำหรับนักศึกษา</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=2494" class="block px-4 py-2 hover:bg-gray-100">รายชื่อผู้สำเร็จการศึกษา</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=2553" class="block px-4 py-2 hover:bg-gray-100">รายชื่อผู้พ้นสภาพนักศึกษา</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Dropdown: ข้อมูลเผยแพร่ -->
-                    <li class="relative">
-                        <button data-dropdown="dropdown-news" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
-                            ข้อมูลเผยแพร่
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <ul id="dropdown-news" class="dropdown hidden absolute left-0 mt-2 bg-white border rounded-lg shadow-md w-64 z-20">
-                            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfn7zBBg5J1ASqPXmO9SKojlY2e5lhUr4kHnJ8AldpPZRE4MQ/viewform" class="block px-4 py-2 hover:bg-gray-100">แบบประเมินความพึงพอใจ</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=56" class="block px-4 py-2 hover:bg-gray-100">เกี่ยวกับงานประกันคุณภาพ</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=15143" class="block px-4 py-2 hover:bg-gray-100">การเปิดเผยข้อมูลสาธารณะ (OIT)</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=7805" class="block px-4 py-2 hover:bg-gray-100">ข้อมูลจำนวนนักศึกษา</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=9267" class="block px-4 py-2 hover:bg-gray-100">สรุปองค์ความรู้กิจกรรมสนับสนุนด้านวิชาการ</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=17326" class="block px-4 py-2 hover:bg-gray-100">ความปลอดภัยและสิ่งแวดล้อม</a></li>
-                            <li><a href="https://regis.dusit.ac.th/main/?page_id=4918" class="block px-4 py-2 hover:bg-gray-100">แนวปฏิบัติ PDPA</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+<header class="w-full bg-white border-b relative z-10">
+    <div class="mx-auto max-w-[1212px] h-16 px-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <img src="public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
+            <div class="text-lg md:text-xl font-semibold">สำนักส่งเสริมวิชาการและงานทะเบียน</div>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-[18px]">
+            <a href="#" class="hover:text-sky-700">เกี่ยวกับสำนัก</a>
+            <a href="#" class="hover:text-sky-700">คณะ/โรงเรียน</a>
+            <a href="#" class="hover:text-sky-700">อาจารย์/บุคลากร</a>
+            <a href="#" class="hover:text-sky-700">นักศึกษา</a>
+            <a href="#" class="hover:text-sky-700">ข้อมูลเผยแพร่</a>
         </nav>
-    </header>
-
-    <script>
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            document.getElementById('navbar').classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('.dropdown-btn').forEach((btn) => {
-            btn.addEventListener('click', (e) => {
-                const dropdownId = btn.getAttribute('data-dropdown');
-                const dropdown = document.getElementById(dropdownId);
-                const isHidden = dropdown.classList.contains('hidden');
-
-                document.querySelectorAll('.dropdown').forEach(d => d.classList.add('hidden'));
-
-                if (isHidden) dropdown.classList.remove('hidden');
-                else dropdown.classList.add('hidden');
-
-                e.stopPropagation();
-            });
-        });
-
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.add('hidden'));
-        });
-    </script>
-
-</body>
-
-</html>
+        <img src="img/search.svg" alt="ค้นหา" class="h-6 w-6 hidden md:block" />
+    </div>
+</header>
