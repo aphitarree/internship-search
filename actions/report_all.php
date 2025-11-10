@@ -29,7 +29,7 @@ $mpdf = new \Mpdf\Mpdf([
     'margin_bottom' => 16,
     'margin_header' => 9,
     'margin_footer' => 9,
-
+    
     'fontDir' => array_merge($fontDirs, [dirname(__DIR__) . '/public/assets/fonts']),
     'fontdata' => $fontData + [
         'sarabun' => [
@@ -42,8 +42,19 @@ $mpdf = new \Mpdf\Mpdf([
     'default_font' => 'sarabun',
     'autoScriptToLang' => true,
     'autoLangToFont'   => true,
-
+    
 ]);
+
+// Set a simple Footer including the page number
+$mpdf->defaultfooterline = 0;
+$mpdf->setFooter('
+    <div style="font-family: sarabun, 
+                sans-serif; font-size: 14pt; 
+                font-style: normal;
+                border-top: none;">
+                {PAGENO} / {nbpg}
+    </div>
+');
 
 $sql = "
     SELECT faculty_program_major.faculty, faculty_program_major.program, faculty_program_major.major, internship_stats.

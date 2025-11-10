@@ -44,6 +44,17 @@ $mpdf = new \Mpdf\Mpdf([
     'autoLangToFont'   => true,
 ]);
 
+// Set a simple Footer including the page number
+$mpdf->defaultfooterline = 0;
+$mpdf->setFooter('
+    <div style="font-family: sarabun, 
+                sans-serif; font-size: 14pt; 
+                font-style: normal;
+                border-top: none;">
+                {PAGENO} / {nbpg}
+    </div>
+');
+
 // Build the WHERE clause
 $whereClause = [];
 $params = [];
