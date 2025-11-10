@@ -10,6 +10,6 @@
 
             class="bg-green-500 flex h-11 rounded-md text-white hover:bg-sky-600 px-4 text-center justify-center items-center">
 
-            📊 ดาวน์โหลด Excel (CSV)
+            ดาวน์โหลด Excel (CSV)
         </button>
     </form>
