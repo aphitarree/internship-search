@@ -33,13 +33,7 @@ require_once __DIR__ . '/../includes/auth.php';
 
 <body id="page-top" class="bg-gray-100 text-gray-800">
 
-    <?php if (!empty($_SESSION['message'])): ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['message']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['message']); ?>
-    <?php endif; ?>
+
 
     <div id="wrapper" class="min-h-screen flex">
 

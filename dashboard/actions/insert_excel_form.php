@@ -39,10 +39,9 @@ if (isset($_POST['submit'])) {
                 $contact = trim($row[7]);
                 $score = trim($row[8]);
 
-                // 🔍 ค้นหา major_id จากตาราง faculty_program_major
                 $sql_major = "SELECT id FROM faculty_program_major 
-                          WHERE faculty = :faculty AND program = :program AND major = :major 
-                          LIMIT 1";
+                      WHERE faculty = :faculty AND program = :program AND major = :major 
+                      LIMIT 1";
                 $stmt_major = $conn->prepare($sql_major);
                 $stmt_major->bindParam(':faculty', $faculty);
                 $stmt_major->bindParam(':program', $program);
@@ -53,13 +52,14 @@ if (isset($_POST['submit'])) {
                 if ($major_row) {
                     $major_id = $major_row['id'];
                 } else {
-                    $_SESSION['message'] = "ข้อมูลไม่ถูกต้อง: {$faculty} / {$program} / {$major}";
+                    $_SESSION['invalid_rows'][] = "{$organization} / {$province} / {$faculty} / {$program} / {$major} / {$year} / {$total_student} / {$contact} / {$score}";
                     continue;
                 }
 
+                // ✅ Insert ข้อมูล
                 $sql = 'INSERT INTO internship_stats 
-                    (organization, province, major_id, year, total_student, contact, score)
-                    VALUES (:organization, :province, :major_id, :year, :total_student, :contact, :score)';
+                (organization, province, major_id, year, total_student, contact, score)
+                VALUES (:organization, :province, :major_id, :year, :total_student, :contact, :score)';
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':organization', $organization);
                 $stmt->bindParam(':province', $province);
@@ -86,6 +86,11 @@ if (isset($_POST['submit'])) {
             } else {
                 $count = 1;
             }
+        }
+
+        if (!empty($_SESSION['invalid_rows'])) {
+            $invalid_list = implode("<br>", $_SESSION['invalid_rows']);
+            $_SESSION['message'] = "⚠️ ข้อมูลไม่ถูกต้อง:<br>" . $invalid_list;
         }
 
         $_SESSION['massge'] = isset($msg)

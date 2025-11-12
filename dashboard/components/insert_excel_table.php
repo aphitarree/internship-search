@@ -102,6 +102,60 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             </div>
         </div>
     </div>
+    <?php if (!isset($_POST['submit'])): ?>
+        <?php if (isset($_SESSION['invalid_rows']) && count($_SESSION['invalid_rows']) > 0): ?>
+            <div class="bg-white shadow rounded-xl mb-6">
+                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+                        <span class="font-medium">ข้อมูลที่ไม่ถูกต้อง (ไม่สามารถบันทึกได้)</span>
+                    </div>
+                </div>
+
+                <div class="p-4">
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table id="invalidTable" class="min-w-full text-sm text-left text-gray-700">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 font-semibold">NO.</th>
+                                    <th class="px-3 py-2 font-semibold">บริษัท</th>
+                                    <th class="px-3 py-2 font-semibold">จังหวัด</th>
+                                    <th class="px-3 py-2 font-semibold">คณะ</th>
+                                    <th class="px-3 py-2 font-semibold">หลักสูตร</th>
+                                    <th class="px-3 py-2 font-semibold">สาขา</th>
+                                    <th class="px-3 py-2 font-semibold">ปีการศึกษา</th>
+                                    <th class="px-3 py-2 font-semibold">จำนวนที่รับ</th>
+                                    <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
+                                    <th class="px-3 py-2 font-semibold">คะแนน</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <?php foreach ($_SESSION['invalid_rows'] as $i => $row):
+                                    $parts = explode(' / ', $row);
+                                ?>
+                                    <tr>
+                                        <td><?= $i + 1 ?></td>
+                                        <td><?= htmlspecialchars($parts[0] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[1] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[2] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[3] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[4] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[5] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[6] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[7] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($parts[8] ?? '-') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
+                        <?php unset($_SESSION['invalid_rows']); ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
 </section>
 
 <!-- jQuery + DataTables -->
@@ -111,6 +165,24 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 <script>
     $(function() {
         $('#internshipTable').DataTable({
+            pageLength: 10,
+            language: {
+                search: 'ค้นหา:',
+                lengthMenu: 'แสดง _MENU_ แถวต่อหน้า',
+                info: 'แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ แถว',
+                infoEmpty: 'ไม่มีข้อมูล',
+                infoFiltered: '(กรองจากทั้งหมด _MAX_ แถว)',
+                zeroRecords: 'ไม่พบข้อมูลที่ค้นหา',
+                paginate: {
+                    first: 'หน้าแรก',
+                    last: 'หน้าสุดท้าย',
+                    next: 'ถัดไป',
+                    previous: 'ก่อนหน้า'
+                }
+            }
+        });
+
+        $('#invalidTable').DataTable({
             pageLength: 10,
             language: {
                 search: 'ค้นหา:',
