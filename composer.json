@@ -3,6 +3,7 @@
                 "vlucas/phpdotenv": "^5.6",
                 "mpdf/mpdf": "^8.2",
                 "fortawesome/font-awesome": "^7.1",
-                "phpoffice/phpspreadsheet": "^5.2"
+                "phpoffice/phpspreadsheet": "5.1",
+                "maennchen/zipstream-php": "3.1.2"
         }
 }

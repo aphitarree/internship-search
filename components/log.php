@@ -11,7 +11,7 @@ $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'UNKNOWN';
 
 $sql_check =    "SELECT id FROM access_logs 
                 WHERE ip_address = :ip_address 
-                AND created_at >= NOW() - INTERVAL 1 HOUR
+                AND created_at >= NOW() - INTERVAL 1 second
                 LIMIT 1";
 
 $stmt_check = $conn->prepare($sql_check);

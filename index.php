@@ -74,7 +74,8 @@ phpinfo();
             <?php include_once './components/excel_report_button.php' ?>
         </div>
     </div>
-
+    <!-- Keep log -->
+    <?php include_once './components/log.php'; ?>
     <!-- Footer bar -->
     <?php include_once './components/footer.php'; ?>
 </body>
