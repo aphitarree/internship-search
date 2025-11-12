@@ -33,13 +33,7 @@ if (isset($_SESSION['checklogin'])) {
 </head>
 
 <body class="min-h-screen bg-white relative flex flex-col">
-    <?php if (!empty($_SESSION['message'])): ?>
-        <div class="alert alert-warning alert-dismissible fade show my-4" role="alert">
-            <?php echo $_SESSION['message']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            <?php unset($_SESSION['message']); ?>
-        </div>
-    <?php endif; ?>
+
     <!-- Navbar -->
     <?php include dirname(__DIR__) . '/components/navbar.php'; ?>
 
@@ -50,19 +44,29 @@ if (isset($_SESSION['checklogin'])) {
 
         <!-- Main Content -->
         <!-- <div class="flex-1 flex relative"> -->
+
         <div class="mx-auto w-full grid lg:grid-cols-[8fr,9fr]">
             <!-- Background -->
             <img src="../public/images/login_page.jpg" alt="background" class="absolute inset-0 w-full h-full object-cover" />
 
             <!-- Login Box -->
             <div class="relative z-10 bg-white p-12 shadow-xl flex flex-col justify-center space-y-8">
+
                 <h1 class="text-6xl font-bold text-sky-500 text-center">เข้าสู่ระบบ</h1>
+
+
                 <p class="text-2xl text-gray-400 text-center">
                     ฐานข้อมูลการฝึกงานนักศึกษา มหาวิทยาลัยสวนดุสิต
                 </p>
 
                 <form action="<?php echo $baseUrl . '/actions/login_form.php'; ?>" method="POST" class="flex flex-col space-y-6 w-full max-w-lg mx-auto">
-
+                    <?php if (!empty($_SESSION['message'])): ?>
+                        <div class=" rounded-md indent-[1rem] bg-amber-200 z-10 py-2" role="alert">
+                            <?php echo $_SESSION['message']; ?>
+                            <button type="button" class=""></button>
+                            <?php unset($_SESSION['message']); ?>
+                        </div>
+                    <?php endif; ?>
                     <input
                         type="email"
                         name="email"
