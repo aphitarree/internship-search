@@ -55,19 +55,16 @@ require_once __DIR__ . '/../includes/auth.php';
                 <!-- Topbar -->
                 <?php include_once './components/dashboard_navbar.php'; ?>
 
-                <?php include_once './components/table_insert_excel.php' ?>
-
-
-                <form action="<?php echo $baseUrl; ?>/dashboard/actions/insert_excel.php"
+                <form action="<?php echo $baseUrl; ?>/dashboard/actions/insert_excel_form.php"
                     method="POST"
                     enctype="multipart/form-data"
-                    class="w-full bg-white shadow-md rounded-xl p-6 border border-gray-200 mt-6">
+                    class="container mx-auto px-4 py-2 lg:px-8 lg:py-2">
 
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
                         <!-- หัวข้อ -->
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-file-excel text-green-600 text-xl"></i>
-                            <h2 class="text-lg font-semibold text-gray-700">
+                        <div class="">
+                            <h2 class="text-lg font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-file-excel text-green-600 text-xl"></i>
                                 เพิ่มฐานข้อมูลจาก Excel
                             </h2>
                         </div>
@@ -85,7 +82,7 @@ require_once __DIR__ . '/../includes/auth.php';
                             <button
                                 type="submit"
                                 name="submit"
-                                class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-md shadow-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1">
+                                class="flex items-center gap-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-2 rounded-md shadow-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1">
                                 <i class="fas fa-upload"></i>
                                 อัปโหลดไฟล์
                             </button>
@@ -93,10 +90,17 @@ require_once __DIR__ . '/../includes/auth.php';
                     </div>
 
                     <!-- คำแนะนำเล็กๆ ใต้ input -->
-                    <p class="mt-3 text-sm text-gray-500">
-                        รองรับไฟล์ Excel เท่านั้น (.xlsx หรือ .xls)
+                    <p class="mt-2 text-sm text-gray-500">
+                        รองรับไฟล์เฉพาะ Excel เท่านั้น (.xlsx, .xls, และ .csv) โปรดจัดรูปแบบให้ถูกต้องตามคู่มือก่อนอัปโหลด
                     </p>
                 </form>
+
+                <div class="container mx-auto px-4 py-6 lg:px-8 lg:py-2">
+                    <?php include_once './components/insert_excel_table.php' ?>
+                </div>
+
+
+
 
             </div>
 

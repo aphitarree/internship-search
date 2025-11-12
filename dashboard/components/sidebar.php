@@ -62,9 +62,9 @@ $fullUrl = $protocol . $host . $requestUri;
         </div>
 
         <div class="px-2">
-            <a href="page_insert_excel.php"
+            <a href="insert_excel.php"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
-                <?php echo $fullUrl === $baseDashboardUrl . '/page_insert_excel.php'
+                <?php echo $fullUrl === $baseDashboardUrl . '/insert_excel.php'
                     ? 'bg-sky-600/90 shadow-sm'
                     : 'hover:bg-sky-400/70'; ?>">
                 <i class="fas fa-fw fa-chart-area text-sm"></i>
@@ -74,131 +74,6 @@ $fullUrl = $protocol . $host . $requestUri;
 
         <!-- Divider -->
         <div class="sidebar-divider border-t border-sky-400/60 mx-3"></div>
-
-
-        <!-- Interface Heading -->
-        <!-- <div class="sidebar-heading px-4 text-xs font-semibold tracking-wide uppercase text-sky-100/80">
-            Interface
-        </div> -->
-
-        <!-- Components Collapse -->
-        <!-- <div class="px-2">
-
-            <button
-                type="button"
-                class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-sky-400/70 transition"
-                data-collapse-target="sidebar-components">
-                <i class="fas fa-fw fa-cog text-sm"></i>
-                <span class="sidebar-text">Components</span>
-                <span class="sidebar-text ml-auto">
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" data-chevron></i>
-                </span>
-            </button>
-
-            <div id="sidebar-components" class="sidebar-collapse mt-1 space-y-1 pl-9 hidden">
-                <div class="text-[11px] uppercase tracking-wide text-sky-100/80 mt-1 mb-0.5">
-                    Custom Components
-                </div>
-                <a href="buttons.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Buttons
-                </a>
-                <a href="cards.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Cards
-                </a>
-            </div>
-        </div> -->
-
-        <!-- Utilities Collapse -->
-        <!-- <div class="px-2">
-            <button
-                type="button"
-                class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-sky-400/70 transition"
-                data-collapse-target="sidebar-utilities">
-                <i class="fas fa-fw fa-wrench text-sm"></i>
-                <span class="sidebar-text">Utilities</span>
-                <span class="sidebar-text ml-auto">
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" data-chevron></i>
-                </span>
-            </button>
-
-            <div id="sidebar-utilities" class="sidebar-collapse mt-1 space-y-1 pl-9 hidden">
-                <div class="text-[11px] uppercase tracking-wide text-sky-100/80 mt-1 mb-0.5">
-                    Custom Utilities
-                </div>
-                <a href="utilities-color.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Colors
-                </a>
-                <a href="utilities-border.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Borders
-                </a>
-                <a href="utilities-animation.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Animations
-                </a>
-                <a href="utilities-other.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Other
-                </a>
-            </div>
-        </div> -->
-
-        <!-- Divider -->
-        <!-- <div class="sidebar-divider border-t border-sky-400/60 mx-3"></div> -->
-
-        <!-- Addons Heading -->
-        <!-- <div class="sidebar-heading px-4 text-xs font-semibold tracking-wide uppercase text-sky-100/80">
-            Addons
-        </div> -->
-
-        <!-- Pages Collapse -->
-        <!-- <div class="px-2">
-            <button
-                type="button"
-                class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-sky-400/70 transition"
-                data-collapse-target="sidebar-pages">
-                <i class="fas fa-fw fa-folder text-sm"></i>
-                <span class="sidebar-text">Pages</span>
-                <span class="sidebar-text ml-auto">
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" data-chevron></i>
-                </span>
-            </button>
-
-            <div id="sidebar-pages" class="sidebar-collapse mt-1 space-y-1 pl-9 hidden">
-                <div class="text-[11px] uppercase tracking-wide text-sky-100/80 mt-1 mb-0.5">
-                    Login Screens
-                </div>
-                <a href="login.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Login
-                </a>
-                <a href="register.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Register
-                </a>
-                <a href="forgot-password.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Forgot Password
-                </a>
-
-                <div class="border-t border-sky-400/60 my-1.5 mr-3"></div>
-
-                <div class="text-[11px] uppercase tracking-wide text-sky-100/80 mt-1 mb-0.5">
-                    Other Pages
-                </div>
-                <a href="404.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    404 Page
-                </a>
-                <a href="blank.html"
-                    class="block px-3 py-1.5 text-sm rounded-md text-sky-50/90 hover:bg-sky-500/70">
-                    Blank Page
-                </a>
-            </div>
-        </div> -->
     </nav>
 
     <!-- Sidebar Toggle -->

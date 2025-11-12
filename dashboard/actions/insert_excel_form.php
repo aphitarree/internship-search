@@ -92,7 +92,7 @@ if (isset($_POST['submit'])) {
             ? "✅ Successfully Imported"
             : "⚠️ Not Imported";
 
-        header("Location: {$baseUrl}/dashboard/page_insert_excel.php");
+        header("Location: {$baseUrl}/dashboard/insert_excel.php");
         exit;
     }
 }
