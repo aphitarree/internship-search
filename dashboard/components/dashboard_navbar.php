@@ -1,6 +1,27 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__)));
+$dotenv->load();
+require_once __DIR__ . '/../../config/db_config.php';
+
 // ถ้ามี session เก็บชื่อ user อยู่แล้ว สามารถเปลี่ยนตรงนี้ได้ภายหลัง
-$userName = 'Douglas McGee';
+$id = $_SESSION['id'];
+$sql = "
+    SELECT username
+    FROM user
+    WHERE id = :id
+";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(":id", $id);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$userName = $user['username'];
 ?>
 
 <nav class="bg-white shadow-sm border-b border-gray-200 mb-4">
@@ -16,24 +37,6 @@ $userName = 'Douglas McGee';
                 class="inline-flex items-center justify-center w-9 h-9 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 md:hidden">
                 <i class="fa fa-bars text-sm"></i>
             </button>
-
-            <!-- Desktop Search -->
-            <form
-                class="hidden sm:flex items-center flex-1 max-w-md ml-1"
-                onsubmit="return false;">
-                <div class="flex w-full items-center rounded-full bg-gray-100 px-3 py-1.5 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:bg-white transition">
-                    <input
-                        type="text"
-                        class="flex-1 bg-transparent border-none text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
-                        placeholder="Search for..."
-                        aria-label="Search">
-                    <button
-                        type="button"
-                        class="ml-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white text-xs hover:bg-indigo-700 transition">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
-                </div>
-            </form>
         </div>
 
         <!-- Right: Search (mobile icon) + User Menu -->
@@ -48,26 +51,6 @@ $userName = 'Douglas McGee';
                     aria-expanded="false">
                     <i class="fas fa-search fa-fw text-sm"></i>
                 </button>
-
-                <!-- Mobile Search Panel -->
-                <div
-                    id="mobileSearchPanel"
-                    class="hidden absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-lg p-3 z-40">
-                    <form onsubmit="return false;">
-                        <div class="flex w-full items-center rounded-full bg-gray-100 px-3 py-1.5 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:bg-white transition">
-                            <input
-                                type="text"
-                                class="flex-1 bg-transparent border-none text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
-                                placeholder="Search for..."
-                                aria-label="Search">
-                            <button
-                                type="button"
-                                class="ml-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white text-xs hover:bg-indigo-700 transition">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
 
             <!-- Divider -->
@@ -80,10 +63,10 @@ $userName = 'Douglas McGee';
                     type="button"
                     class="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 px-2 py-1 hover:bg-gray-50">
                     <span class="hidden lg:inline text-sm text-gray-700">
-                        <?php echo htmlspecialchars($userName); ?>
+                        <?= htmlspecialchars($userName) ?>
                     </span>
                     <img
-                        src="img/undraw_profile.svg"
+                        src="../public/images/profile-pic.webp"
                         alt="User Avatar"
                         class="w-9 h-9 rounded-full border border-gray-200 object-cover">
                     <i class="fas fa-chevron-down text-[10px] text-gray-400"></i>
@@ -93,7 +76,7 @@ $userName = 'Douglas McGee';
                 <div
                     id="userMenuDropdown"
                     class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1 text-sm">
-                    <a
+                    <!-- <a
                         href="./profile.php"
                         class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -110,7 +93,7 @@ $userName = 'Douglas McGee';
                         class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50">
                         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                         <span>Activity Log</span>
-                    </a>
+                    </a> -->
 
                     <div class="my-1 border-t border-gray-100"></div>
 

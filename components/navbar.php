@@ -1,12 +1,39 @@
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+$baseUrl = $_ENV['BASE_URL'];
+$baseDashboardUrl = $_ENV['BASE_URL'] . '/dashboard' ?? '';
+
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'];
+$requestUri = $_SERVER['REQUEST_URI'];
+
+$fullUrl = $protocol . $host . $requestUri;
+?>
+
 <header class="w-full bg-white border-b shadow-sm relative z-50">
     <nav class="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
         <!-- Logo -->
-        <a href="http://localhost/internship-search-system/" class="flex items-center space-x-3">
-            <img src="public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
-            <span class="text-2xl font-semibold whitespace-nowrap text-gray-900">
-                สำนักส่งเสริมวิชาการและงานทะเบียน
-            </span>
-        </a>
+        <?php if ($fullUrl === $baseDashboardUrl . '/login.php'): ?>
+            <a href="http://localhost/internship-search-system/" class="flex items-center space-x-3">
+                <img src="../public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
+                <span class="text-2xl font-semibold whitespace-nowrap text-gray-900">
+                    สำนักส่งเสริมวิชาการและงานทะเบียน
+                </span>
+            </a>
+        <?php elseif ($fullUrl === $baseUrl . '/'): ?>
+            <a href="http://localhost/internship-search-system/" class="flex items-center space-x-3">
+                <img src="./public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
+                <span class="text-2xl font-semibold whitespace-nowrap text-gray-900">
+                    สำนักส่งเสริมวิชาการและงานทะเบียน
+                </span>
+            </a>
+        <?php endif; ?>
 
         <!-- Hamburger -->
         <button id="menu-toggle" class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none">
