@@ -42,8 +42,17 @@ $mpdf = new \Mpdf\Mpdf([
     'default_font' => 'sarabun',
     'autoScriptToLang' => true,
     'autoLangToFont'   => true,
-
 ]);
+
+$mpdf->defaultfooterline = 0;
+$mpdf->setFooter('
+    <div style="font-family: sarabun, 
+                sans-serif; font-size: 14pt; 
+                font-style: normal;
+                border-top: none;">
+                {PAGENO} / {nbpg}
+    </div>
+');
 
 $sql = "
     SELECT faculty_program_major.faculty, faculty_program_major.program, faculty_program_major.major, internship_stats.
@@ -54,15 +63,6 @@ $sql = "
 
 $stmt = $conn->query($sql);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// จาเขียนไว้เช็คให้เฉย ๆ
-/* function inspect($value) {
-    echo '<pre>';
-    print_r($value);
-    echo '</pre>';
-} */
-
-//inspect($rows[0]);
 
 // Get all company values into a new array
 $allCompany = array_column($rows, 'organization');
