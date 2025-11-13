@@ -74,11 +74,21 @@ try {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     ";
 
+    $sqlFeedback = "
+    CREATE TABLE IF NOT EXISTS `feedback` (
+        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        `is_useful` ENUM('มีประโยชน์', 'ไม่มีประโยชน์') NOT NULL COMMENT 'ประเมินว่ามีประโยชน์หรือไม่',
+        `comment` VARCHAR(200) DEFAULT NULL COMMENT 'คอมเมนต์เพิ่มเติม (จำกัด 200 ตัวอักษร)',
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'วันที่บันทึกข้อมูล'
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+
     // สร้างตารางทั้งหมด
     $conn->exec($sqlFaculty);
     $conn->exec($sqlStats);
     $conn->exec($sqlUser);
     $conn->exec($sqlAccessLogs);
+    $conn->exec($sqlFeedback);
 
     echo "<hr><strong>Setup completed successfully!</strong>";
 } catch (PDOException $e) {
