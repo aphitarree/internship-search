@@ -26,7 +26,7 @@ $fullUrl = $protocol . $host . $requestUri;
                     สำนักส่งเสริมวิชาการและงานทะเบียน
                 </span>
             </a>
-        <?php elseif ($fullUrl === $baseUrl . '/'): ?>
+        <?php elseif (str_starts_with($fullUrl, 'http://localhost/internship-search-system')): ?>
             <a href="http://localhost/internship-search-system/" class="flex items-center space-x-3">
                 <img src="./public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
                 <span class="text-2xl font-semibold whitespace-nowrap text-gray-900">
