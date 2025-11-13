@@ -1,7 +1,7 @@
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
+<footer class="bg-white border-t py-6 mt-auto">
+    <div class="container mx-auto px-4">
+        <div class="text-center text-gray-600 text-sm">
+            <span>&copy; <?php echo date('Y'); ?> ฐานข้อมูลการฝึกงานนักศึกษา มหาวิทยาลัยสวนดุสิต</span>
         </div>
     </div>
 </footer>
