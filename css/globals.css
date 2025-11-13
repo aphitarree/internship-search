@@ -8,10 +8,6 @@ button:focus-visible {
   outline-offset: 2px
 }
 
-.footer-bg-color {
-  background-color: #fcb900 !important;
-}
-
 .kanit-thin {
   font-family: "Kanit", sans-serif;
   font-weight: 100;

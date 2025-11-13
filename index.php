@@ -11,6 +11,9 @@
 
     <title>คลังประวัติการฝึกงาน</title>
 
+    <!-- Font Awesome -->
+    <link href="./vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
+
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
