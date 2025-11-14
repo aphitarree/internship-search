@@ -16,31 +16,47 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $fullUrl = $protocol . $host . $requestUri;
 ?>
 
-<aside id="sidebar" class="w-64 bg-sky-500 text-white flex flex-col min-h-screen shadow-lg transition-all duration-300">
+<!-- Backdrop สำหรับ mobile (คลุมพื้นหลังตอน sidebar เปิด) -->
+<div
+    id="sidebarBackdrop"
+    class="hidden fixed inset-0 bg-black/40 z-30 lg:hidden">
+</div>
 
-    <!-- Sidebar - Brand -->
-    <a href="index.php"
-        class="flex items-center px-4 py-4 border-b border-sky-400/70 gap-3">
-        <div class="flex items-center justify-center">
-            <img src="../public/images/SDU Logo.png"
-                alt="SDU Logo"
-                class="h-10 w-auto">
-        </div>
-        <div class="sidebar-text text-base font-semibold tracking-wide whitespace-nowrap">
-            Internship
-        </div>
-    </a>
+<aside
+    id="sidebar"
+    class="
+        fixed inset-y-0 left-0 z-40
+        w-64 min-w-[16rem] bg-sky-500 text-white flex flex-col shadow-lg
+        transform transition-transform duration-300
+        -translate-x-full
+        lg:translate-x-0
+        lg:relative lg:flex lg:min-h-screen
+    ">
+
+    <!-- Brand + Toggle -->
+    <div class="flex items-center justify-between px-4 py-4 border-b border-sky-400/70 gap-3">
+        <a href="index.php" class="sidebar-brand flex items-center gap-3">
+            <div class="flex items-center justify-center flex-shrink-0">
+                <img src="../public/images/SDU Logo.png"
+                    alt="SDU Logo"
+                    class="h-10 w-auto">
+            </div>
+            <div class="sidebar-text text-base font-semibold tracking-wide">
+                ระบบจัดการฐานข้อมูล
+            </div>
+        </a>
+    </div>
 
     <nav class="flex-1 overflow-y-auto py-3 space-y-3">
         <!-- Interface Heading -->
-        <div class="sidebar-heading px-4 text-xs font-semibold tracking-wide uppercase text-sky-100/80">
+        <div class="sidebar-heading px-4 text-xs text-center font-semibold tracking-wide uppercase text-sky-100/80">
             เมนู
         </div>
 
         <!-- Dashboard -->
         <div class="px-2">
             <a href="index.php"
-                class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
                 <?php echo $fullUrl === $baseDashboardUrl . '/index.php'
                     ? 'bg-sky-600/90 shadow-sm'
                     : 'hover:bg-sky-400/70'; ?>">
@@ -49,105 +65,90 @@ $fullUrl = $protocol . $host . $requestUri;
             </a>
         </div>
 
-        <!-- Charts -->
+        <!-- Users -->
         <div class="px-2">
             <a href="user.php"
-                class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
                 <?php echo $fullUrl === $baseDashboardUrl . '/user.php'
                     ? 'bg-sky-600/90 shadow-sm'
                     : 'hover:bg-sky-400/70'; ?>">
-                <i class="fas fa-fw fa-chart-area text-sm"></i>
+                <i class="fas fa-fw fa-users text-sm"></i>
                 <span class="sidebar-text">ตารางข้อมูลผู้ใช้</span>
             </a>
         </div>
 
+        <!-- Insert Excel -->
         <div class="px-2">
             <a href="insert_excel.php"
-                class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
                 <?php echo $fullUrl === $baseDashboardUrl . '/insert_excel.php'
                     ? 'bg-sky-600/90 shadow-sm'
                     : 'hover:bg-sky-400/70'; ?>">
-                <i class="fas fa-fw fa-chart-area text-sm"></i>
+                <i class="fas fa-fw fa-file-excel text-sm"></i>
                 <span class="sidebar-text">เพิ่มข้อมูล Excel</span>
             </a>
         </div>
 
         <!-- Divider -->
         <div class="sidebar-divider border-t border-sky-400/60 mx-3"></div>
+
+        <!-- ปุ่มย่อ/ขยาย sidebar -->
+        <div class="hidden md:flex items-center justify-center">
+            <!-- ปุ่มนี้เอาไว้ใช้เฉพาะ desktop จะได้ไม่ชนกับ mobile off-canvas -->
+            <button
+                id="sidebarToggle"
+                type="button"
+                class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-sky-400/80 hover:bg-sky-400/60 border border-sky-300/60 transition">
+                <i class="fas fa-angle-double-left text-xs" id="toggleIcon"></i>
+            </button>
+        </div>
     </nav>
 
-    <!-- Sidebar Toggle -->
-    <div class="border-t border-sky-400/60 px-3 py-3">
-        <button
-            id="sidebarToggle"
-            type="button"
-            class="w-8 h-8 flex items-center justify-center rounded-full bg-sky-400/80 hover:bg-sky-400/60 border border-sky-300/60 transition mx-auto">
-            <i class="fas fa-angle-double-left text-xs" id="toggleIcon"></i>
-        </button>
-    </div>
 </aside>
 
 <script>
-    // จัดการ collapse menu (Components / Utilities / Pages)
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('[data-collapse-target]').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const targetId = this.getAttribute('data-collapse-target');
-                const target = document.getElementById(targetId);
-                if (!target) return;
-
-                target.classList.toggle('hidden');
-
-                const chevron = this.querySelector('[data-chevron]');
-                if (chevron) {
-                    chevron.classList.toggle('rotate-180');
-                }
-            });
-        });
-
-        // Sidebar Toggle - ย่อ/ขยาย
+        // Toggle แสดง/ย่อ sidebar (desktop)
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('sidebar');
         const toggleIcon = document.getElementById('toggleIcon');
 
         if (sidebarToggle && sidebar) {
             sidebarToggle.addEventListener('click', () => {
-                // Toggle ความกว้าง
-                sidebar.classList.toggle('w-64');
-                sidebar.classList.toggle('w-15');
+                const isCollapsed = sidebar.classList.contains('w-16');
 
-                // Toggle การแสดงผล text ทั้งหมด
+                if (isCollapsed) {
+                    // ขยายกลับ
+                    sidebar.classList.remove('w-16', 'min-w-[4rem]');
+                    sidebar.classList.add('w-64', 'min-w-[16rem]');
+                } else {
+                    // ย่อเหลือไอคอน
+                    sidebar.classList.remove('w-64', 'min-w-[16rem]');
+                    sidebar.classList.add('w-16', 'min-w-[4rem]');
+                }
+
+                // ซ่อน/แสดง text ทั้งหมด
                 const texts = sidebar.querySelectorAll('.sidebar-text');
-                const headings = sidebar.querySelectorAll('.sidebar-heading');
-                const dividers = sidebar.querySelectorAll('.sidebar-divider');
-                const collapses = sidebar.querySelectorAll('.sidebar-collapse');
+                texts.forEach(text => text.classList.toggle('hidden'));
 
-                texts.forEach(text => {
-                    text.classList.toggle('hidden');
+                // จัด layout ให้ icon อยู่ตรงกลางตอนย่อ
+                const links = sidebar.querySelectorAll('.sidebar-link');
+                links.forEach(link => {
+                    link.classList.toggle('justify-center'); // icon กลางตอนย่อ
                 });
 
-                headings.forEach(heading => {
-                    heading.classList.toggle('hidden');
-                });
-
-                dividers.forEach(divider => {
-                    divider.classList.toggle('hidden');
-                });
-
-                // ซ่อน collapse menu ทั้งหมดเมื่อย่อ sidebar
-                collapses.forEach(collapse => {
-                    if (sidebar.classList.contains('w-20')) {
-                        collapse.classList.add('hidden');
-                    }
-                });
+                const brand = sidebar.querySelector('.sidebar-brand');
+                if (brand) {
+                    brand.classList.toggle('justify-center');
+                }
 
                 // เปลี่ยนทิศทางลูกศร
-                if (sidebar.classList.contains('w-20')) {
-                    toggleIcon.classList.remove('fa-angle-double-left');
-                    toggleIcon.classList.add('fa-angle-double-right');
-                } else {
+                if (isCollapsed) {
                     toggleIcon.classList.remove('fa-angle-double-right');
                     toggleIcon.classList.add('fa-angle-double-left');
+                } else {
+                    toggleIcon.classList.remove('fa-angle-double-left');
+                    toggleIcon.classList.add('fa-angle-double-right');
                 }
             });
         }

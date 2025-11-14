@@ -10,16 +10,6 @@ $dotenv->load();
 $baseUrl = $_ENV['BASE_URL'] ?? '';
 ?>
 
-<!-- DataTables CSS -->
-<link
-    rel="stylesheet"
-    href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-
-<!-- Choices.js CSS สำหรับ dropdown สวย ๆ + searchable -->
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-
 <section class="mt-4">
     <!-- ตารางข้อมูลผู้ใช้ -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

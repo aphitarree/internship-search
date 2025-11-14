@@ -25,8 +25,11 @@ if (isset($_SESSION['checklogin'])) {
 <html lang="th">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="../public/images/favicon.ico">
+
     <title>เข้าสู่ระบบ - ฐานข้อมูลการฝึกงานนักศึกษา</title>
     <!-- Font Awesome -->
     <link href="../vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">

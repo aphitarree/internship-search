@@ -9,8 +9,9 @@ require_once __DIR__ . '/../includes/auth.php';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="../public/images/favicon.ico">
 
-    <title>Internship Dashboard</title>
+    <title>แดชบอร์ดฐานข้อมูลฝึกงาน</title>
 
     <!-- Font Awesome -->
     <link href="../vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
@@ -18,8 +19,11 @@ require_once __DIR__ . '/../includes/auth.php';
     <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- DataTables + jQuery (CDN)  -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
     <style>
-        /* ซ่อน scrollbar ของ table container ให้ดูเนียนขึ้น (แล้วแต่ชอบ) */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -28,11 +32,15 @@ require_once __DIR__ . '/../includes/auth.php';
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        .dataTables_wrapper input {
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 
 <body id="page-top" class="bg-gray-100 text-gray-800">
-    <div id="wrapper" class="min-h-screen flex">
+    <div id="wrapper" class="min-h-screen flex flex-col md:flex-row">
 
         <!-- Sidebar -->
         <?php include_once './components/sidebar.php'; ?>

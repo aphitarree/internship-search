@@ -44,6 +44,8 @@ $mpdf = new \Mpdf\Mpdf([
     'autoLangToFont'   => true,
 ]);
 
+$mpdf->SetTitle('รายงานประวัติการฝึกงาน');
+
 $mpdf->defaultfooterline = 0;
 $mpdf->setFooter('
     <div style="font-family: sarabun, 

@@ -24,34 +24,44 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $userName = $user['username'];
 ?>
 
-<nav class="bg-white shadow-sm border-b border-gray-200 mb-4">
-    <div class="px-4 lg:px-6 py-2 flex items-center justify-between gap-3">
+<nav class="flex items-center justify-between bg-white shadow-sm border-b border-gray-200 pt-2 pb-1 px-2 sm:px-4">
+    <div class="flex items-center gap-3 flex-1 min-w-0">
 
-        <!-- Left: Sidebar Toggle (mobile) + Search (desktop) -->
-        <div class="flex items-center gap-3 flex-1 min-w-0">
+        <!-- Mobile Sidebar Toggle -->
+        <button
+            id="sidebarToggleTop"
+            type="button"
+            class="inline-flex items-center justify-center w-9 h-9 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 lg:hidden">
+            <i class="fa fa-bars text-sm"></i>
+        </button>
 
-            <!-- Mobile Sidebar Toggle -->
-            <button
-                id="sidebarToggleTop"
-                type="button"
-                class="inline-flex items-center justify-center w-9 h-9 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 md:hidden">
-                <i class="fa fa-bars text-sm"></i>
-            </button>
+        <!-- Mobile Brand (ข้อมูลจาก sidebar) -->
+        <div class="flex items-center gap-2 md:hidden">
+            <img
+                src="../public/images/SDU Logo.png"
+                alt="SDU"
+                class="h-8 w-auto">
+            <div class="flex flex-col leading-tight">
+                <span class="text-sm font-semibold text-gray-800">
+                    ระบบจัดการฐานข้อมูล
+                </span>
+            </div>
         </div>
 
-        <!-- Right: Search (mobile icon) + User Menu -->
-        <div class="flex items-center gap-3">
+        <!-- Home Link (ซ่อนบนจอเล็ก, โชว์บน sm ขึ้นไป) -->
+        <a
+            href="<?php echo $_ENV['BASE_URL']; ?>/"
+            class="sm:inline-flex items-center gap-2 ml-2 text-sm text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md transition">
+            <i class="fas fa-home text-base"></i>
+            <span class="sm:inline">หน้าหลัก</span>
+        </a>
 
-            <!-- Mobile Search Icon -->
-            <div class="relative sm:hidden">
-                <button
-                    type="button"
-                    id="mobileSearchToggle"
-                    class="inline-flex items-center justify-center w-9 h-9 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    aria-expanded="false">
-                    <i class="fas fa-search fa-fw text-sm"></i>
-                </button>
-            </div>
+    </div>
+
+    <div class="px-2 lg:px-4 py-2 flex items-center justify-end gap-3">
+
+        <!-- User Menu -->
+        <div class="flex items-center gap-3">
 
             <!-- Divider -->
             <div class="hidden sm:block w-px h-7 bg-gray-200"></div>
@@ -76,24 +86,6 @@ $userName = $user['username'];
                 <div
                     id="userMenuDropdown"
                     class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1 text-sm">
-                    <!-- <a
-                        href="./profile.php"
-                        class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                        <span>Profile</span>
-                    </a>
-                    <a
-                        href="#"
-                        class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50">
-                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                        <span>Settings</span>
-                    </a>
-                    <a
-                        href="#"
-                        class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50">
-                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                        <span>Activity Log</span>
-                    </a> -->
 
                     <div class="my-1 border-t border-gray-100"></div>
 
@@ -145,7 +137,7 @@ $userName = $user['username'];
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Mobile search toggle
+        // Mobile search toggle (ถ้าไม่มี element ก็ไม่ทำอะไร)
         const mobileSearchToggle = document.getElementById('mobileSearchToggle');
         const mobileSearchPanel = document.getElementById('mobileSearchPanel');
 
@@ -213,14 +205,32 @@ $userName = $user['username'];
             });
         }
 
-        // Mobile sidebar toggle: ซ่อน/แสดง aside ตอนหน้าจอเล็ก
+        // Mobile sidebar toggle
         const sidebarToggleTop = document.getElementById('sidebarToggleTop');
-        const aside = document.querySelector('aside');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
-        if (sidebarToggleTop && aside) {
+        if (sidebarToggleTop && sidebar) {
             sidebarToggleTop.addEventListener('click', () => {
-                // toggle แค่บน mobile (md:hidden/ md:block จะไปจัดที่ layout ถ้าอยากเพิ่ม)
-                aside.classList.toggle('hidden');
+                const isOpen = !sidebar.classList.contains('-translate-x-full');
+
+                if (isOpen) {
+                    // ปิด
+                    sidebar.classList.add('-translate-x-full');
+                    if (sidebarBackdrop) sidebarBackdrop.classList.add('hidden');
+                } else {
+                    // เปิด
+                    sidebar.classList.remove('-translate-x-full');
+                    if (sidebarBackdrop) sidebarBackdrop.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Close when clicking backdrop
+        if (sidebarBackdrop && sidebar) {
+            sidebarBackdrop.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                sidebarBackdrop.classList.add('hidden');
             });
         }
     });
