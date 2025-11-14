@@ -7,7 +7,7 @@
             </strong>
             <br>
             <strong class="text-sm tracking-wide uppercase text-stone-950 dark:text-gray-400">
-                THE OFFICE OF ACADEหMIC PROMOTION AND REGISTRATION
+                THE OFFICE OF ACADEMIC PROMOTION AND REGISTRATION
             </strong>
         </p>
 
