@@ -17,25 +17,31 @@
         <!-- ข้อความรายละเอียด (ซ้าย) -->
         <div class="lg:w-1/2 space-y-3 text-center lg:text-left">
             <p>
-                <strong class="text-xl font-semibold text-red-700 dark:text-sky-400">
+                <strong class="text-lg font-semibold text-red-700 dark:text-sky-400">
                     สำนักส่งเสริมวิชาการและงานทะเบียน
-                </strong><br>
-
-                <strong class="text-xl uppercase text-stone-950 dark:text-gray-400">
+                </strong>
+                <br>
+                <strong class="text-sm tracking-wide uppercase text-stone-950 dark:text-gray-400">
                     THE OFFICE OF ACADEMIC PROMOTION AND REGISTRATION
                 </strong>
             </p>
 
-            <address class="not-italic text-lg leading-relaxed">
+            <!-- University, Address -->
+            <p class="text-sm leading-relaxed">
+            <address class="not-italic">
                 มหาวิทยาลัยสวนดุสิต<br>
                 295 ถนนนครราชสีมา เขตดุสิต กรุงเทพฯ 10300<br>
                 โทร. 02-244-5172-5<br>
-                e-mail:
-                <a href="mailto:saraban-reg@dusit.ac.th" class="text-sky-600 hover:underline">
-                    saraban-reg@dusit.ac.th
-                </a><br>
-                เปิดบริการ วันจันทร์ – ศุกร์ เวลา 08.30 – 16.30 น.
             </address>
+            e-mail:
+            <a href="mailto:saraban-reg@dusit.ac.th"
+                class="text-sky-600 hover:underline">
+                saraban-reg@dusit.ac.th
+            </a>
+            <br>
+            เปิดบริการ วันจันทร์ – ศุกร์ เวลา 08.30 – 16.30 น.
+            </p>
+
             <!-- Social hyperlink icons -->
             <section class="flex gap-2">
                 <!-- Facebook -->
