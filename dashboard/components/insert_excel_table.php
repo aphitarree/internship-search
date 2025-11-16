@@ -53,6 +53,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                 <th class="px-3 py-2 font-semibold">สาขา</th>
                                 <th class="px-3 py-2 font-semibold">ปีการศึกษา</th>
                                 <th class="px-3 py-2 font-semibold">จำนวนที่รับ</th>
+                                <th class="px-3 py-2 font-semibold">MOU</th>
                                 <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
                                 <th class="px-3 py-2 font-semibold">คะแนน</th>
                             </tr>
@@ -71,6 +72,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                         <td><?= htmlspecialchars($row['major']) ?></td>
                                         <td><?= htmlspecialchars($row['year']) ?></td>
                                         <td><?= htmlspecialchars($row['total_student']) ?></td>
+                                        <td><?= htmlspecialchars($row['mou_status']) ?></td>
                                         <td class="cell-contact"><?= htmlspecialchars($row['contact']) ?></td>
                                         <td><?= htmlspecialchars($row['score']) ?></td>
                                     </tr>
@@ -112,6 +114,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                     <th class="px-3 py-2 font-semibold">สาขา</th>
                                     <th class="px-3 py-2 font-semibold">ปีการศึกษา</th>
                                     <th class="px-3 py-2 font-semibold">จำนวนที่รับ</th>
+                                    <th class="px-3 py-2 font-semibold">MOU</th>
                                     <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
                                     <th class="px-3 py-2 font-semibold">คะแนน</th>
                                 </tr>
@@ -129,6 +132,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                         <td><?= htmlspecialchars($row['major'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($row['year'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($row['total_student'] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($row['mou_status'] ?? '-') ?></td>
                                         <td class="cell-contact"><?= htmlspecialchars($row['contact'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($row['score'] ?? '-') ?></td>
 

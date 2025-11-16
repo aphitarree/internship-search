@@ -17,18 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$organization   = trim($_POST['organization'] ?? '');
-$province       = trim($_POST['province'] ?? '');
-$faculty        = trim($_POST['faculty'] ?? '');
-$program        = trim($_POST['program'] ?? '');
-$major          = trim($_POST['major'] ?? '');
-$yearRaw        = trim($_POST['year'] ?? '');
-$totalRaw       = $_POST['total_student'] ?? '';
-$score          = trim($_POST['score'] ?? '');
-$contact        = trim($_POST['contact'] ?? '');
+$organization = trim($_POST['organization'] ?? '');
+$province = trim($_POST['province'] ?? '');
+$faculty = trim($_POST['faculty'] ?? '');
+$program = trim($_POST['program'] ?? '');
+$major = trim($_POST['major'] ?? '');
+$yearRaw = trim($_POST['year'] ?? '');
+$totalRaw = $_POST['total_student'] ?? '';
+$mouStatus = trim($_POST['mou_status'] ?? '');
+$score = trim($_POST['score'] ?? '');
+$contact = trim($_POST['contact'] ?? '');
 
 $year = (ctype_digit($yearRaw) ? (int)$yearRaw : 0);
-$total_student = (ctype_digit((string)$totalRaw) ? (int)$totalRaw : 0);
+$totalStudent = (ctype_digit((string)$totalRaw) ? (int)$totalRaw : 0);
 
 if (
     $organization === '' ||
@@ -37,7 +38,8 @@ if (
     $program === '' ||
     $major === '' ||
     $year <= 0 ||
-    $total_student <= 0
+    $totalStudent <= 0 ||
+    $mouStatus === ''
 ) {
     echo json_encode([
         'success' => false,
@@ -70,8 +72,8 @@ try {
         SELECT id
         FROM faculty_program_major
         WHERE faculty = :faculty
-          AND program = :program
-          AND major   = :major
+            AND program = :program
+            AND major   = :major
         LIMIT 1
     ";
     $stmtMajor = $conn->prepare($sqlMajor);
@@ -93,18 +95,19 @@ try {
 
     $sql = "
         INSERT INTO internship_stats
-            (organization, province, major_id, year, total_student, contact, score)
+            (organization, province, major_id, year, total_student, mou_status, contact, score)
         VALUES
-            (:organization, :province, :major_id, :year, :total_student, :contact, :score)
+            (:organization, :province, :major_id, :year, :total_student, :mou_status, :contact, :score)
     ";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':organization',  $organization,   PDO::PARAM_STR);
-    $stmt->bindParam(':province',      $province,       PDO::PARAM_STR);
-    $stmt->bindParam(':major_id',      $majorId,        PDO::PARAM_INT);
-    $stmt->bindParam(':year',          $year,           PDO::PARAM_INT);
-    $stmt->bindParam(':total_student', $total_student,  PDO::PARAM_INT);
-    $stmt->bindParam(':contact',       $contact,        PDO::PARAM_STR);
+    $stmt->bindParam(':organization', $organization, PDO::PARAM_STR);
+    $stmt->bindParam(':province', $province, PDO::PARAM_STR);
+    $stmt->bindParam(':major_id', $majorId, PDO::PARAM_INT);
+    $stmt->bindParam(':year', $year, PDO::PARAM_INT);
+    $stmt->bindParam(':total_student', $totalStudent,  PDO::PARAM_INT);
+    $stmt->bindParam(':mou_status', $mouStatus, PDO::PARAM_STR);
+    $stmt->bindParam(':contact', $contact, PDO::PARAM_STR);
 
     if ($score === '') {
         $scoreToSave = "0";

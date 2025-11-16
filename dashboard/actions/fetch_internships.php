@@ -34,9 +34,9 @@ $columnsMap = [
     5 => 'faculty_program_major.major',
     6 => 'internship_stats.year',
     7 => 'internship_stats.total_student',
-    8 => 'internship_stats.contact',
-    9 => 'internship_stats.score',
-    10 => 'internship_stats.id',
+    8 => 'internship_stats.mou_status',
+    9 => 'internship_stats.contact',
+    10 => 'internship_stats.score',
 ];
 
 $orderColumnIndex = isset($request['order'][0]['column']) ? (int)$request['order'][0]['column'] : 0;
@@ -69,12 +69,14 @@ if ($searchValue !== '') {
         WHERE
             internship_stats.organization LIKE :search
             OR internship_stats.province LIKE :search
-            OR internship_stats.contact LIKE :search
-            OR internship_stats.score LIKE :search
-            OR internship_stats.year LIKE :search
             OR faculty_program_major.faculty LIKE :search
             OR faculty_program_major.program LIKE :search
             OR faculty_program_major.major LIKE :search
+            OR internship_stats.contact LIKE :search
+            OR CAST(internship_stats.total_student AS CHAR)  LIKE :search
+            OR internship_stats.year LIKE :search
+            OR CAST(internship_stats.year AS CHAR)  LIKE :search
+            OR CAST(internship_stats.score AS CHAR) LIKE :search
     ";
     $params[':search'] = '%' . $searchValue . '%';
 }
@@ -94,15 +96,16 @@ $recordsFiltered = (int)$stmtFiltered->fetchColumn();
 $sqlData = "
     SELECT
         internship_stats.id,
+        internship_stats.organization,
+        internship_stats.province,
         faculty_program_major.faculty,
         faculty_program_major.program,
         faculty_program_major.major,
-        internship_stats.organization,
-        internship_stats.province,
-        internship_stats.contact,
-        internship_stats.score,
         internship_stats.year,
-        internship_stats.total_student
+        internship_stats.total_student,
+        internship_stats.mou_status,
+        internship_stats.contact,
+        internship_stats.score
     " . $baseFrom . ' ' . $where . "
     ORDER BY $orderColumn $orderDir
     LIMIT :start, :length
@@ -129,6 +132,7 @@ while ($row = $stmtData->fetch(PDO::FETCH_ASSOC)) {
         'major' => $row['major'],
         'year' => $row['year'],
         'total_student' => $row['total_student'],
+        'mou_status' => $row['mou_status'],
         'contact' => $row['contact'],
         'score' => $row['score'],
     ];

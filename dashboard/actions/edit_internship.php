@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../config/db_config.php';
 
@@ -26,6 +29,7 @@ $program = trim($_POST['program'] ?? '');
 $major = trim($_POST['major'] ?? '');
 $yearInput = trim($_POST['year'] ?? '');
 $totalStudentInput = trim($_POST['total_student'] ?? '');
+$mouStatus = trim($_POST['mou_status'] ?? '');
 $score = trim($_POST['score'] ?? '');
 $contact = trim($_POST['contact'] ?? '');
 
@@ -38,9 +42,9 @@ if ($id <= 0) {
 }
 
 try {
-    // Fetch current year and total_student for prevent inserting null value to the database
+    // Fetch current year, total_student, mou_status for prevent inserting null value to the database
     $stmtCurrentData = $conn->prepare("
-        SELECT year, total_student
+        SELECT year, total_student, mou_status
         FROM internship_stats
         WHERE id = :id
         LIMIT 1
@@ -69,6 +73,13 @@ try {
         $totalStudent = (int)$totalStudentInput;
     } else {
         $totalStudent = (int)$currentData['total_student'];
+    }
+
+    // If mouStatus is null then insert the current total student data from the database
+    if ($mouStatus === '') {
+        $mouStatusToSave = $currentData['mou_status'];
+    } else {
+        $mouStatusToSave = $mouStatus;
     }
 
     // If the faculty, program, and major is null eject the insertion
@@ -116,6 +127,7 @@ try {
             province       = :province,
             year           = :year,
             total_student  = :total_student,
+            mou_status     = :mou_status,
             score          = :score,
             contact        = :contact
         WHERE id = :id
@@ -127,6 +139,7 @@ try {
     $stmt->bindParam(':province', $province, PDO::PARAM_STR);
     $stmt->bindParam(':year', $year, PDO::PARAM_INT);
     $stmt->bindParam(':total_student', $totalStudent, PDO::PARAM_INT);
+    $stmt->bindParam(':mou_status', $mouStatusToSave, PDO::PARAM_STR);
     if ($score === '') {
         $stmt->bindValue(':score', null, PDO::PARAM_NULL);
     } else {
@@ -147,6 +160,7 @@ try {
             'major' => $major,
             'year' => $year,
             'total_student' => $totalStudent,
+            'mou_status' => $mouStatusToSave,
             'score' => $score === '' ? null : $score,
             'contact' => $contact,
         ]

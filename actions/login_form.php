@@ -42,10 +42,9 @@ if (!empty($email) && !empty($password)) {
                 setcookie('remember_token', '', time() - 3600, '/');
             }
 
-            if ($user['role'] === 'admin') {
+            if ($user['role'] === 'admin' || $user['role'] === 'user') {
                 header("Location: {$baseUrl}/dashboard");
             } else {
-                // header("Location: {$baseUrl}/index.php");
                 header("Location: {$baseUrl}/index.php");
             }
 

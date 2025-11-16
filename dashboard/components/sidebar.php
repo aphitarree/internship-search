@@ -66,16 +66,19 @@ $fullUrl = $protocol . $host . $requestUri;
         </div>
 
         <!-- Users -->
-        <div class="px-2">
-            <a href="user.php"
-                class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
-                <?php echo $fullUrl === $baseDashboardUrl . '/user.php'
-                    ? 'bg-sky-600/90 shadow-sm'
-                    : 'hover:bg-sky-400/70'; ?>">
-                <i class="fas fa-fw fa-users text-sm"></i>
-                <span class="sidebar-text">ตารางข้อมูลผู้ใช้</span>
-            </a>
-        </div>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <div class="px-2">
+                <a href="user.php"
+                    class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                    <?php echo $fullUrl === $baseDashboardUrl . '/user.php'
+                        ? 'bg-sky-600/90 shadow-sm'
+                        : 'hover:bg-sky-400/70'; ?>">
+                    <i class="fas fa-fw fa-users text-sm"></i>
+                    <span class="sidebar-text">ตารางข้อมูลผู้ใช้</span>
+                </a>
+            </div>
+        <?php endif; ?>
+
 
         <!-- Insert Excel -->
         <div class="px-2">
