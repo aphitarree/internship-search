@@ -1,15 +1,3 @@
-<?php
-// index.php
-?>
-<!DOCTYPE html>
-<html lang="th" class="dark">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Form</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
 <!-- FOOTER -->
 <footer class="text-gray-800 dark:text-gray-200 bg-neutral-800 py-8">
     <div class="max-w-screen-xl mx-auto flex flex-col lg:flex-row lg:justify-start gap-5">
