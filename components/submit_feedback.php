@@ -38,13 +38,13 @@ try {
         throw new Exception('คุณเพิ่งส่ง feedback ไปเมื่อไม่นานนี้ โปรดลองอีกครั้งภายหลัง');
     }
 
-    $sql = "INSERT INTO feedback (is_useful, comment, ip_address, user_id) 
-            VALUES (:is_useful, :comment, :ip_address, :user_id)";
+    $sql = "INSERT INTO feedback (is_useful, comment, ip_address) 
+            VALUES (:is_useful, :comment, :ip_address)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':is_useful', $is_useful, PDO::PARAM_STR);
     $stmt->bindValue(':comment', $comment, $comment === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
     $stmt->bindParam(':ip_address', $ip_address, PDO::PARAM_STR);
-    $stmt->bindValue(':user_id', $user_id, $user_id === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+    // $stmt->bindValue(':user_id', $user_id, $user_id === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
 
     if ($stmt->execute()) {
         $response['status'] = 'success';
