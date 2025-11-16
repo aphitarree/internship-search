@@ -43,8 +43,8 @@
         </h1>
     </section>
 
-    <div class="md:container md:mx-auto">
-        <main class="mx-auto w-full max-w-[1900px] px-4 py-2 mt-4 grid grid-cols-1 gap-6 lg:grid-cols-[1fr,1fr] lg:gap-8">
+    <section class="md:container md:mx-auto">
+        <main class="mx-auto w-full max-w-[1900px] px-4 py-2 mt-4 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
             <section class="flex flex-col justify-center md:text-center lg:text-left">
                 <h1 class="text-5xl leading-[1.3] my-5 font-bold">
                     <span class="inline-block">ฐานข้อมูล</span><span class="inline-block">การฝึกงาน</span><span class="inline-block">นักศึกษา</span><span class="inline-block">มหาวิทยาลัย</span><span class="inline-block">สวนดุสิต</span>
@@ -69,14 +69,15 @@
         <!-- Datatables -->
         <?php include_once './components/datatables.php' ?>
 
-        <div class="flex flex-col justify-center items-center gap-4 md:flex-row md:gap-6 my-6">
+        <section class="flex flex-row justify-center items-center gap-4 md:flex-row md:gap-6 my-6">
             <!-- Download pdf report -->
             <?php include_once './components/pdf_report_button.php' ?>
 
             <!-- Excel Button-->
             <?php include_once './components/excel_report_button.php' ?>
-        </div>
-    </div>
+        </section>
+    </section>
+
     <!-- Keep log -->
     <?php include_once './components/log.php'; ?>
     <!-- Footer bar -->

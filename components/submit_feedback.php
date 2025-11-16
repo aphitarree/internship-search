@@ -35,7 +35,7 @@ try {
     $stmt_check->execute();
 
     if ($stmt_check->rowCount() > 0) {
-        throw new Exception('คุณเพิ่งส่ง feedback ไปเมื่อไม่นานนี้ โปรดลองอีกครั้งภายหลัง');
+        throw new Exception('คุณได้ส่ง Feedback ไปแล้ว กรุณารอสักครู่ก่อนส่งใหม่อีกครั้ง');
     }
 
     $sql = "INSERT INTO feedback (is_useful, comment, ip_address) 

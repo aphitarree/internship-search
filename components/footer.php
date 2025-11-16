@@ -30,7 +30,7 @@
             </p>
 
             <!-- Social hyperlink icons -->
-            <section class="flex gap-2">
+            <section class="sm:flex sm:content-center sm:items-center sm:justify-center lg:inline gap-2 sm:mb-8">
                 <!-- Facebook -->
                 <a
                     href="https://www.facebook.com/regis.suandusit"

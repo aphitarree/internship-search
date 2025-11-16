@@ -55,7 +55,7 @@ require_once __DIR__ . '/../includes/auth.php';
 
                 <!-- Begin Page Content -->
                 <div class="container mx-auto px-4 py-6 lg:px-8 lg:py-8">
-                    <div class="grid grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="col-span-1">
                             <?php include_once '../components/chart.php' ?>
                         </div>
