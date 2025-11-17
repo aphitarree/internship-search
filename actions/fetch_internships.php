@@ -34,6 +34,7 @@ try {
         8 => 'internship_stats.mou_status',
         9 => 'internship_stats.contact',
         10 => 'internship_stats.score',
+        11 => 'internship_stats.affiliation',
     ];
 
     $orderParts = [];
@@ -69,7 +70,8 @@ try {
             CAST(internship_stats.total_student AS CHAR)  LIKE :query OR
             internship_stats.mou_status LIKE :query OR
             CAST(internship_stats.year AS CHAR)  LIKE :query OR
-            CAST(internship_stats.score AS CHAR) LIKE :query
+            CAST(internship_stats.score AS CHAR) LIKE :query 
+            CAST(internship_stats.affiliation AS CHAR) LIKE :query 
         )';
         $params[':query'] = '%' . $query . '%';
     }
@@ -144,7 +146,8 @@ try {
             internship_stats.total_student,
             internship_stats.mou_status,
             internship_stats.contact,
-            internship_stats.score
+            internship_stats.score,
+            internship_stats.affiliation
         FROM internship_stats
         INNER JOIN faculty_program_major
             ON internship_stats.major_id = faculty_program_major.id
@@ -175,6 +178,7 @@ try {
             'mou_status'     => $row['mou_status'] ?? '',
             'contact'        => $row['contact'] ?? '',
             'score'          => (string)($row['score'] ?? ''),
+            'affiliation'    => $row['affiliation'] ?? '',
         ], $rows),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 } catch (Throwable $e) {

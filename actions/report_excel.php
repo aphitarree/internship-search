@@ -61,6 +61,7 @@ $sql = "
         internship_stats.year,
         internship_stats.total_student,
         internship_stats.mou_status,
+        internship_stats.affiliation,
         internship_stats.contact,
         internship_stats.score
     FROM internship_stats
@@ -83,7 +84,7 @@ $output = fopen('php://output', 'w');
 fwrite($output, "\xEF\xBB\xBF");
 
 // CSV column names
-fputcsv($output, ['บริษัท', 'จังหวัด', 'คณะ', 'หลักสูตร', 'สาขา', 'ปีการศึกษา', 'จำนวนที่รับ', 'MOU', 'ข้อมูลการติดต่อ', 'คะแนน']);
+fputcsv($output, ['บริษัท', 'จังหวัด', 'คณะ', 'หลักสูตร', 'สาขา', 'ปีการศึกษา', 'จำนวนที่รับ', 'MOU', 'ข้อมูลการติดต่อ', 'คะแนน', 'สังกัด']);
 
 // Write the data to the CSV file
 foreach ($data as $row) {
@@ -98,6 +99,7 @@ foreach ($data as $row) {
         $row['mou_status'],
         $row['contact'],
         $row['score'],
+        $row['affiliation'],
     ]);
 }
 

@@ -56,6 +56,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                 <th class="px-3 py-2 font-semibold">MOU</th>
                                 <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
                                 <th class="px-3 py-2 font-semibold">คะแนน</th>
+                                <th class="px-3 py-2 font-semibold">สังกัด</th>
                             </tr>
                         </thead>
 
@@ -75,6 +76,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                         <td><?= htmlspecialchars($row['mou_status']) ?></td>
                                         <td class="cell-contact"><?= htmlspecialchars($row['contact']) ?></td>
                                         <td><?= htmlspecialchars($row['score']) ?></td>
+                                        <td><?= htmlspecialchars($row['affiliation']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -117,6 +119,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                     <th class="px-3 py-2 font-semibold">MOU</th>
                                     <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
                                     <th class="px-3 py-2 font-semibold">คะแนน</th>
+                                    <th class="px-3 py-2 font-semibold">สังกัด</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -135,6 +138,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                         <td><?= htmlspecialchars($row['mou_status'] ?? '-') ?></td>
                                         <td class="cell-contact"><?= htmlspecialchars($row['contact'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($row['score'] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($row['affiliation'] ?? '-') ?></td>
 
                                     </tr>
                                 <?php endforeach; ?>

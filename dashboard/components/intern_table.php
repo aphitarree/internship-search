@@ -79,6 +79,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                             <th class="px-3 py-2 font-semibold">MOU</th>
                             <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
                             <th class="px-3 py-2 font-semibold">คะแนน</th>
+                            <th class="px-3 py-2 font-semibold">สังกัด</th>
                             <th class="px-3 py-2 font-semibold">วันที่สร้าง</th>
                             <th class="px-3 py-2 font-semibold text-center"></th>
                         </tr>
@@ -203,6 +204,17 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
                     </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">สังกัด</label>
+                        <select
+                            name="affiliation"
+                            id="add-affiliation"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required>
+                            <option value="">-เลือกสังกัด-</option>
+                        </select>
+                    </div>
+
                 </div>
 
                 <div>
@@ -311,14 +323,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
-                        <!-- <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
-                        <select
-                            name="year"
-                            id="edit-year"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required>
-                            <option value="">-เลือกปีการศึกษา-</option>
-                        </select> -->
                         <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
                         <input
                             type="number"
@@ -357,6 +361,16 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                             id="edit-score"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">สังกัด</label>
+                        <select
+                            name="affiliation"
+                            id="edit-affiliation"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required>
+                            <option value="">-เลือกสังกัด-</option>
+                        </select>
                     </div>
                 </div>
 
@@ -530,6 +544,12 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         "ไม่ระบุ",
     ]
 
+    const affiliationOptions = [
+        "ภาครัฐ",
+        "ภาคเอกชน",
+        "รัฐวิสาหกิจ",
+    ]
+
     const sortChoice = (a, b) => {
         if (a.value === '' && b.value !== '') return -1;
         if (a.value !== '' && b.value === '') return 1;
@@ -542,8 +562,9 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         const programSelect = document.getElementById(prefix + '-program');
         const provinceSelect = document.getElementById(prefix + '-province');
         const mouSelect = document.getElementById(prefix + '-mou');
+        const affiliationSelect = document.getElementById(prefix + '-affiliation');
 
-        if (!facultySelect || !majorSelect || !programSelect || !provinceSelect || !mouSelect) {
+        if (!facultySelect || !majorSelect || !programSelect || !provinceSelect || !mouSelect || !affiliationSelect) {
             console.warn('dropdown elements not found for prefix:', prefix);
             return null;
         }
@@ -581,6 +602,11 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             sorter: sortChoice,
         });
         const mouChoices = new Choices(mouSelect, {
+            searchEnabled: false,
+            itemSelectText: "",
+            sorter: sortChoice,
+        });
+        const affiliationChoices = new Choices(affiliationSelect, {
             searchEnabled: false,
             itemSelectText: "",
             sorter: sortChoice,
@@ -677,12 +703,32 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             );
         };
 
+        const populateAffiliation = (list) => {
+            affiliationChoices.clearStore();
+            affiliationChoices.setChoices(
+                [{
+                    value: "",
+                    label: "-เลือกสังกัด-",
+                    selected: true,
+                    disabled: false,
+                    placeholder: true
+                }].concat(
+                    list.map(affiliation => ({
+                        value: affiliation,
+                        label: affiliation
+                    }))
+                ),
+                "value", "label", true
+            );
+        };
+
         // initial populate
         populateFaculties(allFaculties);
         populateMajors(allMajors);
         populatePrograms(allPrograms);
         populateProvinces(provinces);
         populateMou(mouStatusOptions);
+        populateAffiliation(affiliationOptions);
 
         // เมื่อเปลี่ยน "คณะ"
         facultySelect.addEventListener('change', () => {
@@ -747,6 +793,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             programChoices.setChoiceByValue('');
             provinceChoices.setChoiceByValue('');
             mouChoices.setChoiceByValue('');
+            affiliationChoices.setChoiceByValue('');
         }
 
         return {
@@ -755,6 +802,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             programChoices,
             provinceChoices,
             mouChoices,
+            affiliationChoices,
             resetValues
         };
     }
@@ -785,7 +833,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                 type: 'POST'
             },
             columnDefs: [{
-                targets: 11,
+                targets: 12,
                 visible: false,
             }],
             columns: [{
@@ -814,6 +862,8 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             }, {
                 data: 'score'
             }, {
+                data: 'affiliation'
+            }, {
                 data: 'created_at',
             }, {
                 data: null,
@@ -834,6 +884,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                         data-year="${escapeHtml(row.year)}"
                         data-total_student="${escapeHtml(row.total_student)}"
                         data-mou_status="${escapeHtml(row.mou_status)}"
+                        data-affiliation="${escapeHtml(row.affiliation)}"
                         data-contact="${escapeHtml(row.contact)}"
                         data-score="${escapeHtml(row.score ?? '')}"
                     >
@@ -866,7 +917,8 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                 $(cells[8]).addClass('cell-mou-status');
                 $(cells[9]).addClass('cell-contact');
                 $(cells[10]).addClass('cell-score');
-                $(cells[11]).addClass('cell-created-at');
+                $(cells[11]).addClass('cell-affiliation');
+                $(cells[12]).addClass('cell-created-at');
             },
             language: {
                 search: 'ค้นหา:',
@@ -913,6 +965,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             const program = $btn.data('program') || '';
             const province = $btn.data('province') || '';
             const mouStatus = $btn.data('mou_status') || '';
+            const affiliation = $btn.data('affiliation') || '';
 
             $('#edit-id').val($btn.data('id'));
             $('#edit-organization').val($btn.data('organization'));
@@ -920,6 +973,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             $('#edit-contact').val($btn.data('contact'));
             $('#edit-score').val($btn.data('score'));
             $('#edit-year').val(year);
+            $('#edit-affiliation').val(affiliation);
 
             if (editDropdowns) {
                 if (province) {
@@ -950,6 +1004,14 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                         editDropdowns.mouChoices.setChoiceByValue(mouStatus);
                     } else {
                         editDropdowns.mouChoices.setChoiceByValue('');
+                    }
+                }
+
+                if (editDropdowns.affiliationChoices) {
+                    if (affiliation) {
+                        editDropdowns.affiliationChoices.setChoiceByValue(affiliation);
+                    } else {
+                        editDropdowns.affiliationChoices.setChoiceByValue('');
                     }
                 }
             }

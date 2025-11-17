@@ -50,6 +50,7 @@
                         <th class="w-[130px] p-2">MOU</th>
                         <th class="w-[180px] p-2">ข้อมูลการติดต่อ</th>
                         <th class="w-[65px] p-2">คะแนน</th>
+                        <th class="w-[65px] p-2">สังกัด</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -85,42 +86,47 @@
                 ],
                 pageLength: 10,
                 columns: [{
-                    data: null,
-                    className: 'text-center',
-                    orderable: false,
-                    searchable: false,
-                    render: (data, type, row, meta) => meta.row + 1 + meta.settings._iDisplayStart,
-                }, {
-                    data: 'organization',
-                    className: 'text-left p-2'
-                }, {
-                    data: 'province',
-                    className: 'text-left p-2'
-                }, {
-                    data: 'faculty',
-                    className: 'text-left p-2'
-                }, {
-                    data: 'program',
-                    className: 'text-left p-2'
-                }, {
-                    data: 'major',
-                    className: 'text-left p-2'
-                }, {
-                    data: 'year',
-                    className: '!text-center p-2'
-                }, {
-                    data: 'total_student',
-                    className: '!text-center p-2'
-                }, {
-                    data: 'mou_status',
-                    className: '!text-center p-2'
-                }, {
-                    data: 'contact',
-                    className: 'text-left p-2'
-                }, {
-                    data: 'score',
-                    className: '!text-center p-2'
-                }, ],
+                        data: null,
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false,
+                        render: (data, type, row, meta) => meta.row + 1 + meta.settings._iDisplayStart,
+                    }, {
+                        data: 'organization',
+                        className: 'text-left p-2'
+                    }, {
+                        data: 'province',
+                        className: 'text-left p-2'
+                    }, {
+                        data: 'faculty',
+                        className: 'text-left p-2'
+                    }, {
+                        data: 'program',
+                        className: 'text-left p-2'
+                    }, {
+                        data: 'major',
+                        className: 'text-left p-2'
+                    }, {
+                        data: 'year',
+                        className: '!text-center p-2'
+                    }, {
+                        data: 'total_student',
+                        className: '!text-center p-2'
+                    }, {
+                        data: 'mou_status',
+                        className: '!text-center p-2'
+                    }, {
+                        data: 'contact',
+                        className: 'text-left p-2'
+                    }, {
+                        data: 'score',
+                        className: '!text-center p-2'
+                    },
+                    {
+                        data: 'affiliation',
+                        className: '!text-center p-2'
+                    },
+                ],
                 // order: [
                 //     [6, 'desc'],
                 //     [1, 'asc'],
