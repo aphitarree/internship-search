@@ -86,9 +86,7 @@ $userName = $user['username'];
                 <div
                     id="userMenuDropdown"
                     class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1 text-sm">
-
-                    <div class="my-1 border-t border-gray-100"></div>
-
+                    <!-- <div class="my-1 border-t border-gray-100"></div> -->
                     <button
                         type="button"
                         data-logout-open="true"
@@ -128,7 +126,7 @@ $userName = $user['username'];
             </button>
             <a
                 href="<?php echo $baseUrl . '/actions/logout_form.php'; ?>"
-                class="px-4 py-2 text-sm font-medium rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">
+                class="px-4 py-2 text-sm font-medium rounded-lg bg-sky-500 text-white hover:bg-sky-600">
                 Logout
             </a>
         </div>

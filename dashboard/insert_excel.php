@@ -67,7 +67,7 @@ require_once __DIR__ . '/../includes/auth.php';
                     action="<?php echo $baseUrl; ?>/dashboard/actions/insert_excel_form.php"
                     method="POST"
                     enctype="multipart/form-data"
-                    class="container mx-auto px-4 lg:px-8 mt-4">
+                    class="container mx-auto px-4 lg:px-8 mt-8">
 
                     <section>
                         <h1 class="flex items-center text-2xl font-semibold text-gray-800 mb-5">
@@ -138,7 +138,7 @@ require_once __DIR__ . '/../includes/auth.php';
     <button
         type="button"
         onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
-        class="fixed bottom-5 right-5 w-10 h-10 rounded-full bg-indigo-600 text-white shadow-lg flex items-center justify-center hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        class="fixed bottom-5 right-5 w-10 h-10 rounded-full bg-sky-500 text-white shadow-lg flex items-center justify-center hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400">
         <i class="fas fa-angle-up"></i>
     </button>
 

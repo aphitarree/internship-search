@@ -9,8 +9,8 @@ $dotenv->load();
 
 $baseUrl = $_ENV['BASE_URL'] ?? '';
 ?>
-<section class="bg-gray-100 p-6">
-    <section class="mt-4">
+<section class="bg-gray-100">
+    <section>
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <h1 class="text-2xl font-semibold text-gray-800">ข้อมูลคณะในระบบ</h1>
         </div>

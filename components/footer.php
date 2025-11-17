@@ -1,3 +1,13 @@
+<?php
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+$baseUrl = $_ENV['BASE_URL'];
+?>
+
 <!-- FOOTER -->
 <footer class="text-gray-800 dark:text-gray-200 bg-neutral-800 py-8">
     <div class="max-w-screen-xl mx-auto flex flex-col lg:flex-row lg:justify-start gap-5">
@@ -36,7 +46,7 @@
                     href="https://www.facebook.com/regis.suandusit"
                     target="_blank"
                     class="text-gray-500 transition duration-200 transform hover:-translate-y-1
-            border bg-white rounded-full p-2 inline-flex items-center justify-center">
+                            border bg-white rounded-full p-2 inline-flex items-center justify-center">
                     <i class="text-2xl text-blue-600 fa-brands fa-facebook-f"></i>
                 </a>
 
@@ -45,7 +55,7 @@
                     href="https://www.youtube.com/channel/UCNRXVo-ngomHQuvYJhCqO_g"
                     target="_blank"
                     class="text-gray-500 transition duration-200 transform hover:-translate-y-1
-            border bg-white rounded-full p-2 inline-flex items-center justify-center">
+                            border bg-white rounded-full p-2 inline-flex items-center justify-center">
                     <i class="text-2xl text-red-600 fa-brands fa-youtube"></i>
                 </a>
 
@@ -65,6 +75,15 @@
                 </a>
             </section>
 
+            <br>
+
+            <div class="pt-2">
+                <a
+                    href="<?= $baseUrl . '/dashboard' ?>"
+                    class="w-full py-2 px-2 rounded-md shadow-sm text-md font-medium text-white bg-sky-600 hover:bg-sky-700 focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:bg-sky-500 dark:hover:bg-sky-600">
+                    เข้าสู่ระบบ (เจ้าหน้าที่)
+                </a>
+            </div>
         </div>
 
         <!-- Form (ขวา) -->

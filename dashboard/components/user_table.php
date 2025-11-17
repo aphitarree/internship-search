@@ -10,7 +10,7 @@ $dotenv->load();
 $baseUrl = $_ENV['BASE_URL'] ?? '';
 ?>
 
-<section class="mt-4">
+<section>
     <!-- ตารางข้อมูลผู้ใช้ -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-2xl font-semibold text-gray-800">

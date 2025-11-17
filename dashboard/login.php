@@ -27,17 +27,17 @@ if (isset($_SESSION['checklogin'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="../public/images/favicon.ico">
 
-    <title>เข้าสู่ระบบ - ฐานข้อมูลการฝึกงานนักศึกษา</title>
-    <!-- Font Awesome -->
-    <link href="../vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
         }
     </style>
+
+    <title>เข้าสู่ระบบ - ฐานข้อมูลการฝึกงานนักศึกษา</title>
+    <!-- Font Awesome -->
+    <link href="../vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="relative flex flex-col min-h-screen">

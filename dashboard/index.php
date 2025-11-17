@@ -82,7 +82,7 @@ require_once __DIR__ . '/../includes/auth.php';
     <button
         type="button"
         onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
-        class="fixed bottom-5 right-5 w-10 h-10 rounded-full bg-indigo-600 text-white shadow-lg flex items-center justify-center hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        class="fixed bottom-5 right-5 w-10 h-10 rounded-full bg-sky-500 text-white shadow-lg flex items-center justify-center hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400">
         <i class="fas fa-angle-up"></i>
     </button>
 
