@@ -37,7 +37,7 @@ function formatNumber($number) {
             <div id="today" class="text-3xl sm:text-5xl md:text-5xl font-bold mb-2">
                 <?= formatNumber($total_today) ?>
             </div>
-            <div class="text-2xl sm:text-2xl md:text-2xl">จำนวนการเข้าชมวันนี้</div>
+            <div class="text-2xl sm:text-2xl md:text-2xl">จำนวนการใช้งานวันนี้</div>
         </div>
 
         <!-- Last 7 days -->
@@ -46,7 +46,7 @@ function formatNumber($number) {
             <div id="last-seven-day" class="text-3xl sm:text-5xl md:text-5xl font-bold mb-2">
                 <?= formatNumber($total_7days) ?>
             </div>
-            <div class="text-2xl sm:text-2xl md:text-2xl">จำนวนการเข้าชมย้อนหลัง 7 วัน</div>
+            <div class="text-2xl sm:text-2xl md:text-2xl">จำนวนการใช้งานย้อนหลัง 7 วัน</div>
         </div>
 
         <!-- Accumulated -->
@@ -55,7 +55,7 @@ function formatNumber($number) {
             <div id="totalAll" class="text-3xl sm:text-5xl md:text-5xl font-bold mb-2">
                 <?= formatNumber($total_all) ?>
             </div>
-            <div class="text-2xl sm:text-2xl md:text-2xl">จำนวนการเข้าชมสะสม</div>
+            <div class="text-2xl sm:text-2xl md:text-2xl">จำนวนการใช้งานสะสม</div>
         </div>
     </div>
 </aside>
