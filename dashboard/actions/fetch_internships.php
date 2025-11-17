@@ -37,6 +37,7 @@ $columnsMap = [
     8 => 'internship_stats.mou_status',
     9 => 'internship_stats.contact',
     10 => 'internship_stats.score',
+    10 => 'internship_stats.created_at',
 ];
 
 $orderColumnIndex = isset($request['order'][0]['column']) ? (int)$request['order'][0]['column'] : 0;
@@ -77,6 +78,7 @@ if ($searchValue !== '') {
             OR internship_stats.year LIKE :search
             OR CAST(internship_stats.year AS CHAR)  LIKE :search
             OR CAST(internship_stats.score AS CHAR) LIKE :search
+            OR CAST(internship_stats.created_at AS CHAR) LIKE :search
     ";
     $params[':search'] = '%' . $searchValue . '%';
 }
@@ -105,7 +107,8 @@ $sqlData = "
         internship_stats.total_student,
         internship_stats.mou_status,
         internship_stats.contact,
-        internship_stats.score
+        internship_stats.score,
+        internship_stats.created_at
     " . $baseFrom . ' ' . $where . "
     ORDER BY $orderColumn $orderDir
     LIMIT :start, :length
@@ -135,6 +138,7 @@ while ($row = $stmtData->fetch(PDO::FETCH_ASSOC)) {
         'mou_status' => $row['mou_status'],
         'contact' => $row['contact'],
         'score' => $row['score'],
+        'created_at' => $row['created_at'],
     ];
 }
 

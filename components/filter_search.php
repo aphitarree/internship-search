@@ -4,6 +4,17 @@ $program = $_GET['program'] ?? '';
 $major = $_GET['major'] ?? '';
 $province = $_GET['province'] ?? '';
 $academicYear = $_GET['academic-year'] ?? '';
+
+require_once __DIR__ . '/../config/db_config.php';
+
+$sql = "
+    SELECT DISTINCT year
+    FROM internship_stats;
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$yearsArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <section class="mx-auto max-w-[1625px] px-4 mt-10">
@@ -41,12 +52,6 @@ $academicYear = $_GET['academic-year'] ?? '';
                 <label for="academic-year" class="block mb-2 font-medium">ปีการศึกษา</label>
                 <select id="academic-year" name="academic-year" class="w-full border rounded-md px-3 py-2">
                     <option>-เลือก พ.ศ.-</option>
-                    <option value="2568">2568</option>
-                    <option value="2567">2567</option>
-                    <option value="2566">2566</option>
-                    <option value="2565">2565</option>
-                    <option value="2564">2564</option>
-                    <option value="2563">2563</option>
                 </select>
             </div>
         </div>
@@ -470,13 +475,8 @@ $academicYear = $_GET['academic-year'] ?? '';
             provinceChoices.setChoiceByValue(selectedProvince);
         }
 
-        const academicYears = [
-            "2568",
-            "2567",
-            "2566",
-            "2565",
-            "2564"
-        ];
+        const academicYears = <?php echo json_encode($yearsArray); ?>;
+        const academicYearsString = academicYears.map(String);
 
         const academicYearSelect = document.getElementById("academic-year");
 
@@ -504,7 +504,7 @@ $academicYear = $_GET['academic-year'] ?? '';
             );
         };
 
-        populateAcademicYears(academicYears);
+        populateAcademicYears(academicYearsString);
 
         if (selectedAcademicYear) {
             academicYearChoices.setChoiceByValue(selectedAcademicYear);

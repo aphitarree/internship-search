@@ -20,6 +20,12 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 <!-- Choices.js CSS สำหรับ dropdown สวย ๆ + searchable -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
+<!-- DataTables + Buttons CSS -->
+<link rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+    href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
 <section class="mt-4">
     <style>
         /* ทำให้คอลัมน์ข้อมูลการติดต่อขึ้นบรรทัดใหม่เมื่อข้อความยาว */
@@ -73,6 +79,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                             <th class="px-3 py-2 font-semibold">MOU</th>
                             <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
                             <th class="px-3 py-2 font-semibold">คะแนน</th>
+                            <th class="px-3 py-2 font-semibold">วันที่สร้าง</th>
                             <th class="px-3 py-2 font-semibold text-center"></th>
                         </tr>
                     </thead>
@@ -163,13 +170,12 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
-                        <select
+                        <input
+                            type="number"
                             name="year"
                             id="add-year"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
-                            <option value="">-เลือกปีการศึกษา-</option>
-                        </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">MOU</label>
@@ -305,14 +311,21 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
+                        <!-- <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
                         <select
                             name="year"
                             id="edit-year"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
                             <option value="">-เลือกปีการศึกษา-</option>
-                        </select>
+                        </select> -->
+                        <label class="block text-gray-700 text-sm font-bold mb-2">ปีการศึกษา</label>
+                        <input
+                            type="number"
+                            name="year"
+                            id="edit-year"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required>
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">MOU</label>
@@ -426,6 +439,10 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 <!-- Choices.js JS -->
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
+<!-- DataTables + Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+
 <script>
     // Escape HTML when put the string to the data-... or innerHTML
     function escapeHtml(text) {
@@ -507,15 +524,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         "อุตรดิตถ์", "อุทัยธานี", "อุบลราชธานี"
     ];
 
-    const academicYears = [
-        "2568",
-        "2567",
-        "2566",
-        "2565",
-        "2564",
-        "2563"
-    ];
-
     const mouStatusOptions = [
         "มี",
         "ไม่มี",
@@ -533,10 +541,9 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         const majorSelect = document.getElementById(prefix + '-major');
         const programSelect = document.getElementById(prefix + '-program');
         const provinceSelect = document.getElementById(prefix + '-province');
-        const yearSelect = document.getElementById(prefix + '-year');
         const mouSelect = document.getElementById(prefix + '-mou');
 
-        if (!facultySelect || !majorSelect || !programSelect || !provinceSelect || !yearSelect || !mouSelect) {
+        if (!facultySelect || !majorSelect || !programSelect || !provinceSelect || !mouSelect) {
             console.warn('dropdown elements not found for prefix:', prefix);
             return null;
         }
@@ -571,12 +578,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             searchEnabled: true,
             itemSelectText: "",
             searchPlaceholderValue: "พิมพ์เพื่อค้นหาจังหวัด...",
-            sorter: sortChoice,
-        });
-        const yearChoices = new Choices(yearSelect, {
-            searchEnabled: true,
-            itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาปีการศึกษา...",
             sorter: sortChoice,
         });
         const mouChoices = new Choices(mouSelect, {
@@ -657,24 +658,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             );
         };
 
-        const populateYears = (list) => {
-            yearChoices.clearStore();
-            yearChoices.setChoices(
-                [{
-                    value: "",
-                    label: "-เลือกปีการศึกษา-",
-                    selected: true,
-                    disabled: false
-                }].concat(
-                    list.map(year => ({
-                        value: year,
-                        label: year
-                    }))
-                ),
-                "value", "label", true
-            );
-        };
-
         const populateMou = (list) => {
             mouChoices.clearStore();
             mouChoices.setChoices(
@@ -699,7 +682,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         populateMajors(allMajors);
         populatePrograms(allPrograms);
         populateProvinces(provinces);
-        populateYears(academicYears);
         populateMou(mouStatusOptions);
 
         // เมื่อเปลี่ยน "คณะ"
@@ -764,7 +746,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             majorChoices.setChoiceByValue('');
             programChoices.setChoiceByValue('');
             provinceChoices.setChoiceByValue('');
-            yearChoices.setChoiceByValue('');
             mouChoices.setChoiceByValue('');
         }
 
@@ -773,7 +754,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
             majorChoices,
             programChoices,
             provinceChoices,
-            yearChoices,
             mouChoices,
             resetValues
         };
@@ -791,6 +771,13 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         const dt = $('#internshipTable').DataTable({
             processing: true,
             serverSide: true,
+            scrollX: false,
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'colvis',
+                text: 'เลือกคอลัมน์',
+                className: 'bg-gray-200 border border-gray-300 rounded px-3 py-1 text-sm hover:bg-gray-300'
+            }],
             pageLength: 10,
             lengthMenu: [5, 10, 25, 50],
             ajax: {
@@ -822,6 +809,8 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                 data: 'contact'
             }, {
                 data: 'score'
+            }, {
+                data: 'created_at',
             }, {
                 data: null,
                 orderable: false,
@@ -873,6 +862,7 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                 $(cells[8]).addClass('cell-mou-status');
                 $(cells[9]).addClass('cell-contact');
                 $(cells[10]).addClass('cell-score');
+                $(cells[11]).addClass('cell-created-at');
             },
             language: {
                 search: 'ค้นหา:',
@@ -913,30 +903,25 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
         $(document).on('click', '.btn-edit', function() {
             const $btn = $(this);
 
+            const year = $btn.data('year') ?? '';
+            const faculty = $btn.data('faculty') || '';
+            const major = $btn.data('major') || '';
+            const program = $btn.data('program') || '';
+            const province = $btn.data('province') || '';
+            const mouStatus = $btn.data('mou_status') || '';
+
             $('#edit-id').val($btn.data('id'));
             $('#edit-organization').val($btn.data('organization'));
             $('#edit-total_student').val($btn.data('total_student'));
             $('#edit-contact').val($btn.data('contact'));
             $('#edit-score').val($btn.data('score'));
-
-            const faculty = $btn.data('faculty') || '';
-            const major = $btn.data('major') || '';
-            const program = $btn.data('program') || '';
-            const province = $btn.data('province') || '';
-            const year = $btn.data('year') != null ? String($btn.data('year')) : '';
-            const mouStatus = $btn.data('mou_status') || '';
+            $('#edit-year').val(year);
 
             if (editDropdowns) {
                 if (province) {
                     editDropdowns.provinceChoices.setChoiceByValue(province);
                 } else {
                     editDropdowns.provinceChoices.setChoiceByValue('');
-                }
-
-                if (year) {
-                    editDropdowns.yearChoices.setChoiceByValue(year);
-                } else {
-                    editDropdowns.yearChoices.setChoiceByValue('');
                 }
 
                 if (faculty) {

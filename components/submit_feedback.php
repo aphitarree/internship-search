@@ -15,36 +15,36 @@ try {
         throw new Exception('Invalid request method.');
     }
 
-    $is_useful = $_POST['is_useful'] ?? null;
-    $comment_raw = $_POST['comment'] ?? '';
+    $isUseful = $_POST['is_useful'] ?? null;
+    $commentRaw = $_POST['comment'] ?? '';
 
-    if (empty($is_useful)) throw new Exception('กรุณาระบุว่ามีประโยชน์หรือไม่');
-    if (!in_array($is_useful, ['มีประโยชน์', 'ไม่มีประโยชน์'])) throw new Exception('ข้อมูล "is_useful" ไม่ถูกต้อง');
-    if (mb_strlen($comment_raw, 'UTF-8') > 200) throw new Exception('ข้อเสนอแนะต้องไม่เกิน 200 ตัวอักษร');
+    if (empty($isUseful)) throw new Exception('กรุณาระบุว่ามีประโยชน์หรือไม่');
+    if (!in_array($isUseful, ['มีประโยชน์', 'ไม่มีประโยชน์'])) throw new Exception('ข้อมูล "is_useful" ไม่ถูกต้อง');
+    if (mb_strlen($commentRaw, 'UTF-8') > 200) throw new Exception('ข้อเสนอแนะต้องไม่เกิน 200 ตัวอักษร');
 
-    $comment = empty($comment_raw) ? null : $comment_raw;
-    $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
-    $user_id = $_SESSION['user_id'] ?? null;
+    $comment = empty($commentRaw) ? null : $commentRaw;
+    $ipAddress = $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+    $userId = $_SESSION['user_id'] ?? null;
 
-    $sql_check = "SELECT id FROM feedback 
+    $sqlCheck = "SELECT id FROM feedback 
                   WHERE ip_address = :ip_address 
                   AND created_at >= NOW() - INTERVAL 1 HOUR
                   LIMIT 1";
-    $stmt_check = $conn->prepare($sql_check);
-    $stmt_check->bindParam(':ip_address', $ip_address);
-    $stmt_check->execute();
+    $stmtCheck = $conn->prepare($sqlCheck);
+    $stmtCheck->bindParam(':ip_address', $ipAddress);
+    $stmtCheck->execute();
 
-    if ($stmt_check->rowCount() > 0) {
+    if ($stmtCheck->rowCount() > 0) {
         throw new Exception('คุณได้ส่ง Feedback ไปแล้ว กรุณารอสักครู่ก่อนส่งใหม่อีกครั้ง');
     }
 
     $sql = "INSERT INTO feedback (is_useful, comment, ip_address) 
             VALUES (:is_useful, :comment, :ip_address)";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':is_useful', $is_useful, PDO::PARAM_STR);
+    $stmt->bindParam(':is_useful', $isUseful, PDO::PARAM_STR);
     $stmt->bindValue(':comment', $comment, $comment === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
-    $stmt->bindParam(':ip_address', $ip_address, PDO::PARAM_STR);
-    // $stmt->bindValue(':user_id', $user_id, $user_id === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+    $stmt->bindParam(':ip_address', $ipAddress, PDO::PARAM_STR);
+    // $stmt->bindValue(':user_id', $userId, $userId === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
 
     if ($stmt->execute()) {
         $response['status'] = 'success';
