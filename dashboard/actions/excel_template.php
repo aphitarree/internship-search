@@ -9,11 +9,6 @@ $dotenv->load();
 
 $baseUrl = $_ENV['BASE_URL'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
-    exit;
-}
-
 // Set the filename for the wrong records file
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename=แบบฟอร์มเก็บข้อมูลนักศึกษาฝึกงาน.csv');
