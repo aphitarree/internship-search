@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/db_config.php';
 
 // Filter parameters
@@ -10,6 +9,11 @@ $province = $_POST['province'] ?? null;
 $academicYear = $_POST['academic-year'] ?? null;
 
 header('Content-Type: application/json; charset=utf-8');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
 
 try {
     // Datatables params that is sent from the frontend

@@ -1,8 +1,6 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../config/db_config.php';
-session_start();
 
 use Dotenv\Dotenv;
 
@@ -11,9 +9,19 @@ $dotenv->load();
 
 $baseUrl = $_ENV['BASE_URL'] ?? '';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
+
 // Set the filename for the wrong records file
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename=แบบฟอร์มเก็บข้อมูลนักศึกษาฝึกงาน.csv');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
 
 // Write the csv file
 $output = fopen('php://output', 'w');

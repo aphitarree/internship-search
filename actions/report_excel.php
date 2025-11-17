@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/db_config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -7,6 +6,11 @@ use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
 
 // Get the url search queries
 $faculty = $_GET['faculty'] ?? null;

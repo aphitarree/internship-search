@@ -1,12 +1,16 @@
 <?php
 ini_set('max_execution_time', '300');
 ini_set('memory_limit', '4096M');
-require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/db_config.php';
 
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Config\FontVariables;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
 
 $faculty = $_POST['faculty'] ?? null;
 $program = $_POST['program'] ?? null;
