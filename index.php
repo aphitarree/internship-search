@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/auth.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +29,14 @@
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
 
     <link rel="stylesheet" href="css/globals.css">
+
+    <!-- Thai Sarabun font -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+    </style>
 </head>
 
 <body class="bg-white text-gray-900">

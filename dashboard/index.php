@@ -22,6 +22,14 @@ require_once __DIR__ . '/../includes/auth.php';
     <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Thai Sarabun font -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+    </style>
+
     <style>
         .no-scrollbar::-webkit-scrollbar {
             display: none;
