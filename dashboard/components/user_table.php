@@ -46,7 +46,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                             <th class="px-3 py-2 font-semibold">ชื่อผู้ใช้</th>
                             <th class="px-3 py-2 font-semibold">สิทธิ์</th>
                             <th class="px-3 py-2 font-semibold"></th>
-                            <th class="px-3 py-2 font-semibold text-center"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100"></tbody>
