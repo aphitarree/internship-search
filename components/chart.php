@@ -40,7 +40,7 @@ $js_values = json_encode($values);
 <!-- Chart Section -->
 <section class="flex flex-col items-center gap-4 sm:gap-6 lg:gap-8 w-full">
     <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-center">
-        จำนวนการเข้าชม (คน)
+        สถิติผู้ใช้งาน (คน)
     </h2>
 
     <div class="relative w-full h-[300px] max-w-[820px]">
