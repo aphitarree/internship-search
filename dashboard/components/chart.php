@@ -38,8 +38,8 @@ $js_values = json_encode($values);
 ?>
 
 <!-- Chart Section -->
-<section class="flex flex-col items-center gap-4 sm:gap-6 lg:gap-8 w-full">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-center">
+<section class="flex flex-col items-center gap-4 sm:gap-4 lg:gap-6 w-full">
+    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-semibold text-center">
         สถิติผู้ใช้งาน (คน)
     </h2>
 
