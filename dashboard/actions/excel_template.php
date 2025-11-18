@@ -13,11 +13,6 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename=แบบฟอร์มเก็บข้อมูลนักศึกษาฝึกงาน.csv');
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
-    exit;
-}
-
 // Write the csv file
 $output = fopen('php://output', 'w');
 fwrite($output, "\xEF\xBB\xBF");
