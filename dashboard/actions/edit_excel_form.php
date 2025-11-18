@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../config/db_config.php';
 
@@ -18,7 +19,7 @@ $output = fopen('php://output', 'w');
 fwrite($output, "\xEF\xBB\xBF");
 
 // Set the column name for the file
-fputcsv($output, ['บริษัท', 'จังหวัด', 'คณะ', 'หลักสูตร', 'สาขา', 'ปีการศึกษา', 'จำนวนที่รับ', 'MOU', 'ข้อมูลการติดต่อ', 'คะแนน']);
+fputcsv($output, ['บริษัท', 'จังหวัด', 'คณะ', 'หลักสูตร', 'สาขา', 'ปีการศึกษา', 'จำนวนที่รับ', 'MOU', 'ข้อมูลการติดต่อ', 'คะแนน', 'สังกัด']);
 
 // Write the wrong data to the file
 if (isset($_SESSION['invalid_rows']) && count($_SESSION['invalid_rows']) > 0) {
@@ -34,6 +35,7 @@ if (isset($_SESSION['invalid_rows']) && count($_SESSION['invalid_rows']) > 0) {
             $row['mou_status'] ?? '',
             $row['contact'] ?? '',
             $row['score'] ?? '',
+            $row['affiliation'] ?? '',
         ]);
     }
 } else {
