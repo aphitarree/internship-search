@@ -14,8 +14,12 @@ session_start();
 
 // 1. ลบ Cookie remember_token
 if (isset($_COOKIE['remember_token'])) {
-    setcookie('remember_token', '', time() - 3600, '/', '', false, true);
-    // ตั้งเวลาให้หมดอายุย้อนหลัง → Cookie ถูกลบ
+    $stmt = $conn->prepare("UPDATE user SET remember_token = :token, token_expire = :expire WHERE id = :id");
+    $stmt->bindParam(":token", $token);
+    $stmt->bindParam(":expire", $expireTime);
+    $stmt->bindParam(":id", $_SESSION['id']);
+    $stmt->execute();
+    $stmt = null;
 }
 
 if (isset($_SESSION['id'])) {

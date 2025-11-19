@@ -35,7 +35,7 @@ if (!empty($email) && !empty($password)) {
 
             // Remember Token
             $token = bin2hex(random_bytes(16));
-            $expireTime = date("Y-m-d H:i:s", time() + 2700); // 1 ชั่วโมง
+            $expireTime = date("Y-m-d H:i:s", time() + (60 * 45));
 
             // Save token ลง DB
             $stmt = $conn->prepare("
@@ -50,14 +50,14 @@ if (!empty($email) && !empty($password)) {
 
             // ลบ cookie เก่า (ถ้ามี)
             if (!empty($_COOKIE['remember_token'])) {
-                setcookie('remember_token', '', time() - 2700, '/');
+                setcookie('remember_token', '', time() - (60 * 45), '/');
             }
 
             // สร้าง Cookie ใหม่
             setcookie(
                 'remember_token',
                 $token,
-                time() + 2700, // 1 hr
+                time() + (60 * 45),
                 '/',
                 '',
                 false,

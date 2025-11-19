@@ -35,7 +35,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // ถ้า token ไม่ตรง → บังคับ login ใหม่
 if (!$user) {
-    setcookie('remember_token', '', time() - 2700, '/');
+    setcookie('remember_token', '', time() - (60 * 45), '/');
     header("Location: {$baseUrl}/dashboard/login.php");
     exit;
 }
@@ -45,7 +45,7 @@ $currentTime = date("Y-m-d H:i:s");
 
 if (strtotime($user['token_expire']) < time()) {
     // Token หมดอายุ
-    setcookie('remember_token', '', time() - 2700, '/');
+    setcookie('remember_token', '', time() - (60 * 45), '/');
     unset($_SESSION['checklogin']);
     unset($_SESSION['email']);
     unset($_SESSION['id']);
