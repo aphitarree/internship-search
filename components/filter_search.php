@@ -552,25 +552,7 @@ try {
             clearSearchButton.addEventListener('click', (event) => {
                 event.preventDefault();
 
-                // Clear form data
-                const filterForm = document.getElementById('filter-form');
-                if (filterForm) {
-                    filterForm.reset();
-                }
-
-                populateFaculties(allFaculties);
-                populateMajors(allMajors);
-                populatePrograms(allPrograms);
-                populateProvinces(provinces);
-                populateAcademicYears(academicYears.map(String));
-
-                // Clear URL search queries
-                window.history.replaceState({}, '', window.location.pathname);
-
-                // Reload DataTables
-                if (window.table) {
-                    window.table.ajax.reload();
-                }
+                window.location.href = window.location.pathname;
             });
         }
     });
