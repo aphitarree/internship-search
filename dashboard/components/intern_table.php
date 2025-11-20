@@ -101,11 +101,11 @@ try {
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
                             <th class="px-3 py-2 font-semibold">NO.</th>
-                            <th class="px-3 py-2 font-semibold">บริษัท</th>
+                            <th class="px-3 py-2 font-semibold">หน่วยงาน</th>
                             <th class="px-3 py-2 font-semibold">จังหวัด</th>
-                            <th class="px-3 py-2 font-semibold">คณะ</th>
+                            <th class="px-3 py-2 font-semibold">คณะ / โรงเรียน</th>
                             <th class="px-3 py-2 font-semibold">หลักสูตร</th>
-                            <th class="px-3 py-2 font-semibold">สาขา</th>
+                            <th class="px-3 py-2 font-semibold">สาขาวิชา</th>
                             <th class="px-3 py-2 font-semibold">ปีการศึกษา</th>
                             <th class="px-3 py-2 font-semibold">สังกัด</th>
                             <th class="px-3 py-2 font-semibold">จำนวนที่รับ</th>
@@ -148,7 +148,7 @@ try {
                 <!-- ใส่ field ตามที่มีในตาราง -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">บริษัท</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">หน่วยงาน</label>
                         <input
                             type="text"
                             name="organization"
@@ -169,13 +169,13 @@ try {
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">คณะ</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">คณะ / โรงเรียน</label>
                         <select
                             name="faculty"
                             id="add-faculty"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
-                            <option value="">-เลือกคณะ-</option>
+                            <option value="">-เลือกคณะ / โรงเรียน-</option>
                         </select>
                     </div>
                     <div>
@@ -189,13 +189,13 @@ try {
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">สาขา</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">สาขาวิชา</label>
                         <select
                             name="major"
                             id="add-major"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
-                            <option value="">-เลือกสาขา-</option>
+                            <option value="">-เลือกสาขาวิชา-</option>
                         </select>
                     </div>
                 </div>
@@ -304,7 +304,7 @@ try {
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">บริษัท</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">หน่วยงาน</label>
                         <input
                             type="text"
                             name="organization"
@@ -326,13 +326,13 @@ try {
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">คณะ</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">คณะ / โรงเรียน</label>
                         <select
                             name="faculty"
                             id="edit-faculty"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
-                            <option value="">-เลือกคณะ-</option>
+                            <option value="">-เลือกคณะ / โรงเรียน-</option>
                         </select>
                     </div>
                     <div>
@@ -346,13 +346,13 @@ try {
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">สาขา</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">สาขาวิชา</label>
                         <select
                             name="major"
                             id="edit-major"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
-                            <option value="">-เลือกสาขา-</option>
+                            <option value="">-เลือกสาขาวิชา-</option>
                         </select>
                     </div>
                 </div>
@@ -620,13 +620,13 @@ try {
         const facultyChoices = new Choices(facultySelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ...",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ / โรงเรียน...",
             sorter: sortChoice,
         });
         const majorChoices = new Choices(majorSelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขา...",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขาวิชา...",
             sorter: sortChoice,
         });
         const programChoices = new Choices(programSelect, {
@@ -657,7 +657,7 @@ try {
             facultyChoices.setChoices(
                 [{
                     value: "",
-                    label: "-เลือกคณะ-",
+                    label: "-เลือกคณะ / โรงเรียน-",
                     selected: true,
                     disabled: false
                 }].concat(
@@ -675,7 +675,7 @@ try {
             majorChoices.setChoices(
                 [{
                     value: "",
-                    label: "-เลือกสาขา-",
+                    label: "-เลือกสาขาวิชา-",
                     selected: true,
                     disabled: false
                 }].concat(

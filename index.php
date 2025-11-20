@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="./public/images/favicon.ico">
 
-    <title>คลังประวัติการฝึกงาน</title>
+    <title>รวมข้อมูลแหล่งฝึกงาน</title>
 
     <!-- Font Awesome -->
     <link href="./vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
@@ -127,7 +127,7 @@
                 </h2>
 
                 <h3 class="h3-title text-sky-500 mb-3">
-                    รวมข้อมูลฝึกงานมหาวิทยาลัยสวนดุสิต
+                    รวมข้อมูลแหล่งฝึกงานมหาวิทยาลัยสวนดุสิต
                     </h2>
                     <p class="p-description">
                         เป็นแหล่งรวมข้อมูลการฝึกงานที่เกี่ยวข้อง ประกอบด้วย หน่วยงาน สถานประกอบการ และจังหวัด จำแนกตามปีการศึกษา พร้อมข้อมูลประกอบการตัดสินใจอื่น ๆ เพื่อช่วยให้นักศึกษามหาวิทยาลัยสวนดุสิต สามารถค้นหาสถานที่ฝึกงานได้สะดวกยิ่งขึ้น

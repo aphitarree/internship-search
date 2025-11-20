@@ -17,37 +17,40 @@ $fullUrl = $protocol . $host . $requestUri;
 ?>
 
 <header class="w-full bg-white border-b shadow-sm relative z-50">
-    <nav class="max-w-screen-xl mx-auto flex items-center justify-between p-4">
-        <!-- Logo -->
-        <?php if ($fullUrl === $baseDashboardUrl . '/login.php'): ?>
-            <a href="https://regis.dusit.ac.th/" class="flex items-center space-x-3">
-                <img src="<?= $baseUrl . '/public/images/SDU Logo.png' ?>" alt="SDU" class="h-11 w-auto" />
-                <span class="text-xl md:text-2xl font-semibold text-gray-900">
-                    สำนักส่งเสริมวิชาการและงานทะเบียน
-                </span>
-            </a>
-        <?php elseif (str_starts_with($fullUrl, $baseUrl)): ?>
-            <a href="https://regis.dusit.ac.th/" class="flex items-center space-x-3">
-                <img src="./public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
-                <span class="text-xl md:text-2xl font-semibold text-gray-900">
-                    สำนักส่งเสริมวิชาการและงานทะเบียน
-                </span>
-            </a>
-        <?php endif; ?>
+    <nav
+        class="container mx-auto flex flex-col flex-1 md:flex-row sm:items-center sm:justify-between gap-4 md:gap-4 p-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo -->
+            <?php if ($fullUrl === $baseDashboardUrl . '/login.php'): ?>
+                <a href="https://regis.dusit.ac.th/" class="flex items-center space-x-3">
+                    <img src="<?= $baseUrl . '/public/images/SDU Logo.png' ?>" alt="SDU" class="h-11 w-auto" />
+                    <span class="text-xl md:text-2xl font-semibold text-gray-900">
+                        สำนักส่งเสริมวิชาการและงานทะเบียน
+                    </span>
+                </a>
+            <?php elseif (str_starts_with($fullUrl, $baseUrl)): ?>
+                <a href="https://regis.dusit.ac.th/" class="flex items-center space-x-3">
+                    <img src="./public/images/SDU Logo.png" alt="SDU" class="h-11 w-auto" />
+                    <span class="text-xl md:text-2xl font-semibold text-gray-900">
+                        สำนักส่งเสริมวิชาการและงานทะเบียน
+                    </span>
+                </a>
+            <?php endif; ?>
 
-        <!-- Hamburger -->
-        <button id="menu-toggle" class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
+            <!-- Hamburger -->
+            <button id="menu-toggle" class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
 
         <!-- Menu -->
         <div id="navbar" class="hidden w-full md:flex md:w-auto flex-col md:flex-row md:space-x-8">
-            <ul class="flex flex-col md:flex-row font-medium p-4 md:p-0 mt-4 md:mt-0 bg-gray-50 md:bg-white border border-gray-100 md:border-0 rounded-lg md:space-x-8">
+            <ul class="flex flex-col items-start sm:items-center justify-center md:flex-row font-medium p-2 md:p-0 md:mt-0 bg-gray-50 md:bg-white border border-gray-100 md:border-0 rounded-lg md:space-x-8">
                 <!-- Dropdown: เกี่ยวกับสำนัก -->
                 <li class="relative">
-                    <button data-dropdown="dropdown-about" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
+                    <button data-dropdown="dropdown-about" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700 w-full">
                         เกี่ยวกับสำนัก
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -63,7 +66,7 @@ $fullUrl = $protocol . $host . $requestUri;
 
                 <!-- Dropdown: คณะ/โรงเรียน -->
                 <li class="relative">
-                    <button data-dropdown="dropdown-faculty" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
+                    <button data-dropdown="dropdown-faculty" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700 w-full">
                         คณะ/โรงเรียน
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -84,7 +87,7 @@ $fullUrl = $protocol . $host . $requestUri;
 
                 <!-- Dropdown: อาจารย์/บุคลากร -->
                 <li class="relative">
-                    <button data-dropdown="dropdown-staff" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
+                    <button data-dropdown="dropdown-staff" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700 w-full">
                         อาจารย์/บุคลากร
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -99,7 +102,7 @@ $fullUrl = $protocol . $host . $requestUri;
 
                 <!-- Dropdown: นักศึกษา -->
                 <li class="relative">
-                    <button data-dropdown="dropdown-student" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
+                    <button data-dropdown="dropdown-student" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700 w-full">
                         นักศึกษา
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -117,7 +120,7 @@ $fullUrl = $protocol . $host . $requestUri;
 
                 <!-- Dropdown: ข้อมูลเผยแพร่ -->
                 <li class="relative">
-                    <button data-dropdown="dropdown-news" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700">
+                    <button data-dropdown="dropdown-news" class="dropdown-btn flex items-center py-2 px-3 text-gray-900 hover:text-blue-700 w-full">
                         ข้อมูลเผยแพร่
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />

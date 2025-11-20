@@ -285,12 +285,12 @@ ob_start();
 </head>
 
 <body>
-    <h1>รายงานประวัติการฝึกงาน</h1>
+    <h1>รายงานฐานข้อมูลเครือข่ายความร่วมมือในการฝึกงานนักศึกษา มหาวิทยาลัยสวนดุสิต</h1>
     <table class="report-header">
         <tr>
             <td class="left">
                 <p><b>วันที่พิมพ์รายงาน:</b> <?= $thaiDate; ?></p>
-                <p><b>ผลลัพธ์การค้นหา:</b> <?= count($rows); ?> การค้นหา</p>
+                <p><b>ผลลัพธ์การค้นหา:</b> <?= number_format(count($rows)); ?> การค้นหา</p>
                 <p><b>ตัวกรอง:</b>
                     <b>คณะ:</b> <?= htmlspecialchars($faculty ?: 'ทั้งหมด') ?>,
                     <b>หลักสูตร:</b> <?= htmlspecialchars($program ?: 'ทั้งหมด') ?>,
@@ -300,8 +300,8 @@ ob_start();
                 </p>
             </td>
             <td class="right">
-                <p><b>จำนวนบริษัท:</b> <?= $uniqueCompanyCount; ?> บริษัท</p>
-                <p><b>จำนวนนักศึกษา:</b> <?= $allStudent; ?> คน</p>
+                <p><b>จำนวน:</b> <?= number_format($uniqueCompanyCount); ?> รายการ</p>
+                <p><b>จำนวนนักศึกษา:</b> <?= number_format($allStudent); ?> คน</p>
             </td>
         </tr>
     </table>
@@ -309,11 +309,11 @@ ob_start();
         <thead>
             <tr>
                 <th class="text-center">ลำดับ</th>
-                <th>ชื่อบริษัท</th>
+                <th>ชื่อหน่วยงาน</th>
                 <th>จังหวัด</th>
-                <th>คณะ</th>
+                <th>คณะ / โรงเรียน</th>
                 <th>หลักสูตร</th>
-                <th>สาขา</th>
+                <th>สาขาวิชา</th>
                 <th class="text-center">ปีการศึกษา</th>
                 <th>สังกัด</th>
                 <th class="text-center">จำนวน&nbsp;(คน)</th>

@@ -8,6 +8,6 @@
 
         <button type="submit"
             class="flex h-11 rounded-md text-white bg-green-500 hover:bg-green-600 px-4 text-center justify-center items-center">
-            ดาวน์โหลด Excel (.csv)
+            ดาวน์โหลด Excel (.xlsx)
         </button>
     </form>

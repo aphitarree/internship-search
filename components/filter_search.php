@@ -48,9 +48,9 @@ try {
     <form id="filter-form" action="index.php" method="GET">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
-                <label for="faculty" class="block mb-2 font-medium">คณะ</label>
+                <label for="faculty" class="block mb-2 font-medium">คณะ / โรงเรียน</label>
                 <select id="faculty" name="faculty" class="w-full mb-4 border rounded-md px-3 py-2">
-                    <option value="">-เลือกคณะ-</option>
+                    <option value="">-เลือกคณะ / โรงเรียน-</option>
                 </select>
             </div>
 
@@ -62,9 +62,9 @@ try {
             </div>
 
             <div>
-                <label for="major" class="block mb-2 font-medium">สาขา</label>
+                <label for="major" class="block mb-2 font-medium">สาขาวิชา</label>
                 <select id="major" name="major" class="w-full border rounded-md px-3 py-2">
-                    <option value="">-เลือกสาขา-</option>
+                    <option value="">-เลือกสาขาวิชา-</option>
                 </select>
             </div>
 
@@ -218,7 +218,7 @@ try {
         const majorChoices = new Choices(majorSelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขา...",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาสาขาวิชา...",
             // shouldSort: false,
             sorter: sortChoice,
         });
@@ -244,7 +244,7 @@ try {
             facultyChoices.setChoices(
                 [{
                     value: "",
-                    label: "-เลือกคณะ-",
+                    label: "-เลือกคณะ / โรงเรียน-",
                     selected: true,
                     disabled: false
                 }]
@@ -260,7 +260,7 @@ try {
             majorChoices.setChoices(
                 [{
                     value: "",
-                    label: "-เลือกสาขา-",
+                    label: "-เลือกสาขาวิชา-",
                     selected: true,
                     disabled: false
                 }]

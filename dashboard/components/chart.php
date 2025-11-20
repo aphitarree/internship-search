@@ -16,11 +16,12 @@ $values = [];
 
 for ($i = 6; $i >= 0; $i--) {
     $day = date('Y-m-d', strtotime("-$i days"));
-    $thai_months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    // $thai_months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    $thai_months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     $day_j = date('j', strtotime($day));
     $month = $thai_months[date('n', strtotime($day)) - 1];
-    $year = date('y', strtotime($day)); // ปีสองหลัก
-    $dates[] = "$day_j $month $year";
+    $year = date('y', strtotime($day)) + 43; // ปีสองหลัก
+    $dates[] = "$day_j/$month/$year";
 
     $found = false;
     foreach ($rows as $row) {

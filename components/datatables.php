@@ -76,7 +76,7 @@
                     },
                     error: (xhr) => {
                         console.error('DT Ajax error:', xhr.status, xhr.responseText);
-                        alert(`โหลดข้อมูลไม่สำเร็จ (${xhr.status})`);
+                        // alert(`โหลดข้อมูลไม่สำเร็จ (${xhr.status})`);
                     },
                     dataSrc: (json) => json?.data ?? [],
                 },

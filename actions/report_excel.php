@@ -1,20 +1,24 @@
 <?php
-require_once __DIR__ . '/../config/db_config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/db_config.php';
 
 use Dotenv\Dotenv;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
+// Load ENV
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
-// Get the url search queries
+// Get queries from URL
 $faculty = $_GET['faculty'] ?? null;
 $program = $_GET['program'] ?? null;
 $major = $_GET['major'] ?? null;
 $province = $_GET['province'] ?? null;
 $academicYear = $_GET['academic-year'] ?? null;
 
-// Build the WHERE clause
+// Build WHERE clause
 $whereClause = [];
 $params = [];
 
@@ -39,15 +43,13 @@ if ($academicYear) {
     $params[':academic_year'] = htmlspecialchars($academicYear);
 }
 
-$whereSql = '';
-if (!empty($whereClause)) {
-    $whereSql = 'WHERE ' . implode(' AND ', $whereClause);
-}
+$whereSql = !empty($whereClause)
+    ? 'WHERE ' . implode(' AND ', $whereClause)
+    : '';
 
-// Fetch data from the database
+// Pull data
 $sql = "
     SELECT
-        internship_stats.id,
         internship_stats.organization,
         internship_stats.province,
         faculty_program_major.faculty,
@@ -69,34 +71,65 @@ $stmt = $conn->prepare($sql);
 $stmt->execute($params);
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Set headers to force the browser to download as a CSV file
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=internship_report.csv');
+// Create new Spreadsheet
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
 
-// Write the csv file from the browser
-$output = fopen('php://output', 'w');
+// --------------------------------------------------
+// 1) TITLE ROW (รายงาน)
+// --------------------------------------------------
+$title = 'รายงานฐานข้อมูลเครือข่ายความร่วมมือในการฝึกงานนักศึกษา มหาวิทยาลัยสวนดุสิต';
 
-fwrite($output, "\xEF\xBB\xBF");
+$sheet->setCellValue('A1', $title);
 
-// CSV column names
-fputcsv($output, ['บริษัท', 'จังหวัด', 'คณะ', 'หลักสูตร', 'สาขา', 'ปีการศึกษา', 'สังกัด', 'จำนวนที่รับ', 'MOU', 'ข้อมูลการติดต่อ', 'คะแนน']);
+// Merge A1 → K1 (11 columns)
+$sheet->mergeCells('A1:K1');
 
-// Write the data to the CSV file
-foreach ($data as $row) {
-    fputcsv($output, [
-        $row['organization'],
-        $row['province'],
-        $row['faculty'],
-        $row['program'],
-        $row['major'],
-        $row['year'],
-        $row['affiliation'],
-        $row['total_student'],
-        $row['mou_status'],
-        $row['contact'],
-        $row['score'],
-    ]);
+// Style Title
+$sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
+$sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+
+// --------------------------------------------------
+// 2) COLUMN HEADERS
+// --------------------------------------------------
+$headers = [
+    'บริษัท',
+    'จังหวัด',
+    'คณะ',
+    'หลักสูตร',
+    'สาขา',
+    'ปีการศึกษา',
+    'สังกัด',
+    'จำนวนที่รับ',
+    'MOU',
+    'ข้อมูลการติดต่อ',
+    'คะแนน'
+];
+
+$sheet->fromArray($headers, NULL, 'A2');
+
+// Style header row
+$sheet->getStyle('A2:K2')->getFont()->setBold(true);
+$sheet->getStyle('A2:K2')->getFill()->setFillType(Fill::FILL_SOLID)
+    ->getStartColor()->setARGB('FFE2E8F0');
+
+$sheet->fromArray($data, NULL, 'A3');
+
+// Auto-size columns B-K
+foreach (range('B', 'K') as $col) {
+    $sheet->getColumnDimension($col)->setAutoSize(true);
 }
 
-fclose($output);
+// Fix specific column
+$sheet->getColumnDimension('A')->setAutoSize(false);
+$sheet->getColumnDimension('A')->setWidth(50);
+$sheet->getColumnDimension('E')->setAutoSize(false);
+$sheet->getColumnDimension('E')->setWidth(40);
+
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="internship_report.xlsx"');
+header('Cache-Control: max-age=0');
+
+$writer = new Xlsx($spreadsheet);
+$writer->save('php://output');
 exit;
