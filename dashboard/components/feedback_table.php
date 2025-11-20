@@ -49,11 +49,11 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                     <table id="feedbackTable" class="min-w-full text-sm text-left text-gray-700 w-full">
                         <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th class="px-3 py-2 font-semibold">NO.</th>
-                                <th class="px-3 py-2 font-semibold">มีประโยชน์หรือไม่</th>
-                                <th class="px-3 py-2 font-semibold">ความคิดเห็น</th>
-                                <th class="px-3 py-2 font-semibold">วันที่ส่ง</th>
-                                <th class="px-3 py-2 font-semibold text-center">จัดการ</th> <!-- ✨ เพิ่มคอลัมน์ปุ่มลบ -->
+                                <th class="px-3 py-2 font-semibold !text-center">NO.</th>
+                                <th class="px-3 py-2 font-semibold !text-center">มีประโยชน์หรือไม่</th>
+                                <th class="px-3 py-2 font-semibold !text-center">ความคิดเห็น</th>
+                                <th class="px-3 py-2 font-semibold !text-center">วันที่ส่ง</th>
+                                <th class="px-3 py-2 font-semibold !text-center">จัดการ</th> <!-- ✨ เพิ่มคอลัมน์ปุ่มลบ -->
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100"></tbody>
