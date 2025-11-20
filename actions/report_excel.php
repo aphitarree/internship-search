@@ -75,9 +75,6 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
-// --------------------------------------------------
-// 1) TITLE ROW (รายงาน)
-// --------------------------------------------------
 $title = 'รายงานฐานข้อมูลเครือข่ายความร่วมมือในการฝึกงานนักศึกษา มหาวิทยาลัยสวนดุสิต';
 
 $sheet->setCellValue('A1', $title);
@@ -89,15 +86,13 @@ $sheet->mergeCells('A1:K1');
 $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
 $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
 
-// --------------------------------------------------
-// 2) COLUMN HEADERS
-// --------------------------------------------------
 $headers = [
-    'บริษัท',
+    'ลำดับ',
+    'หน่วยงาน',
     'จังหวัด',
-    'คณะ',
+    'คณะ/โรงเรียน',
     'หลักสูตร',
-    'สาขา',
+    'สาขาวิชา',
     'ปีการศึกษา',
     'สังกัด',
     'จำนวนที่รับ',
@@ -109,11 +104,22 @@ $headers = [
 $sheet->fromArray($headers, NULL, 'A2');
 
 // Style header row
-$sheet->getStyle('A2:K2')->getFont()->setBold(true);
-$sheet->getStyle('A2:K2')->getFill()->setFillType(Fill::FILL_SOLID)
+$sheet->getStyle('A2:L2')->getFont()->setBold(true);
+$sheet->getStyle('A2:L2')->getFill()->setFillType(Fill::FILL_SOLID)
     ->getStartColor()->setARGB('FFE2E8F0');
 
 $sheet->fromArray($data, NULL, 'A3');
+$finalData = [];
+$counter = 1;
+
+foreach ($data as $row) {
+    $finalData[] = array_merge(['no' => $counter], $row);
+    $counter++;
+}
+
+// Write data with numbering
+$sheet->fromArray($finalData, NULL, 'A3');
+
 
 // Auto-size columns B-K
 foreach (range('B', 'K') as $col) {
@@ -121,10 +127,21 @@ foreach (range('B', 'K') as $col) {
 }
 
 // Fix specific column
+$sheet->getStyle('A2:L2')->getAlignment()->setHorizontal('center');
+$sheet->getStyle('A')->getAlignment()->setHorizontal('center');
+$sheet->getStyle('G')->getAlignment()->setHorizontal('center');
+$sheet->getStyle('H')->getAlignment()->setHorizontal('center');
+$sheet->getStyle('I')->getAlignment()->setHorizontal('center');
+$sheet->getStyle('J')->getAlignment()->setHorizontal('center');
+$sheet->getStyle('L')->getAlignment()->setHorizontal('center');
 $sheet->getColumnDimension('A')->setAutoSize(false);
-$sheet->getColumnDimension('A')->setWidth(50);
+$sheet->getColumnDimension('A')->setWidth(5);
+$sheet->getColumnDimension('B')->setAutoSize(false);
+$sheet->getColumnDimension('B')->setWidth(50);
 $sheet->getColumnDimension('E')->setAutoSize(false);
-$sheet->getColumnDimension('E')->setWidth(40);
+$sheet->getColumnDimension('E')->setWidth(25);
+$sheet->getColumnDimension('F')->setAutoSize(false);
+$sheet->getColumnDimension('F')->setWidth(40);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="internship_report.xlsx"');

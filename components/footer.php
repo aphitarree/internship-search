@@ -167,7 +167,7 @@ $baseUrl = $_ENV['BASE_URL'];
         const formData = new FormData(form);
 
         try {
-            const response = await fetch('components/submit_feedback.php', {
+            const response = await fetch('actions/submit_feedback.php', {
                 method: 'POST',
                 body: formData
             });

@@ -543,63 +543,6 @@ try {
     }
 
     // ข้อมูล mapping คณะ → สาขา → หลักสูตร
-    // const facultyMajorsPrograms = {
-    //     "คณะครุศาสตร์": {
-    //         "การศึกษาปฐมวัย": "หลักสูตรศึกษาศาสตรบัณฑิต",
-    //         "การประถมศึกษา": "หลักสูตรศึกษาศาสตรบัณฑิต",
-    //     },
-    //     "คณะวิทยาศาสตร์และเทคโนโลยี": {
-    //         "เทคโนโลยีสารสนเทศ": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "สิ่งแวดล้อมเมืองและอุตสาหกรรม": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "วิทยาศาสตร์เครื่องสำอาง": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "อาชีวอนามัยและความปลอดภัย": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "เทคโนโลยีเคมี": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "วิทยาการคอมพิวเตอร์": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "คณิตศาสตร์": "หลักสูตรศึกษาศาสตรบัณฑิต",
-    //         "ฟิสิกส์": "หลักสูตรศึกษาศาสตรบัณฑิต",
-    //         "ความมั่นคงปลอดภัยไซเบอร์": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //     },
-    //     "คณะวิทยาการจัดการ": {
-    //         "การบัญชี": "หลักสูตรบัญชีบัณฑิต",
-    //         "การเงิน": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "การตลาด": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "การจัดการ": "หลักสูตรการจัดการบัณฑิต",
-    //         "การบริการลูกค้า": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "การจัดการธุรกิจค้าปลีก": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "การจัดการทรัพยากรมนุษย์": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "คอมพิวเตอร์ธุรกิจ": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "ธุรกิจระหว่างประเทศ": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //         "นิเทศศาสตร์": "หลักสูตรนิเทศศาสตรบัณฑิต",
-    //         "เลขานุการทางการแพทย์": "หลักสูตรบริหารธุรกิจบัณฑิต",
-    //     },
-    //     "คณะมนุษยศาสตร์และสังคมศาสตร์": {
-    //         "ภาษาอังกฤษธุรกิจ": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "จิตวิทยาอุตสาหกรรมและองค์การ": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ภาษาไทย": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ภาษาอังกฤษ": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ภาษาจีน": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ศิลปศึกษา": "หลักสูตรศึกษาศาสตรบัณฑิต",
-    //         "บรรณารักษศาสตร์และสารสนเทศศาสตร์": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "นิติศาสตร์": "หลักสูตรนิติศาสตรบัณฑิต",
-    //     },
-    //     "คณะพยาบาลศาสตร์": {
-    //         "พยาบาลศาสตร์": "หลักสูตรพยาบาลศาสตรบัณฑิต"
-    //     },
-    //     "โรงเรียนการท่องเที่ยวและการบริการ": {
-    //         "การท่องเที่ยว": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ธุรกิจการโรงแรม": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ธุรกิจการบิน": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "ออกแบบนิทรรศการและการแสดง": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "การจัดการงานบริการ (นานาชาติ)": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //     },
-    //     "โรงเรียนการเรือน": {
-    //         "เทคโนโลยีการแปรรูปอาหาร": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "เทคโนโลยีการประกอบอาหารและบริการ": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //         "คหกรรมศาสตร์": "หลักสูตรศิลปศาสตรบัณฑิต",
-    //         "โภชนการและการประกอบอาหาร": "หลักสูตรวิทยาศาสตรบัณฑิต",
-    //     }
-    // };
-
     const facultyMajorsPrograms = <?= json_encode($facultyMap, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
     const provinces = [
@@ -623,14 +566,14 @@ try {
         "มี",
         "ไม่มี",
         "ไม่ระบุ",
-    ]
+    ];
 
     const affiliationOptions = [
         "ภาครัฐ",
         "ภาคเอกชน",
         "รัฐวิสาหกิจ",
         "-",
-    ]
+    ];
 
     const sortChoice = (a, b) => {
         if (a.value === '' && b.value !== '') return -1;
@@ -804,6 +747,23 @@ try {
             );
         };
 
+        const getMajorsAndFacultiesByProgram = (prog) => {
+            const majorsOfProgram = [];
+            const facultiesOfProgramSet = new Set();
+            for (const [fac, majorsObj] of Object.entries(facultyMajorsPrograms)) {
+                for (const [major, programName] of Object.entries(majorsObj)) {
+                    if (programName === prog) {
+                        majorsOfProgram.push(major);
+                        facultiesOfProgramSet.add(fac);
+                    }
+                }
+            }
+            return {
+                majorsOfProgram,
+                facultiesOfProgram: [...facultiesOfProgramSet],
+            };
+        };
+
         // initial populate
         populateFaculties(allFaculties);
         populateMajors(allMajors);
@@ -866,6 +826,57 @@ try {
                 if (foundProgram) {
                     programChoices.setChoiceByValue(foundProgram);
                 }
+            }
+        });
+
+        programSelect.addEventListener('change', () => {
+            const prog = programSelect.value;
+            const currentFaculty = facultySelect.value || '';
+
+            if (!prog) {
+                // ถ้ายกเลิกการเลือกหลักสูตร → reset majors ตามคณะปัจจุบัน หรือทั้งหมด
+                if (currentFaculty && facultyMajorsPrograms[currentFaculty]) {
+                    const majorsOfFaculty = Object.keys(facultyMajorsPrograms[currentFaculty]);
+                    populateMajors(majorsOfFaculty);
+                } else {
+                    populateMajors(allMajors);
+                }
+                majorChoices.setChoiceByValue('');
+                return;
+            }
+
+            const {
+                majorsOfProgram,
+                facultiesOfProgram
+            } =
+            getMajorsAndFacultiesByProgram(prog);
+
+            // ถ้ามีคณะที่เลือกอยู่แล้ว และคณะนั้นมีโปรแกรมนี้
+            if (currentFaculty && facultiesOfProgram.includes(currentFaculty)) {
+                const majorsInCurrentFaculty = Object
+                    .entries(facultyMajorsPrograms[currentFaculty])
+                    .filter(([, programName]) => programName === prog)
+                    .map(([major]) => major);
+
+                populateMajors(majorsInCurrentFaculty);
+                majorChoices.setChoiceByValue('');
+
+                const programsOfFaculty = [...new Set(
+                    Object.values(facultyMajorsPrograms[currentFaculty])
+                )];
+                populatePrograms(programsOfFaculty);
+                programChoices.setChoiceByValue(prog);
+            } else {
+                // ถ้าไม่มีคณะ หรือคณะเดิมไม่มีโปรแกรมนี้ → filter คณะให้เหลือเฉพาะที่มีโปรแกรมนี้
+                populateFaculties(facultiesOfProgram);
+                facultyChoices.setChoiceByValue('');
+
+                populateMajors(majorsOfProgram);
+                majorChoices.setChoiceByValue('');
+
+                // ทำให้ dropdown หลักสูตรเหลือเฉพาะโปรแกรมที่เลือก
+                populatePrograms([prog]);
+                programChoices.setChoiceByValue(prog);
             }
         });
 
@@ -950,7 +961,7 @@ try {
                 className: '!text-center p-2'
             }, {
                 data: 'mou_status',
-                className: 'text-center p-2'
+                className: '!text-center p-2'
             }, {
                 data: 'contact',
                 className: 'text-left p-2'
@@ -1102,20 +1113,12 @@ try {
                     }
                 }
 
-                // if (editDropdowns.affiliationChoices) {
-                //     if (affiliation) {
-                //         editDropdowns.affiliationChoices.setChoiceByValue(affiliation);
-                //     } else {
-                //         editDropdowns.affiliationChoices.setChoiceByValue('');
-                //     }
-                // }
-
                 if (editDropdowns.affiliationChoices) {
                     editDropdowns.affiliationChoices.removeActiveItems();
 
                     if (affiliation) {
                         editDropdowns.affiliationChoices.setChoiceByValue(affiliation);
-                    } else {}
+                    }
                 }
             }
 
@@ -1236,7 +1239,7 @@ try {
                 return;
             }
 
-            deleteId = id; // เก็บ id ไว้ใช้ตอนกด "ลบข้อมูล"
+            deleteId = id;
             $deleteModal.removeClass('hidden').addClass('flex');
         });
 
@@ -1289,7 +1292,6 @@ try {
                     return;
                 }
 
-                // If successfully deleted then close the modal
                 $deleteModal.addClass('hidden').removeClass('flex');
                 deleteId = null;
                 dt.ajax.reload(null, false);

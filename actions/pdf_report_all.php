@@ -298,7 +298,7 @@ ob_start();
                     <td class="text-left"><?= htmlspecialchars($row['program']) ?></td>
                     <td class="text-left"><?= htmlspecialchars($row['major']) ?></td>
                     <td><?= htmlspecialchars($row['year']) ?></td>
-                    <td class="text-left"><?= htmlspecialchars($row['affiliation']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['affiliation']) ?></td>
                     <td class="text-center"><?= htmlspecialchars($row['total_student']) ?></td>
                     <td class="text-center"><?= htmlspecialchars($row['mou_status']) ?></td>
                     <td class="text-left"><?= htmlspecialchars($row['contact']) ?></td>

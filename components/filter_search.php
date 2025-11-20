@@ -211,7 +211,7 @@ try {
         const facultyChoices = new Choices(facultySelect, {
             searchEnabled: true,
             itemSelectText: "",
-            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ...",
+            searchPlaceholderValue: "พิมพ์เพื่อค้นหาคณะ / โรงเรียน...",
             // shouldSort: false,
             sorter: sortChoice,
         });

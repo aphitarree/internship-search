@@ -20,6 +20,14 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
 
 <section class="mt-4">
     <style>
+        table,
+        thead,
+        tr,
+        th,
+        td {
+            border-width: 1px;
+        }
+
         td.cell-contact {
             white-space: normal;
             word-wrap: break-word;
@@ -45,18 +53,18 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                     <table id="internshipTable" class="min-w-full text-sm text-left text-gray-700">
                         <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th class="px-3 py-2 font-semibold">NO.</th>
-                                <th class="px-3 py-2 font-semibold">บริษัท</th>
-                                <th class="px-3 py-2 font-semibold">จังหวัด</th>
-                                <th class="px-3 py-2 font-semibold">คณะ</th>
-                                <th class="px-3 py-2 font-semibold">หลักสูตร</th>
-                                <th class="px-3 py-2 font-semibold">สาขา</th>
-                                <th class="px-3 py-2 font-semibold">ปีการศึกษา</th>
-                                <th class="px-3 py-2 font-semibold">สังกัด</th>
-                                <th class="px-3 py-2 font-semibold">จำนวนที่รับ</th>
-                                <th class="px-3 py-2 font-semibold">MOU</th>
-                                <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
-                                <th class="px-3 py-2 font-semibold">คะแนน</th>
+                                <th class="px-3 py-2 font-semibold !text-center">NO.</th>
+                                <th class="px-3 py-2 font-semibold !text-center">หน่วยงาน</th>
+                                <th class="px-3 py-2 font-semibold !text-center">จังหวัด</th>
+                                <th class="px-3 py-2 font-semibold !text-center">คณะ / โรงเรียน</th>
+                                <th class="px-3 py-2 font-semibold !text-center">หลักสูตร</th>
+                                <th class="px-3 py-2 font-semibold !text-center">สาขาวิชา</th>
+                                <th class="px-3 py-2 font-semibold !text-center">ปีการศึกษา</th>
+                                <th class="px-3 py-2 font-semibold !text-center">สังกัด</th>
+                                <th class="px-3 py-2 font-semibold !text-center">จำนวนที่รับ</th>
+                                <th class="px-3 py-2 font-semibold !text-center">MOU</th>
+                                <th class="px-3 py-2 font-semibold !text-center">ข้อมูลการติดต่อ</th>
+                                <th class="px-3 py-2 font-semibold !text-center">คะแนน</th>
                             </tr>
                         </thead>
 
@@ -71,12 +79,12 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                         <td><?= htmlspecialchars($row['faculty']) ?></td>
                                         <td><?= htmlspecialchars($row['program']) ?></td>
                                         <td><?= htmlspecialchars($row['major']) ?></td>
-                                        <td><?= htmlspecialchars($row['year']) ?></td>
-                                        <td><?= htmlspecialchars($row['affiliation']) ?></td>
-                                        <td><?= htmlspecialchars($row['total_student']) ?></td>
-                                        <td><?= htmlspecialchars($row['mou_status']) ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['year']) ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['affiliation']) ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['total_student']) ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['mou_status']) ?></td>
                                         <td class="cell-contact"><?= htmlspecialchars($row['contact']) ?></td>
-                                        <td><?= htmlspecialchars($row['score']) ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['score']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -108,18 +116,18 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                         <table id="invalidTable" class="min-w-full text-sm text-left text-gray-700">
                             <thead class="bg-gray-50 border-b border-gray-200">
                                 <tr>
-                                    <th class="px-3 py-2 font-semibold">NO.</th>
-                                    <th class="px-3 py-2 font-semibold">บริษัท</th>
-                                    <th class="px-3 py-2 font-semibold">จังหวัด</th>
-                                    <th class="px-3 py-2 font-semibold">คณะ</th>
-                                    <th class="px-3 py-2 font-semibold">หลักสูตร</th>
-                                    <th class="px-3 py-2 font-semibold">สาขา</th>
-                                    <th class="px-3 py-2 font-semibold">ปีการศึกษา</th>
-                                    <th class="px-3 py-2 font-semibold">สังกัด</th>
-                                    <th class="px-3 py-2 font-semibold">จำนวนที่รับ</th>
-                                    <th class="px-3 py-2 font-semibold">MOU</th>
-                                    <th class="px-3 py-2 font-semibold">ข้อมูลการติดต่อ</th>
-                                    <th class="px-3 py-2 font-semibold">คะแนน</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">NO.</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">หน่วยงาน</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">จังหวัด</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">คณะ / โรงเรียน</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">หลักสูตร</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">สาขาวิชา</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">ปีการศึกษา</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">สังกัด</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">จำนวนที่รับ</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">MOU</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">ข้อมูลการติดต่อ</th>
+                                    <th class="px-3 py-2 font-semibold !text-center">คะแนน</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -133,12 +141,12 @@ $baseUrl = $_ENV['BASE_URL'] ?? '';
                                         <td><?= htmlspecialchars($row['faculty'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($row['program'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($row['major'] ?? '-') ?></td>
-                                        <td><?= htmlspecialchars($row['year'] ?? '-') ?></td>
-                                        <td><?= htmlspecialchars($row['affiliation'] ?? '-') ?></td>
-                                        <td><?= htmlspecialchars($row['total_student'] ?? '-') ?></td>
-                                        <td><?= htmlspecialchars($row['mou_status'] ?? '-') ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['year'] ?? '-') ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['affiliation'] ?? '-') ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['total_student'] ?? '-') ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['mou_status'] ?? '-') ?></td>
                                         <td class="cell-contact"><?= htmlspecialchars($row['contact'] ?? '-') ?></td>
-                                        <td><?= htmlspecialchars($row['score'] ?? '-') ?></td>
+                                        <td class="!text-center"><?= htmlspecialchars($row['score'] ?? '-') ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

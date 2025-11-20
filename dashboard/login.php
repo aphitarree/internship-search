@@ -62,7 +62,7 @@ if (isset($_SESSION['checklogin'])) {
                 <div class="relative z-10 bg-white p-12 shadow-xl flex flex-col justify-center space-y-8">
                     <h1 class="text-5xl font-bold text-sky-500 text-center">เข้าสู่ระบบ</h1>
                     <p class="text-2xl text-gray-400 text-center">
-                        <span class="inline-block">ฐานข้อมูล</span><span class="inline-block">การฝึกงาน</span><span class="inline-block">นักศึกษา</span><span class="inline-block">มหาวิทยาลัย</span><span class="inline-block">สวนดุสิต</span>
+                        <span class="inline-block">ฐานข้อมูล</span><span class="inline-block">ความร่วมมือ</span><span class="inline-block">ใน</span><span class="inline-block">การฝึกงาน</span><span class="inline-block">นักศึกษา</span><span class="inline-block">&nbsp;มหาวิทยาลัย</span><span class="inline-block">สวนดุสิต</span>
                     </p>
 
                     <form action="<?php echo $baseUrl . '/actions/login_form.php'; ?>" method="POST" class="flex flex-col space-y-6 w-full max-w-lg mx-auto">
@@ -104,6 +104,14 @@ if (isset($_SESSION['checklogin'])) {
                             class="bg-sky-500 text-white text-2xl py-2 rounded-lg hover:bg-sky-600 transition">
                             เข้าสู่ระบบ
                         </button>
+
+                        <div class="flex flex-row justify-end items-end link-no-margin-top">
+                            <a
+                                href="<?= $baseUrl ?>"
+                                class="text-sky-600 hover:underline text-lg font-medium">
+                                กลับสู่หน้าหลัก
+                            </a>
+                        </div>
                     </form>
 
                     <style>
@@ -111,14 +119,6 @@ if (isset($_SESSION['checklogin'])) {
                             margin-top: 17px !important;
                         }
                     </style>
-
-                    <div class="flex flex-row justify-end items-end link-no-margin-top">
-                        <a
-                            href="<?= $baseUrl ?>"
-                            class="text-sky-600 hover:underline text-lg font-medium">
-                            กลับสู่หน้าหลัก
-                        </a>
-                    </div>
                 </div>
             </div>
 
