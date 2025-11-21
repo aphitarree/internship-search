@@ -237,8 +237,8 @@ ob_start();
             width: 100px;
         }
 
-        th:nth-child(9),
-        td:nth-child(9) {
+        th:nth-child(8),
+        td:nth-child(8) {
             width: 68px;
         }
 
@@ -300,11 +300,7 @@ ob_start();
                 </p>
             </td>
             <td class="right">
-<<<<<<< HEAD
-                <p><b>จำนวน:</b> <?= number_format($uniqueCompanyCount); ?> รายการ</p>
-=======
                 <p><b>จำนวนบริษัท:</b> <?= number_format($uniqueCompanyCount); ?> บริษัท</p>
->>>>>>> dffd65b (เพิ่ม comma ตัวเลขและแก้ไขข้อความทั้งสองไฟล์)
                 <p><b>จำนวนนักศึกษา:</b> <?= number_format($allStudent); ?> คน</p>
             </td>
         </tr>
@@ -315,7 +311,7 @@ ob_start();
                 <th class="text-center">ลำดับ</th>
                 <th>ชื่อหน่วยงาน</th>
                 <th>จังหวัด</th>
-                <th>คณะ / โรงเรียน</th>
+                <th>คณะ&nbsp;/&nbsp;โรงเรียน</th>
                 <th>หลักสูตร</th>
                 <th>สาขาวิชา</th>
                 <th class="text-center">ปีการศึกษา</th>
