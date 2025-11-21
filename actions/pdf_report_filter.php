@@ -237,9 +237,9 @@ ob_start();
             width: 100px;
         }
 
-        th:nth-child(9),
-        td:nth-child(9) {
-            width: 68px;
+        th:nth-child(8),
+        td:nth-child(8) {
+            width: 50px;
         }
 
         .text-left {

@@ -204,7 +204,7 @@ ob_start();
 
         th:nth-child(8),
         td:nth-child(8) {
-            width: 68px;
+            width: 50px;
         }
 
         .text-left {
